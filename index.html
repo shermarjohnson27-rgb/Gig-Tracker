@@ -7,911 +7,1255 @@
 <title>GigPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --uber:#1dbf73; --doordash:#ff3008; --grubhub:#f63440;
-    --accent:#f5c842; --tax:#60a5fa;
-    --bg:#0d0f14; --card:#13161e; --card2:#181c27;
-    --border:rgba(255,255,255,0.07); --text:#f0f2f8; --muted:#6b7280;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;position:relative;}
-  body::before{content:'';position:fixed;top:-120px;left:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(29,191,115,0.12) 0%,transparent 70%);pointer-events:none;z-index:0;}
-  body::after{content:'';position:fixed;bottom:100px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(96,165,250,0.08) 0%,transparent 70%);pointer-events:none;z-index:0;}
+:root{
+  --uber:#1dbf73;--doordash:#ff3008;--grubhub:#f63440;
+  --accent:#f5c842;--tax:#60a5fa;--qt:#a78bfa;--tip:#fb923c;
+  --bg:#0d0f14;--card:#13161e;--card2:#181c27;
+  --border:rgba(255,255,255,0.07);--text:#f0f2f8;--muted:#6b7280;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;position:relative;}
+body::before{content:'';position:fixed;top:-100px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(29,191,115,0.1) 0%,transparent 70%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;bottom:80px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(96,165,250,0.07) 0%,transparent 70%);pointer-events:none;z-index:0;}
 
-.header{padding:52px 20px 16px;display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:10;}
-.logo{font-family:‘Bebas Neue’,sans-serif;font-size:42px;letter-spacing:2px;background:linear-gradient(135deg,#fff 0%,#a0aec0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
-.date-badge{background:linear-gradient(135deg,var(–accent),#e6a817);color:#0d0f14;font-family:‘JetBrains Mono’,monospace;font-weight:700;font-size:11px;letter-spacing:1.2px;padding:7px 12px;border-radius:20px;margin-top:6px;}
+/* HEADER */
+.header{padding:50px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:10;}
+.logo{font-family:‘Bebas Neue’,sans-serif;font-size:40px;letter-spacing:2px;background:linear-gradient(135deg,#fff 0%,#a0aec0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.date-badge{background:linear-gradient(135deg,var(–accent),#e6a817);color:#0d0f14;font-family:‘JetBrains Mono’,monospace;font-weight:700;font-size:11px;letter-spacing:1px;padding:6px 11px;border-radius:20px;}
+.streak-badge{background:rgba(251,146,60,0.15);border:1px solid rgba(251,146,60,0.35);color:var(–tip);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;}
 
-.platforms{display:flex;gap:8px;padding:0 20px 20px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
+/* PLATFORM FILTER */
+.platforms{display:flex;gap:8px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
 .platforms::-webkit-scrollbar{display:none;}
-.pill{flex-shrink:0;padding:9px 18px;border-radius:50px;font-size:13px;font-weight:600;letter-spacing:0.3px;border:1.5px solid transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-.pill.active-all{background:var(–text);color:var(–bg);border-color:var(–text);}
+.pill{flex-shrink:0;padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;border:1.5px solid transparent;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.pill.active-all{background:var(–text);color:var(–bg);}
 .pill.uber{background:rgba(29,191,115,0.12);border-color:rgba(29,191,115,0.4);color:var(–uber);}
-.pill.uber.active{background:var(–uber);color:#fff;border-color:var(–uber);}
+.pill.uber.active{background:var(–uber);color:#fff;}
 .pill.doordash{background:rgba(255,48,8,0.12);border-color:rgba(255,48,8,0.4);color:var(–doordash);}
-.pill.doordash.active{background:var(–doordash);color:#fff;border-color:var(–doordash);}
+.pill.doordash.active{background:var(–doordash);color:#fff;}
 .pill.grubhub{background:rgba(246,52,64,0.12);border-color:rgba(246,52,64,0.35);color:var(–grubhub);}
-.pill.grubhub.active{background:var(–grubhub);color:#fff;border-color:var(–grubhub);}
+.pill.grubhub.active{background:var(–grubhub);color:#fff;}
 
-.nav-tabs{display:flex;gap:4px;padding:0 20px 20px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
+/* NAV TABS */
+.nav-tabs{display:flex;gap:3px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.tab{flex-shrink:0;text-align:center;padding:10px 14px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(–muted);border:1.5px solid transparent;white-space:nowrap;}
+.tab{flex-shrink:0;text-align:center;padding:9px 12px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(–muted);border:1.5px solid transparent;white-space:nowrap;}
 .tab.active{background:var(–card2);color:var(–text);border-color:var(–border);}
-.tab span{display:block;font-size:15px;margin-bottom:2px;}
+.tab span{display:block;font-size:14px;margin-bottom:2px;}
 
-.hero-card{margin:0 20px 16px;background:linear-gradient(135deg,#1a2a1f 0%,#0f1f17 100%);border:1.5px solid rgba(29,191,115,0.25);border-radius:24px;padding:24px;position:relative;overflow:hidden;z-index:10;}
-.hero-card.tax-hero{background:linear-gradient(135deg,#0f1a2a 0%,#0a1320 100%);border-color:rgba(96,165,250,0.3);}
-.hero-card::before{content:’’;position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(29,191,115,0.2) 0%,transparent 70%);}
+/* HERO CARD */
+.hero-card{margin:0 20px 14px;border-radius:24px;padding:22px;position:relative;overflow:hidden;z-index:10;border:1.5px solid rgba(29,191,115,0.25);background:linear-gradient(135deg,#1a2a1f,#0f1f17);}
+.hero-card::before{content:’’;position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(29,191,115,0.2) 0%,transparent 70%);}
+.hero-card.tax-hero{background:linear-gradient(135deg,#0f1a2a,#0a1320);border-color:rgba(96,165,250,0.3);}
 .hero-card.tax-hero::before{background:radial-gradient(circle,rgba(96,165,250,0.18) 0%,transparent 70%);}
-.hero-card .label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(–uber);text-transform:uppercase;margin-bottom:6px;}
-.hero-card.tax-hero .label{color:var(–tax);}
-.hero-card .big-num{font-family:‘Bebas Neue’,sans-serif;font-size:62px;line-height:1;color:#fff;letter-spacing:1px;}
-.hero-card .sub{font-size:13px;color:rgba(255,255,255,0.45);margin-top:4px;}
-.hero-card .profit-row{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(29,191,115,0.15);}
-.profit-badge{background:rgba(29,191,115,0.15);border:1px solid rgba(29,191,115,0.3);color:var(–uber);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
-.tax-badge{background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.3);color:var(–tax);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
-.profit-label{font-size:12px;color:var(–muted);}
-
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 20px 16px;position:relative;z-index:10;}
-.stat-card{background:var(–card);border:1.5px solid var(–border);border-radius:20px;padding:18px;transition:transform 0.15s;}
-.stat-card:active{transform:scale(0.97);}
-.stat-card .s-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(–muted);text-transform:uppercase;margin-bottom:8px;}
-.stat-card .s-val{font-family:‘JetBrains Mono’,monospace;font-size:26px;font-weight:700;color:var(–text);line-height:1;}
-.stat-card .s-sub{font-size:11px;color:var(–muted);margin-top:4px;}
-.stat-card.accent-miles{border-color:rgba(245,200,66,0.2);} .stat-card.accent-miles .s-val{color:var(–accent);}
-.stat-card.accent-rate{border-color:rgba(168,85,247,0.2);} .stat-card.accent-rate .s-val{color:#c084fc;}
-.stat-card.accent-tax{border-color:rgba(96,165,250,0.25);} .stat-card.accent-tax .s-val{color:var(–tax);}
-
-.section-title{padding:0 20px 12px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(–muted);text-transform:uppercase;position:relative;z-index:10;}
-
-.log-card{margin:0 20px 20px;background:var(–card);border:1.5px solid var(–border);border-radius:24px;padding:20px;position:relative;z-index:10;}
-.log-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-.field-group label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(–muted);text-transform:uppercase;margin-bottom:6px;}
-.field-group input,.field-group select{width:100%;background:var(–card2);border:1.5px solid var(–border);border-radius:12px;padding:12px 14px;color:var(–text);font-family:‘JetBrains Mono’,monospace;font-size:16px;font-weight:500;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
-.field-group input:focus,.field-group select:focus{border-color:rgba(29,191,115,0.5);}
-.platform-select{display:flex;gap:8px;margin-bottom:16px;}
-.platform-btn{flex:1;padding:11px 6px;border-radius:12px;border:1.5px solid var(–border);background:var(–card2);color:var(–muted);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;}
-.platform-btn.sel-uber{background:rgba(29,191,115,0.15);border-color:var(–uber);color:var(–uber);}
-.platform-btn.sel-dd{background:rgba(255,48,8,0.15);border-color:var(–doordash);color:var(–doordash);}
-.platform-btn.sel-gh{background:rgba(246,52,64,0.12);border-color:var(–grubhub);color:var(–grubhub);}
-.log-btn{width:100%;padding:16px;border-radius:16px;border:none;background:linear-gradient(135deg,#1dbf73,#15a35f);color:#fff;font-family:‘DM Sans’,sans-serif;font-size:15px;font-weight:700;letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 24px rgba(29,191,115,0.3);}
-.log-btn:active{transform:scale(0.98);box-shadow:0 4px 12px rgba(29,191,115,0.2);}
-
-.trips-list{margin:0 20px 100px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:10;}
-.trip-item{background:var(–card);border:1.5px solid var(–border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;animation:fadeUp 0.3s ease both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.trip-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.trip-dot.uber{background:var(–uber);box-shadow:0 0 8px var(–uber);}
-.trip-dot.doordash{background:var(–doordash);box-shadow:0 0 8px var(–doordash);}
-.trip-dot.grubhub{background:var(–grubhub);box-shadow:0 0 8px var(–grubhub);}
-.trip-info{flex:1;}
-.trip-platform{font-size:12px;font-weight:600;color:var(–muted);}
-.trip-meta{font-size:11px;color:var(–muted);margin-top:2px;}
-.trip-earn{font-family:‘JetBrains Mono’,monospace;font-size:16px;font-weight:700;color:var(–uber);}
-.trip-profit{font-size:11px;color:var(–muted);text-align:right;margin-top:2px;}
-
-.profit-breakdown{margin:0 20px 16px;background:var(–card);border:1.5px solid var(–border);border-radius:24px;padding:20px;position:relative;z-index:10;}
-.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(–border);}
-.breakdown-row:last-child{border-bottom:none;}
-.br-label{font-size:13px;color:var(–muted);}
-.br-val{font-family:‘JetBrains Mono’,monospace;font-size:15px;font-weight:700;}
-.br-val.positive{color:var(–uber);} .br-val.negative{color:#f87171;} .br-val.neutral{color:var(–accent);} .br-val.tax-col{color:var(–tax);}
-
-.weekly-chart{margin:0 20px 16px;background:var(–card);border:1.5px solid var(–border);border-radius:24px;padding:20px;position:relative;z-index:10;}
-.chart-bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-bottom:8px;}
-.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;}
-.bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,rgba(29,191,115,0.8),rgba(29,191,115,0.3));transition:height 0.6s cubic-bezier(0.34,1.56,0.64,1);}
-.bar.today{background:linear-gradient(180deg,var(–uber),rgba(29,191,115,0.5));box-shadow:0 0 12px rgba(29,191,115,0.4);}
-
-/* TAX */
-.tax-hero-row{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(96,165,250,0.15);flex-wrap:wrap;}
-.platform-split{margin:0 20px 16px;position:relative;z-index:10;}
-.split-item{margin-bottom:16px;}
-.split-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.split-name{font-size:13px;font-weight:600;}
-.split-vals{font-family:‘JetBrains Mono’,monospace;font-size:12px;color:var(–muted);}
-.split-bar-bg{height:8px;background:var(–card2);border-radius:4px;overflow:hidden;}
-.split-bar-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.34,1.56,0.64,1);}
-.month-table{margin:0 20px 16px;position:relative;z-index:10;}
-.month-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:var(–card);border:1.5px solid var(–border);border-radius:14px;margin-bottom:8px;}
-.month-name{font-size:13px;font-weight:600;color:var(–text);min-width:36px;}
-.month-miles{font-family:‘JetBrains Mono’,monospace;font-size:12px;color:var(–accent);}
-.month-earn{font-family:‘JetBrains Mono’,monospace;font-size:12px;color:var(–uber);}
-.month-ded{font-family:‘JetBrains Mono’,monospace;font-size:13px;font-weight:700;color:var(–tax);}
-.export-btn{display:block;width:calc(100% - 40px);margin:0 20px 16px;padding:16px;border-radius:16px;border:1.5px solid rgba(96,165,250,0.4);background:rgba(96,165,250,0.08);color:var(–tax);font-family:‘DM Sans’,sans-serif;font-size:15px;font-weight:700;letter-spacing:0.5px;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;z-index:10;}
-.export-btn:active{transform:scale(0.98);background:rgba(96,165,250,0.15);}
-
-.page{display:none;} .page.active{display:block;}
-.scroll-pad{height:100px;}
-
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(13,15,20,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(–border);display:flex;padding:12px 0 24px;z-index:100;}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:opacity 0.2s;}
-.nav-icon{font-size:20px;}
-.nav-label{font-size:10px;font-weight:700;letter-spacing:0.8px;color:var(–muted);text-transform:uppercase;}
-.nav-item.active .nav-label{color:var(–uber);}
-.nav-item.active .nav-icon{filter:drop-shadow(0 0 6px rgba(29,191,115,0.6));}
-
-.hero-card,.stat-card,.log-card{animation:fadeUp 0.35s ease both;}
-.stat-card:nth-child(2){animation-delay:0.05s;}
-.stat-card:nth-child(3){animation-delay:0.1s;}
-.stat-card:nth-child(4){animation-delay:0.15s;}
-
-/* ── QUARTERLY TAX ── */
-:root{ –qt:#a78bfa; }
-.hero-card.qt-hero{background:linear-gradient(135deg,#1a1228 0%,#120e1f 100%);border-color:rgba(167,139,250,0.3);}
+.hero-card.qt-hero{background:linear-gradient(135deg,#1a1228,#120e1f);border-color:rgba(167,139,250,0.3);}
 .hero-card.qt-hero::before{background:radial-gradient(circle,rgba(167,139,250,0.18) 0%,transparent 70%);}
-.hero-card.qt-hero .label{color:var(–qt);}
-.qt-badge{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:var(–qt);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
-.stat-card.accent-qt{border-color:rgba(167,139,250,0.25);} .stat-card.accent-qt .s-val{color:var(–qt);}
+.hero-card.goal-hero{background:linear-gradient(135deg,#1c1a0f,#14130a);border-color:rgba(245,200,66,0.3);}
+.hero-card.goal-hero::before{background:radial-gradient(circle,rgba(245,200,66,0.15) 0%,transparent 70%);}
+.h-label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(–uber);text-transform:uppercase;margin-bottom:5px;}
+.tax-hero .h-label{color:var(–tax);}
+.qt-hero .h-label{color:var(–qt);}
+.goal-hero .h-label{color:var(–accent);}
+.h-num{font-family:‘Bebas Neue’,sans-serif;font-size:58px;line-height:1;color:#fff;letter-spacing:1px;}
+.h-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-top:3px;}
+.h-row{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(29,191,115,0.15);flex-wrap:wrap;}
+.tax-hero .h-row{border-color:rgba(96,165,250,0.15);}
+.qt-hero .h-row{border-color:rgba(167,139,250,0.15);}
+.goal-hero .h-row{border-color:rgba(245,200,66,0.15);}
 
-/* Filing deadline cards */
-.deadline-list{margin:0 20px 16px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:10;}
-.deadline-card{background:var(–card);border:1.5px solid var(–border);border-radius:18px;padding:16px 18px;display:flex;align-items:center;gap:14px;}
-.deadline-card.due-soon{border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.05);}
-.deadline-card.overdue{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.05);}
-.deadline-card.paid{border-color:rgba(29,191,115,0.3);opacity:0.6;}
-.dl-quarter{font-family:‘Bebas Neue’,sans-serif;font-size:28px;line-height:1;min-width:36px;}
-.dl-quarter.q1{color:#60a5fa;} .dl-quarter.q2{color:#34d399;} .dl-quarter.q3{color:var(–accent);} .dl-quarter.q4{color:#f87171;}
+/* BADGES */
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+.badge-green{background:rgba(29,191,115,0.15);border:1px solid rgba(29,191,115,0.3);color:var(–uber);}
+.badge-blue{background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.3);color:var(–tax);}
+.badge-purple{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:var(–qt);}
+.badge-yellow{background:rgba(245,200,66,0.15);border:1px solid rgba(245,200,66,0.3);color:var(–accent);}
+.badge-orange{background:rgba(251,146,60,0.15);border:1px solid rgba(251,146,60,0.3);color:var(–tip);}
+.badge-label{font-size:12px;color:var(–muted);}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 20px 14px;position:relative;z-index:10;}
+.sc{background:var(–card);border:1.5px solid var(–border);border-radius:18px;padding:16px;transition:transform 0.15s;}
+.sc:active{transform:scale(0.97);}
+.sc-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(–muted);text-transform:uppercase;margin-bottom:7px;}
+.sc-val{font-family:‘JetBrains Mono’,monospace;font-size:24px;font-weight:700;color:var(–text);line-height:1;}
+.sc-sub{font-size:11px;color:var(–muted);margin-top:4px;}
+.sc.c-green{border-color:rgba(29,191,115,0.2);} .sc.c-green .sc-val{color:var(–uber);}
+.sc.c-yellow{border-color:rgba(245,200,66,0.2);} .sc.c-yellow .sc-val{color:var(–accent);}
+.sc.c-purple{border-color:rgba(168,85,247,0.2);} .sc.c-purple .sc-val{color:#c084fc;}
+.sc.c-blue{border-color:rgba(96,165,250,0.25);} .sc.c-blue .sc-val{color:var(–tax);}
+.sc.c-orange{border-color:rgba(251,146,60,0.2);} .sc.c-orange .sc-val{color:var(–tip);}
+.sc.c-qt{border-color:rgba(167,139,250,0.25);} .sc.c-qt .sc-val{color:var(–qt);}
+
+/* SECTION TITLE */
+.sec{padding:0 20px 10px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(–muted);text-transform:uppercase;position:relative;z-index:10;}
+
+/* CARDS (generic) */
+.card{margin:0 20px 14px;background:var(–card);border:1.5px solid var(–border);border-radius:22px;padding:18px;position:relative;z-index:10;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.fg label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(–muted);text-transform:uppercase;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;background:var(–card2);border:1.5px solid var(–border);border-radius:11px;padding:11px 13px;color:var(–text);font-family:‘JetBrains Mono’,monospace;font-size:15px;font-weight:500;outline:none;transition:border-color 0.2s;-webkit-appearance:none;resize:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(29,191,115,0.5);}
+.fg select option{background:#181c27;}
+
+/* PLATFORM SELECTOR */
+.plat-sel{display:flex;gap:7px;margin-bottom:14px;}
+.pb{flex:1;padding:10px 5px;border-radius:11px;border:1.5px solid var(–border);background:var(–card2);color:var(–muted);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;}
+.pb.su{background:rgba(29,191,115,0.15);border-color:var(–uber);color:var(–uber);}
+.pb.sd{background:rgba(255,48,8,0.15);border-color:var(–doordash);color:var(–doordash);}
+.pb.sg{background:rgba(246,52,64,0.12);border-color:var(–grubhub);color:var(–grubhub);}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:15px;border-radius:15px;border:none;background:linear-gradient(135deg,#1dbf73,#15a35f);color:#fff;font-family:‘DM Sans’,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 6px 20px rgba(29,191,115,0.25);}
+.btn-primary:active{transform:scale(0.98);}
+.btn-blue{background:linear-gradient(135deg,#3b82f6,#2563eb);box-shadow:0 6px 20px rgba(59,130,246,0.25);}
+.btn-purple{background:linear-gradient(135deg,#7c3aed,#5b21b6);box-shadow:0 6px 20px rgba(124,58,237,0.2);}
+.btn-yellow{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:0 6px 20px rgba(217,119,6,0.2);}
+.btn-outline-blue{width:100%;padding:15px;border-radius:15px;border:1.5px solid rgba(96,165,250,0.4);background:rgba(96,165,250,0.08);color:var(–tax);font-family:‘DM Sans’,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
+.btn-outline-blue:active{background:rgba(96,165,250,0.15);}
+
+/* BREAKDOWN ROWS */
+.br-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(–border);}
+.br-row:last-child{border-bottom:none;}
+.br-lbl{font-size:13px;color:var(–muted);}
+.br-val{font-family:‘JetBrains Mono’,monospace;font-size:14px;font-weight:700;}
+.bv-green{color:var(–uber);} .bv-red{color:#f87171;} .bv-yellow{color:var(–accent);} .bv-blue{color:var(–tax);} .bv-purple{color:var(–qt);}
+
+/* TRIP LIST */
+.trips-list{margin:0 20px 100px;display:flex;flex-direction:column;gap:9px;position:relative;z-index:10;}
+.trip-item{background:var(–card);border:1.5px solid var(–border);border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:11px;animation:fadeUp 0.3s ease both;}
+.trip-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.trip-dot.uber{background:var(–uber);box-shadow:0 0 7px var(–uber);}
+.trip-dot.doordash{background:var(–doordash);box-shadow:0 0 7px var(–doordash);}
+.trip-dot.grubhub{background:var(–grubhub);box-shadow:0 0 7px var(–grubhub);}
+.ti{flex:1;min-width:0;}
+.ti-top{display:flex;align-items:center;gap:6px;}
+.ti-plat{font-size:12px;font-weight:600;color:var(–muted);}
+.ti-grade{font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;}
+.grade-a{background:rgba(29,191,115,0.2);color:var(–uber);}
+.grade-b{background:rgba(96,165,250,0.2);color:var(–tax);}
+.grade-c{background:rgba(245,200,66,0.2);color:var(–accent);}
+.grade-d{background:rgba(251,146,60,0.2);color:var(–tip);}
+.grade-f{background:rgba(248,113,113,0.2);color:#f87171;}
+.ti-meta{font-size:11px;color:var(–muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ti-note{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ti-right{text-align:right;flex-shrink:0;}
+.ti-earn{font-family:‘JetBrains Mono’,monospace;font-size:15px;font-weight:700;color:var(–uber);}
+.ti-net{font-size:11px;color:var(–muted);margin-top:2px;}
+
+/* GOAL PROGRESS BAR */
+.goal-bar-bg{height:10px;background:var(–card2);border-radius:5px;overflow:hidden;margin:10px 0 6px;}
+.goal-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(–accent),#e6a817);transition:width 0.8s cubic-bezier(0.34,1.56,0.64,1);}
+.goal-bar-fill.complete{background:linear-gradient(90deg,var(–uber),#15a35f);}
+
+/* EXPENSE ITEM */
+.exp-item{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(–border);}
+.exp-item:last-child{border-bottom:none;}
+.exp-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.exp-info{flex:1;}
+.exp-cat{font-size:13px;font-weight:600;color:var(–text);}
+.exp-date{font-size:11px;color:var(–muted);margin-top:2px;}
+.exp-amt{font-family:‘JetBrains Mono’,monospace;font-size:15px;font-weight:700;color:#f87171;}
+.exp-ded{font-size:10px;font-weight:700;color:var(–uber);margin-top:2px;}
+
+/* WEEKLY CHART */
+.chart-wrap{height:120px;display:flex;align-items:flex-end;gap:7px;margin-bottom:8px;}
+.bw{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:3px;}
+.b{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,rgba(29,191,115,0.75),rgba(29,191,115,0.25));transition:height 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+.b.today{background:linear-gradient(180deg,var(–uber),rgba(29,191,115,0.4));box-shadow:0 0 10px rgba(29,191,115,0.35);}
+.b-amt{font-size:8px;font-family:‘JetBrains Mono’,monospace;color:var(–uber);}
+.b-lbl{font-size:10px;font-weight:700;}
+
+/* TAX MONTH ROW */
+.mo-row{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:var(–card);border:1.5px solid var(–border);border-radius:13px;margin-bottom:7px;}
+.mo-name{font-size:13px;font-weight:600;min-width:32px;}
+.mo-mi{font-family:‘JetBrains Mono’,monospace;font-size:11px;color:var(–accent);}
+.mo-earn{font-family:‘JetBrains Mono’,monospace;font-size:11px;color:var(–uber);}
+.mo-ded{font-family:‘JetBrains Mono’,monospace;font-size:13px;font-weight:700;color:var(–tax);}
+
+/* PLATFORM SPLIT */
+.split-item{margin-bottom:14px;}
+.split-hdr{display:flex;justify-content:space-between;margin-bottom:5px;}
+.split-nm{font-size:13px;font-weight:600;}
+.split-vl{font-family:‘JetBrains Mono’,monospace;font-size:12px;color:var(–muted);}
+.split-bg{height:7px;background:var(–card2);border-radius:4px;overflow:hidden;}
+.split-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.34,1.56,0.64,1);}
+
+/* DEADLINE CARDS */
+.dl-card{background:var(–card);border:1.5px solid var(–border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:9px;}
+.dl-card.soon{border-color:rgba(245,200,66,0.4);background:rgba(245,200,66,0.04);}
+.dl-card.overdue{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.04);}
+.dl-card.paid{opacity:0.55;}
+.dl-q{font-family:‘Bebas Neue’,sans-serif;font-size:26px;line-height:1;min-width:32px;}
+.dl-q.q1{color:#60a5fa;} .dl-q.q2{color:#34d399;} .dl-q.q3{color:var(–accent);} .dl-q.q4{color:#f87171;}
 .dl-info{flex:1;}
-.dl-label{font-size:13px;font-weight:700;color:var(–text);}
+.dl-lbl{font-size:13px;font-weight:700;}
 .dl-date{font-size:11px;color:var(–muted);margin-top:2px;}
-.dl-amount{text-align:right;}
-.dl-amt-val{font-family:‘JetBrains Mono’,monospace;font-size:16px;font-weight:700;color:var(–qt);}
-.dl-status{font-size:10px;font-weight:700;letter-spacing:1px;margin-top:3px;text-transform:uppercase;}
-.dl-status.soon{color:var(–accent);} .dl-status.late{color:#f87171;} .dl-status.ok{color:var(–muted);} .dl-status.done{color:var(–uber);}
+.dl-right{text-align:right;}
+.dl-amt{font-family:‘JetBrains Mono’,monospace;font-size:16px;font-weight:700;color:var(–qt);}
+.dl-status{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.ds-soon{color:var(–accent);} .ds-late{color:#f87171;} .ds-ok{color:var(–muted);} .ds-paid{color:var(–uber);}
 
-/* Tax settings inputs */
-.qt-settings{margin:0 20px 16px;background:var(–card);border:1.5px solid var(–border);border-radius:24px;padding:20px;position:relative;z-index:10;}
-.qt-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-.save-settings-btn{width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;font-family:‘DM Sans’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
-.save-settings-btn:active{transform:scale(0.98);}
-
-/* How it works explainer */
-.explainer{margin:0 20px 16px;background:rgba(167,139,250,0.06);border:1.5px solid rgba(167,139,250,0.15);border-radius:20px;padding:18px;position:relative;z-index:10;}
-.explainer-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(167,139,250,0.1);}
-.explainer-row:last-child{border-bottom:none;}
-.ex-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
-.ex-text{font-size:12px;color:var(–muted);line-height:1.5;}
-.ex-text strong{color:var(–text);}
-
-/* Progress ring */
-.setaside-ring{display:flex;flex-direction:column;align-items:center;padding:8px 0 4px;}
-.ring-wrap{position:relative;width:110px;height:110px;margin-bottom:8px;}
+/* RING */
+.ring-wrap{position:relative;width:100px;height:100px;}
 .ring-wrap svg{transform:rotate(-90deg);}
 .ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.ring-pct{font-family:‘Bebas Neue’,sans-serif;font-size:28px;color:var(–qt);line-height:1;}
-.ring-label{font-size:10px;color:var(–muted);font-weight:600;letter-spacing:0.5px;}
-.setaside-label{font-size:12px;color:var(–muted);text-align:center;}
+.ring-pct{font-family:‘Bebas Neue’,sans-serif;font-size:26px;color:var(–qt);line-height:1;}
+.ring-lbl{font-size:9px;color:var(–muted);font-weight:600;}
+
+/* EXPLAINER */
+.explainer{margin:0 20px 14px;background:rgba(167,139,250,0.05);border:1.5px solid rgba(167,139,250,0.12);border-radius:18px;padding:16px;position:relative;z-index:10;}
+.ex-row{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(167,139,250,0.08);}
+.ex-row:last-child{border-bottom:none;}
+.ex-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.ex-txt{font-size:12px;color:var(–muted);line-height:1.5;}
+.ex-txt strong{color:var(–text);}
+
+/* SCORE CARD */
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.score-box{background:var(–card2);border-radius:12px;padding:12px 8px;text-align:center;}
+.score-lbl{font-size:10px;color:var(–muted);font-weight:600;letter-spacing:0.5px;margin-bottom:4px;}
+.score-val{font-family:‘Bebas Neue’,sans-serif;font-size:22px;}
+
+/* INSIGHT CARDS */
+.insight-card{background:var(–card2);border:1.5px solid var(–border);border-radius:14px;padding:14px;margin-bottom:9px;}
+.insight-icon{font-size:20px;margin-bottom:6px;}
+.insight-title{font-size:13px;font-weight:700;margin-bottom:3px;}
+.insight-body{font-size:12px;color:var(–muted);line-height:1.5;}
+
+/* PAGE */
+.page{display:none;} .page.active{display:block;}
+.scroll-pad{height:110px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.hero-card,.sc,.card{animation:fadeUp 0.3s ease both;}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(13,15,20,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(–border);display:flex;padding:10px 0 22px;z-index:100;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;}
+.ni-ico{font-size:19px;}
+.ni-lbl{font-size:9px;font-weight:700;letter-spacing:0.8px;color:var(–muted);text-transform:uppercase;}
+.ni.active .ni-lbl{color:var(–uber);}
+.ni.active .ni-ico{filter:drop-shadow(0 0 5px rgba(29,191,115,0.55));}
+
+/* TOAST */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:#1dbf73;color:#fff;font-weight:700;font-size:13px;padding:10px 20px;border-radius:20px;z-index:999;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 
 </head>
 <body>
 
+<div class="toast" id="toast">✓ Trip logged!</div>
+
 <div class="header">
   <div class="logo">GigPro</div>
-  <div class="date-badge" id="date-badge">--</div>
+  <div class="header-right">
+    <div class="date-badge" id="date-badge">--</div>
+    <div class="streak-badge" id="streak-badge">🔥 0 day streak</div>
+  </div>
 </div>
 
 <div class="platforms">
-  <div class="pill active-all" onclick="filterPlatform('all',this)">ALL</div>
-  <div class="pill uber" onclick="filterPlatform('uber',this)">🚗 Uber</div>
-  <div class="pill doordash" onclick="filterPlatform('doordash',this)">🍕 DoorDash</div>
-  <div class="pill grubhub" onclick="filterPlatform('grubhub',this)">🛍 Grubhub</div>
+  <div class="pill active-all" onclick="filterPlat('all',this)">ALL</div>
+  <div class="pill uber" onclick="filterPlat('uber',this)">🚗 Uber</div>
+  <div class="pill doordash" onclick="filterPlat('doordash',this)">🍕 DoorDash</div>
+  <div class="pill grubhub" onclick="filterPlat('grubhub',this)">🛍 Grubhub</div>
 </div>
 
 <div class="nav-tabs">
-  <div class="tab active" onclick="showPage('home',this)"><span>🏠</span>Home</div>
-  <div class="tab" onclick="showPage('tracker',this)"><span>📍</span>Tracker</div>
-  <div class="tab" onclick="showPage('profit',this)"><span>💰</span>Profit</div>
-  <div class="tab" onclick="showPage('weekly',this)"><span>📊</span>Weekly</div>
-  <div class="tab" onclick="showPage('tax',this)"><span>🧾</span>Tax</div>
-  <div class="tab" onclick="showPage('qtax',this)"><span>📆</span>Q-Tax</div>
+  <div class="tab active" onclick="goPage('home',this)"><span>🏠</span>Home</div>
+  <div class="tab" onclick="goPage('tracker',this)"><span>📍</span>Tracker</div>
+  <div class="tab" onclick="goPage('expenses',this)"><span>💸</span>Expenses</div>
+  <div class="tab" onclick="goPage('goals',this)"><span>🎯</span>Goals</div>
+  <div class="tab" onclick="goPage('weekly',this)"><span>📊</span>Weekly</div>
+  <div class="tab" onclick="goPage('insights',this)"><span>💡</span>Insights</div>
+  <div class="tab" onclick="goPage('tax',this)"><span>🧾</span>Tax</div>
+  <div class="tab" onclick="goPage('qtax',this)"><span>📆</span>Q-Tax</div>
 </div>
 
-<!-- HOME -->
+<!-- ═══ HOME ═══ -->
 
 <div id="page-home" class="page active">
   <div class="hero-card">
-    <div class="label">Today's Earnings</div>
-    <div class="big-num" id="total-earn">$0.00</div>
-    <div class="sub" id="trips-sub">0 trips logged</div>
-    <div class="profit-row">
-      <div class="profit-badge" id="profit-badge">$0.00 profit</div>
-      <div class="profit-label">after expenses</div>
+    <div class="h-label">Today's Earnings</div>
+    <div class="h-num" id="h-earn">$0.00</div>
+    <div class="h-sub" id="h-sub">0 trips logged</div>
+    <div class="h-row">
+      <div class="badge badge-green" id="h-profit-badge">$0.00 profit</div>
+      <div class="badge-label">after all expenses</div>
     </div>
   </div>
+
+  <!-- Goal today mini -->
+
+  <div class="card" id="goal-today-card" style="padding:14px 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="font-size:12px;font-weight:700;color:var(--accent);">🎯 DAILY GOAL</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;" id="goal-progress-text">$0 / $0</div>
+    </div>
+    <div class="goal-bar-bg"><div class="goal-bar-fill" id="goal-bar" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--muted);" id="goal-remain-text">Set a goal in the Goals tab</div>
+  </div>
+
   <div class="stat-grid">
-    <div class="stat-card accent-miles">
-      <div class="s-label">Miles Today</div>
-      <div class="s-val" id="total-miles">0.0</div>
-      <div class="s-sub" id="tax-ded">$0.00 deduction</div>
+    <div class="sc c-yellow">
+      <div class="sc-lbl">Miles Today</div>
+      <div class="sc-val" id="h-miles">0.0</div>
+      <div class="sc-sub" id="h-miles-ded">$0.00 deduction</div>
     </div>
-    <div class="stat-card accent-rate">
-      <div class="s-label">$/Hr Rate</div>
-      <div class="s-val" id="hourly-rate">$0.00</div>
-      <div class="s-sub">effective hourly</div>
+    <div class="sc c-purple">
+      <div class="sc-lbl">$/Hr Rate</div>
+      <div class="sc-val" id="h-hourly">$0.00</div>
+      <div class="sc-sub">effective hourly</div>
     </div>
-    <div class="stat-card">
-      <div class="s-label">Trips Today</div>
-      <div class="s-val" id="trip-count">0</div>
-      <div class="s-sub">logged</div>
+    <div class="sc">
+      <div class="sc-lbl">Trips Today</div>
+      <div class="sc-val" id="h-trips">0</div>
+      <div class="sc-sub">logged</div>
     </div>
-    <div class="stat-card accent-tax">
-      <div class="s-label">Year Miles</div>
-      <div class="s-val" id="year-miles-home">0</div>
-      <div class="s-sub" id="year-ded-home">$0.00 deduction</div>
+    <div class="sc c-blue">
+      <div class="sc-lbl">Year Miles</div>
+      <div class="sc-val" id="h-yr-miles">0</div>
+      <div class="sc-sub" id="h-yr-ded">$0.00 deduction</div>
     </div>
   </div>
-  <div class="section-title">Recent Trips</div>
+
+  <!-- Today projection -->
+
+  <div class="card" style="padding:14px 18px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">Pace Projection</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--uber);" id="h-projection">$0.00</div>
+        <div style="font-size:11px;color:var(--muted);">estimated by end of day</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Month Projection</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#c084fc;" id="h-mo-proj">$0.00</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Recent Trips</div>
   <div class="trips-list" id="trips-list">
-    <div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips yet — log your first below ↓</div>
+    <div style="text-align:center;padding:24px;color:#6b7280;font-size:13px;">No trips yet — log your first in Tracker ↓</div>
   </div>
 </div>
 
-<!-- TRACKER -->
+<!-- ═══ TRACKER ═══ -->
 
 <div id="page-tracker" class="page">
-  <div class="section-title">Quick Trip Log</div>
-  <div class="log-card">
-    <div style="margin-bottom:14px;">
-      <div class="field-group" style="margin-bottom:6px;"><label>Platform</label></div>
-      <div class="platform-select">
-        <div class="platform-btn sel-uber" onclick="selectPlatform('uber',this)">🚗 Uber</div>
-        <div class="platform-btn" onclick="selectPlatform('doordash',this)">🍕 DD</div>
-        <div class="platform-btn" onclick="selectPlatform('grubhub',this)">🛍 GH</div>
+  <div class="sec">Log a Trip</div>
+  <div class="card">
+    <div style="margin-bottom:10px;">
+      <div class="fg" style="margin-bottom:6px;"><label>Platform</label></div>
+      <div class="plat-sel">
+        <div class="pb su" onclick="selPlat('uber',this)">🚗 Uber</div>
+        <div class="pb" onclick="selPlat('doordash',this)">🍕 DD</div>
+        <div class="pb" onclick="selPlat('grubhub',this)">🛍 GH</div>
       </div>
     </div>
-    <div class="log-grid">
-      <div class="field-group">
-        <label>Earned ($)</label>
-        <input type="number" id="inp-earned" placeholder="18.50" step="0.01" inputmode="decimal">
-      </div>
-      <div class="field-group">
-        <label>Miles</label>
-        <input type="number" id="inp-miles" placeholder="12.4" step="0.1" inputmode="decimal">
-      </div>
-      <div class="field-group">
-        <label>Minutes</label>
-        <input type="number" id="inp-minutes" placeholder="35" inputmode="numeric">
-      </div>
-      <div class="field-group">
-        <label>Gas ($)</label>
-        <input type="number" id="inp-gas" placeholder="0.00" step="0.01" inputmode="decimal">
-      </div>
+    <div class="form-grid">
+      <div class="fg"><label>Earned ($)</label><input type="number" id="t-earned" placeholder="18.50" step="0.01" inputmode="decimal"></div>
+      <div class="fg"><label>Tip ($)</label><input type="number" id="t-tip" placeholder="0.00" step="0.01" inputmode="decimal"></div>
+      <div class="fg"><label>Miles</label><input type="number" id="t-miles" placeholder="12.4" step="0.1" inputmode="decimal"></div>
+      <div class="fg"><label>Minutes</label><input type="number" id="t-mins" placeholder="35" inputmode="numeric"></div>
     </div>
-    <button class="log-btn" onclick="logTrip()">✓ &nbsp;Log Trip</button>
+    <div class="fg" style="margin-bottom:12px;"><label>Notes (optional)</label><input type="text" id="t-note" placeholder="e.g. surge pricing, long wait..." style="font-family:'DM Sans',sans-serif;font-size:14px;"></div>
+    <button class="btn-primary" onclick="logTrip()">✓ &nbsp;Log Trip</button>
+  </div>
+
+  <!-- Recent trips on tracker page too -->
+
+  <div class="sec" style="margin-top:4px;">Today's Trips</div>
+  <div class="trips-list" id="tracker-trips-list" style="margin-bottom:20px;">
+    <div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips yet today</div>
   </div>
   <div class="scroll-pad"></div>
 </div>
 
-<!-- PROFIT -->
+<!-- ═══ EXPENSES ═══ -->
 
-<div id="page-profit" class="page">
-  <div class="hero-card">
-    <div class="label">Real Profit Today</div>
-    <div class="big-num" id="profit-big">$0.00</div>
-    <div class="sub">after all expenses</div>
+<div id="page-expenses" class="page">
+  <!-- Year expense summary -->
+  <div class="hero-card tax-hero">
+    <div class="h-label">Total Expenses This Year</div>
+    <div class="h-num" id="exp-total">$0.00</div>
+    <div class="h-sub">fully tracked & categorized</div>
+    <div class="h-row">
+      <div class="badge badge-blue" id="exp-ded-badge">$0.00 deductible</div>
+      <div class="badge-label">tax savings</div>
+    </div>
   </div>
-  <div class="section-title">Breakdown</div>
-  <div class="profit-breakdown">
-    <div class="breakdown-row"><div class="br-label">Gross Earnings</div><div class="br-val positive" id="br-gross">$0.00</div></div>
-    <div class="breakdown-row"><div class="br-label">Gas Expenses</div><div class="br-val negative" id="br-gas">-$0.00</div></div>
-    <div class="breakdown-row"><div class="br-label">IRS Mileage Deduction</div><div class="br-val tax-col" id="br-miles">$0.00</div></div>
-    <div class="breakdown-row"><div class="br-label">Net Profit</div><div class="br-val positive" id="br-net">$0.00</div></div>
-    <div class="breakdown-row"><div class="br-label">Time Worked</div><div class="br-val" id="br-time" style="color:#c084fc;">0h 0m</div></div>
+
+  <div class="stat-grid">
+    <div class="sc c-yellow"><div class="sc-lbl">Gas</div><div class="sc-val" id="exp-gas">$0</div><div class="sc-sub">100% deductible</div></div>
+    <div class="sc c-blue"><div class="sc-lbl">Phone</div><div class="sc-val" id="exp-phone">$0</div><div class="sc-sub">~60% deductible</div></div>
+    <div class="sc c-purple"><div class="sc-lbl">Maintenance</div><div class="sc-val" id="exp-maint">$0</div><div class="sc-sub">pro-rated</div></div>
+    <div class="sc c-orange"><div class="sc-lbl">Other</div><div class="sc-val" id="exp-other">$0</div><div class="sc-sub">varies</div></div>
+  </div>
+
+  <div class="sec">Log Expense</div>
+  <div class="card">
+    <div class="form-grid">
+      <div class="fg">
+        <label>Category</label>
+        <select id="e-cat">
+          <option value="gas">⛽ Gas</option>
+          <option value="phone">📱 Phone Bill</option>
+          <option value="maintenance">🔧 Car Maintenance</option>
+          <option value="insurance">🛡 Car Insurance</option>
+          <option value="carwash">🚿 Car Wash</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Amount ($)</label><input type="number" id="e-amt" placeholder="45.00" step="0.01" inputmode="decimal"></div>
+    </div>
+    <div class="fg" style="margin-bottom:12px;"><label>Note (optional)</label><input type="text" id="e-note" placeholder="e.g. Shell station, oil change..." style="font-family:'DM Sans',sans-serif;font-size:14px;"></div>
+    <button class="btn-primary btn-blue" onclick="logExpense()">✓ &nbsp;Log Expense</button>
+  </div>
+
+  <div class="sec">Expense Log</div>
+  <div class="card" id="exp-list">
+    <div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No expenses logged yet</div>
   </div>
   <div class="scroll-pad"></div>
 </div>
 
-<!-- WEEKLY -->
+<!-- ═══ GOALS ═══ -->
+
+<div id="page-goals" class="page">
+  <div class="hero-card goal-hero">
+    <div class="h-label">Weekly Goal Progress</div>
+    <div class="h-num" id="g-weekly-earn">$0.00</div>
+    <div class="h-sub" id="g-weekly-sub">of $0 weekly goal</div>
+    <div class="h-row">
+      <div class="badge badge-yellow" id="g-weekly-badge">$0 to go</div>
+      <div class="badge-label" id="g-weekly-pace"></div>
+    </div>
+  </div>
+
+  <!-- Weekly goal bar -->
+
+  <div class="card" style="padding:16px 18px;">
+    <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">WEEKLY PROGRESS</div>
+    <div class="goal-bar-bg" style="height:12px;"><div class="goal-bar-fill" id="g-week-bar" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--accent);" id="g-week-pct">0%</div>
+      <div style="font-size:12px;color:var(--muted);" id="g-days-left"></div>
+    </div>
+  </div>
+
+  <div class="sec">Set Your Goals</div>
+  <div class="card">
+    <div class="form-grid">
+      <div class="fg"><label>Daily Goal ($)</label><input type="number" id="g-daily" placeholder="200" inputmode="decimal"></div>
+      <div class="fg"><label>Weekly Goal ($)</label><input type="number" id="g-weekly" placeholder="1200" inputmode="decimal"></div>
+      <div class="fg"><label>Monthly Goal ($)</label><input type="number" id="g-monthly" placeholder="5000" inputmode="decimal"></div>
+      <div class="fg"><label>Annual Goal ($)</label><input type="number" id="g-annual" placeholder="60000" inputmode="decimal"></div>
+    </div>
+    <button class="btn-primary btn-yellow" onclick="saveGoals()">✓ &nbsp;Save Goals</button>
+  </div>
+
+  <!-- Monthly & annual progress -->
+
+  <div class="stat-grid">
+    <div class="sc c-green"><div class="sc-lbl">Monthly</div><div class="sc-val" id="g-mo-pct">0%</div><div class="sc-sub" id="g-mo-sub">$0 of $0</div></div>
+    <div class="sc c-yellow"><div class="sc-lbl">Annual</div><div class="sc-val" id="g-yr-pct">0%</div><div class="sc-sub" id="g-yr-sub">$0 of $0</div></div>
+  </div>
+
+  <div class="scroll-pad"></div>
+</div>
+
+<!-- ═══ WEEKLY ═══ -->
 
 <div id="page-weekly" class="page">
   <div class="hero-card">
-    <div class="label">This Week</div>
-    <div class="big-num" id="week-total">$0.00</div>
-    <div class="sub">total earnings</div>
+    <div class="h-label">This Week</div>
+    <div class="h-num" id="w-total">$0.00</div>
+    <div class="h-sub" id="w-sub">0 trips this week</div>
+    <div class="h-row">
+      <div class="badge badge-green" id="w-profit-badge">$0.00 profit</div>
+      <div class="badge-label">after expenses</div>
+    </div>
   </div>
-  <div class="section-title">Daily Breakdown</div>
-  <div class="weekly-chart">
-    <div class="chart-bars" id="chart-bars"></div>
-    <div style="display:flex;gap:8px;" id="chart-labels"></div>
+  <div class="sec">Daily Earnings</div>
+  <div class="card">
+    <div class="chart-wrap" id="chart-bars"></div>
+    <div style="display:flex;gap:7px;" id="chart-labels"></div>
+  </div>
+  <div class="sec">Week Stats</div>
+  <div class="stat-grid">
+    <div class="sc c-yellow"><div class="sc-lbl">Week Miles</div><div class="sc-val" id="w-miles">0</div><div class="sc-sub" id="w-miles-ded">$0 deduction</div></div>
+    <div class="sc c-purple"><div class="sc-lbl">Avg $/Hr</div><div class="sc-val" id="w-hourly">$0</div><div class="sc-sub">this week</div></div>
+    <div class="sc"><div class="sc-lbl">Total Trips</div><div class="sc-val" id="w-trips">0</div><div class="sc-sub">this week</div></div>
+    <div class="sc c-orange"><div class="sc-lbl">Best Day</div><div class="sc-val" id="w-best">$0</div><div class="sc-sub" id="w-best-day">—</div></div>
   </div>
   <div class="scroll-pad"></div>
 </div>
 
-<!-- TAX -->
+<!-- ═══ INSIGHTS ═══ -->
+
+<div id="page-insights" class="page">
+  <div class="sec">Performance Score</div>
+  <div class="card">
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;" id="ins-score-big">—</div>
+      <div style="font-size:13px;color:var(--muted);" id="ins-score-sub">Log trips to get your score</div>
+    </div>
+    <div class="score-grid">
+      <div class="score-box"><div class="score-lbl">Best Hour</div><div class="score-val" style="color:var(--uber);" id="ins-best-hr">—</div></div>
+      <div class="score-box"><div class="score-lbl">Top Platform</div><div class="score-val" style="color:var(--tax);" id="ins-top-plat">—</div></div>
+      <div class="score-box"><div class="score-lbl">Avg Trip</div><div class="score-val" style="color:var(--accent);" id="ins-avg-trip">$0</div></div>
+    </div>
+  </div>
+
+  <div class="sec">Trip Grade Breakdown</div>
+  <div class="card">
+    <div id="grade-breakdown"></div>
+  </div>
+
+  <div class="sec">Smart Insights</div>
+  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="insights-list">
+    <div class="insight-card">
+      <div class="insight-icon">📊</div>
+      <div class="insight-title">No data yet</div>
+      <div class="insight-body">Log some trips and come back here for personalized insights about when and where you earn the most.</div>
+    </div>
+  </div>
+  <div class="scroll-pad"></div>
+</div>
+
+<!-- ═══ TAX ═══ -->
 
 <div id="page-tax" class="page">
   <div class="hero-card tax-hero">
-    <div class="label">2025 Tax Deduction</div>
-    <div class="big-num" id="tax-yearly-ded">$0.00</div>
-    <div class="sub">IRS standard mileage @ 67¢/mi</div>
-    <div class="tax-hero-row">
-      <div class="tax-badge" id="tax-yearly-miles">0 miles driven</div>
-      <div class="profit-label">year to date</div>
+    <div class="h-label">2025 Tax Deduction</div>
+    <div class="h-num" id="tax-ded-big">$0.00</div>
+    <div class="h-sub">IRS standard mileage @ 67¢/mi</div>
+    <div class="h-row">
+      <div class="badge badge-blue" id="tax-miles-badge">0 miles driven</div>
+      <div class="badge-label">year to date</div>
     </div>
   </div>
-
   <div class="stat-grid">
-    <div class="stat-card accent-miles">
-      <div class="s-label">Total Miles</div>
-      <div class="s-val" id="tax-total-miles">0</div>
-      <div class="s-sub">this year</div>
-    </div>
-    <div class="stat-card accent-tax">
-      <div class="s-label">Deduction</div>
-      <div class="s-val" id="tax-total-ded">$0</div>
-      <div class="s-sub">@ 67¢/mi</div>
-    </div>
-    <div class="stat-card">
-      <div class="s-label">Year Gross</div>
-      <div class="s-val" id="tax-year-gross">$0</div>
-      <div class="s-sub">all platforms</div>
-    </div>
-    <div class="stat-card">
-      <div class="s-label">Year Trips</div>
-      <div class="s-val" id="tax-year-trips">0</div>
-      <div class="s-sub">total logged</div>
-    </div>
+    <div class="sc c-yellow"><div class="sc-lbl">Total Miles</div><div class="sc-val" id="tax-miles">0</div><div class="sc-sub">this year</div></div>
+    <div class="sc c-blue"><div class="sc-lbl">Deduction</div><div class="sc-val" id="tax-ded">$0</div><div class="sc-sub">@ 67¢/mi</div></div>
+    <div class="sc c-green"><div class="sc-lbl">Year Gross</div><div class="sc-val" id="tax-gross">$0</div><div class="sc-sub">all platforms</div></div>
+    <div class="sc"><div class="sc-lbl">Year Trips</div><div class="sc-val" id="tax-trips">0</div><div class="sc-sub">total logged</div></div>
   </div>
-
-  <div class="section-title">Miles by Platform</div>
-  <div class="platform-split" id="platform-split"></div>
-
-  <div class="section-title">Monthly Mileage Log</div>
-  <div class="month-table" id="month-table"></div>
-
-<button class="export-btn" onclick="exportCSV()">⬇  Export Mileage Log (CSV)</button>
-
+  <div class="sec">Miles by Platform</div>
+  <div class="card" id="plat-split"></div>
+  <div class="sec">Monthly Mileage Log</div>
+  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="month-table"></div>
+  <div style="margin:0 20px 14px;position:relative;z-index:10;">
+    <button class="btn-outline-blue" onclick="exportCSV()">⬇ &nbsp;Export Mileage Log (CSV)</button>
+  </div>
   <div class="scroll-pad"></div>
 </div>
 
-<!-- QUARTERLY TAX -->
+<!-- ═══ Q-TAX ═══ -->
 
 <div id="page-qtax" class="page">
-
-  <!-- Hero: amount owed this quarter -->
-
   <div class="hero-card qt-hero">
-    <div class="label">Q<span id="qt-cur-q">?</span> Estimated Tax Due</div>
-    <div class="big-num" id="qt-due-amt">$0.00</div>
-    <div class="sub" id="qt-due-date">Due —</div>
-    <div class="tax-hero-row">
-      <div class="qt-badge" id="qt-setaside-badge">Set aside $0/week</div>
-      <div class="profit-label">to stay on track</div>
+    <div class="h-label">Q<span id="qt-q">?</span> Estimated Tax Due</div>
+    <div class="h-num" id="qt-due">$0.00</div>
+    <div class="h-sub" id="qt-due-date">Due —</div>
+    <div class="h-row">
+      <div class="badge badge-purple" id="qt-weekly-badge">Set aside $0/week</div>
+      <div class="badge-label">to stay on track</div>
     </div>
   </div>
-
-  <!-- 4 quick stats -->
 
   <div class="stat-grid">
-    <div class="stat-card accent-qt">
-      <div class="s-label">Year Tax Est.</div>
-      <div class="s-val" id="qt-year-total">$0</div>
-      <div class="s-sub">all 4 quarters</div>
-    </div>
-    <div class="stat-card">
-      <div class="s-label">Taxable Income</div>
-      <div class="s-val" id="qt-taxable">$0</div>
-      <div class="s-sub">after deductions</div>
-    </div>
-    <div class="stat-card accent-miles">
-      <div class="s-label">SE Tax</div>
-      <div class="s-val" id="qt-se-tax">$0</div>
-      <div class="s-sub">self-employ. (15.3%)</div>
-    </div>
-    <div class="stat-card">
-      <div class="s-label">Effective Rate</div>
-      <div class="s-val" id="qt-eff-rate">0%</div>
-      <div class="s-sub">of gross income</div>
-    </div>
+    <div class="sc c-qt"><div class="sc-lbl">Year Tax Est.</div><div class="sc-val" id="qt-yr-tax">$0</div><div class="sc-sub">all 4 quarters</div></div>
+    <div class="sc"><div class="sc-lbl">Taxable Income</div><div class="sc-val" id="qt-taxable">$0</div><div class="sc-sub">after deductions</div></div>
+    <div class="sc c-yellow"><div class="sc-lbl">SE Tax</div><div class="sc-val" id="qt-se">$0</div><div class="sc-sub">self-employ 15.3%</div></div>
+    <div class="sc"><div class="sc-lbl">Effective Rate</div><div class="sc-val" id="qt-rate">0%</div><div class="sc-sub">of gross income</div></div>
   </div>
 
-  <!-- Set-aside progress -->
+  <!-- Set-aside tracker -->
 
-  <div class="section-title">Set-Aside Progress</div>
-  <div class="profit-breakdown" style="margin:0 20px 16px;">
-    <div style="display:flex;align-items:center;gap:20px;">
-      <div class="setaside-ring">
-        <div class="ring-wrap">
-          <svg width="110" height="110" viewBox="0 0 110 110">
-            <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(167,139,250,0.12)" stroke-width="10"/>
-            <circle cx="55" cy="55" r="46" fill="none" stroke="#a78bfa" stroke-width="10"
-              stroke-dasharray="289" stroke-dashoffset="289"
-              id="ring-circle" stroke-linecap="round"/>
-          </svg>
-          <div class="ring-center">
-            <div class="ring-pct" id="ring-pct">0%</div>
-            <div class="ring-label">saved</div>
-          </div>
+  <div class="sec">Set-Aside Tracker</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div class="ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(167,139,250,0.12)" stroke-width="9"/>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#a78bfa" stroke-width="9"
+            stroke-dasharray="264" stroke-dashoffset="264"
+            id="ring-c" stroke-linecap="round" style="transition:stroke-dashoffset 0.6s ease;"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0%</div>
+          <div class="ring-lbl">saved</div>
         </div>
-        <div class="setaside-label" id="setaside-sub">$0 of $0 set aside</div>
       </div>
       <div style="flex:1;">
-        <div class="breakdown-row" style="padding:8px 0;">
-          <div class="br-label">Total Owed Q<span class="qt-q-ref">?</span></div>
-          <div class="br-val tax-col" id="qt-owed-ref">$0.00</div>
-        </div>
-        <div class="breakdown-row" style="padding:8px 0;">
-          <div class="br-label">You've Set Aside</div>
-          <div class="br-val positive" id="qt-saved-ref">$0.00</div>
-        </div>
-        <div class="breakdown-row" style="padding:8px 0;border-bottom:none;">
-          <div class="br-label">Still Need</div>
-          <div class="br-val negative" id="qt-still-need">$0.00</div>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:8px;">
-          <input type="number" id="qt-savings-input" placeholder="Amount saved" inputmode="decimal"
-            style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;">
-          <button onclick="updateSavings()" style="padding:10px 14px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Save</button>
+        <div class="br-row" style="padding:7px 0;"><div class="br-lbl">Owed Q<span class="qt-q-ref">?</span></div><div class="br-val bv-purple" id="qt-owed-ref">$0.00</div></div>
+        <div class="br-row" style="padding:7px 0;"><div class="br-lbl">Set Aside</div><div class="br-val bv-green" id="qt-saved-ref">$0.00</div></div>
+        <div class="br-row" style="padding:7px 0;border-bottom:none;"><div class="br-lbl">Still Need</div><div class="br-val bv-red" id="qt-still">$0.00</div></div>
+        <div style="margin-top:10px;display:flex;gap:7px;">
+          <input type="number" id="qt-save-inp" placeholder="Amount saved" inputmode="decimal" style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;">
+          <button onclick="updateSavings()" style="padding:10px 14px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">Save</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Quarterly deadlines -->
+  <div class="sec">2025 Payment Deadlines</div>
+  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="dl-list"></div>
 
-  <div class="section-title">2025 Payment Deadlines</div>
-  <div class="deadline-list" id="deadline-list"></div>
-
-  <!-- Settings -->
-
-  <div class="section-title">Your Tax Settings</div>
-  <div class="qt-settings">
-    <div class="qt-settings-grid">
-      <div class="field-group">
-        <label>Filing Status</label>
+  <div class="sec">Tax Settings</div>
+  <div class="card">
+    <div class="form-grid">
+      <div class="fg"><label>Filing Status</label>
         <select id="qt-filing">
           <option value="single">Single</option>
-          <option value="mfj">Married (Joint)</option>
-          <option value="mfs">Married (Sep.)</option>
+          <option value="mfj">Married Joint</option>
+          <option value="mfs">Married Sep.</option>
           <option value="hoh">Head of House</option>
         </select>
       </div>
-      <div class="field-group">
-        <label>Other Income ($)</label>
-        <input type="number" id="qt-other-income" placeholder="0" inputmode="decimal">
-      </div>
-      <div class="field-group">
-        <label>Other Expenses ($)</label>
-        <input type="number" id="qt-other-exp" placeholder="0" inputmode="decimal">
-      </div>
-      <div class="field-group">
-        <label>State Tax Rate (%)</label>
-        <input type="number" id="qt-state-rate" placeholder="0" step="0.1" inputmode="decimal">
-      </div>
+      <div class="fg"><label>Other Income ($)</label><input type="number" id="qt-other-inc" placeholder="0" inputmode="decimal"></div>
+      <div class="fg"><label>Extra Expenses ($)</label><input type="number" id="qt-other-exp" placeholder="0" inputmode="decimal"></div>
+      <div class="fg"><label>State Tax Rate (%)</label><input type="number" id="qt-state" placeholder="0" step="0.1" inputmode="decimal"></div>
     </div>
-    <button class="save-settings-btn" onclick="saveQTaxSettings()">✓ &nbsp;Update Calculations</button>
+    <button class="btn-primary btn-purple" onclick="saveQTSettings()">✓ &nbsp;Update Calculations</button>
   </div>
 
-  <!-- How it works -->
-
-  <div class="section-title">How It's Calculated</div>
   <div class="explainer">
-    <div class="explainer-row">
-      <div class="ex-icon">💵</div>
-      <div class="ex-text"><strong>Gross earnings</strong> minus IRS mileage deduction (67¢/mi), gas, and other expenses = taxable net income.</div>
-    </div>
-    <div class="explainer-row">
-      <div class="ex-icon">🏛</div>
-      <div class="ex-text"><strong>Self-employment tax</strong> is 15.3% on 92.35% of net income. You can deduct half of it from income tax.</div>
-    </div>
-    <div class="explainer-row">
-      <div class="ex-icon">📊</div>
-      <div class="ex-text"><strong>Income tax</strong> uses 2025 federal brackets. Add your state rate for total estimate.</div>
-    </div>
-    <div class="explainer-row">
-      <div class="ex-icon">⚠️</div>
-      <div class="ex-text"><strong>Disclaimer:</strong> This is an estimate only. Consult a tax professional for your actual filing.</div>
-    </div>
+    <div class="ex-row"><div class="ex-ico">💵</div><div class="ex-txt"><strong>Gross earnings</strong> minus mileage (67¢/mi), gas, expenses = taxable income.</div></div>
+    <div class="ex-row"><div class="ex-ico">🏛</div><div class="ex-txt"><strong>SE tax</strong> is 15.3% on 92.35% of net. Half is deductible from income tax.</div></div>
+    <div class="ex-row"><div class="ex-ico">📊</div><div class="ex-txt"><strong>Income tax</strong> uses 2025 federal brackets + your state rate.</div></div>
+    <div class="ex-row"><div class="ex-ico">⚠️</div><div class="ex-txt"><strong>Estimate only.</strong> Consult a tax professional for actual filing.</div></div>
   </div>
-
   <div class="scroll-pad"></div>
 </div>
 
 <!-- BOTTOM NAV -->
 
-<div class="bottom-nav">
-  <div class="nav-item active" onclick="showPage('home',null,this)">
-    <div class="nav-icon">🏠</div><div class="nav-label">Home</div>
-  </div>
-  <div class="nav-item" onclick="showPage('tracker',null,this)">
-    <div class="nav-icon">📍</div><div class="nav-label">Tracker</div>
-  </div>
-  <div class="nav-item" onclick="showPage('profit',null,this)">
-    <div class="nav-icon">💰</div><div class="nav-label">Profit</div>
-  </div>
-  <div class="nav-item" onclick="showPage('weekly',null,this)">
-    <div class="nav-icon">📊</div><div class="nav-label">Weekly</div>
-  </div>
-  <div class="nav-item" onclick="showPage('tax',null,this)">
-    <div class="nav-icon">🧾</div><div class="nav-label">Tax</div>
-  </div>
-  <div class="nav-item" onclick="showPage('qtax',null,this)">
-    <div class="nav-icon">📆</div><div class="nav-label">Q-Tax</div>
-  </div>
+<div class="bnav">
+  <div class="ni active" onclick="goPage('home',null,this)"><div class="ni-ico">🏠</div><div class="ni-lbl">Home</div></div>
+  <div class="ni" onclick="goPage('tracker',null,this)"><div class="ni-ico">📍</div><div class="ni-lbl">Track</div></div>
+  <div class="ni" onclick="goPage('expenses',null,this)"><div class="ni-ico">💸</div><div class="ni-lbl">Expenses</div></div>
+  <div class="ni" onclick="goPage('goals',null,this)"><div class="ni-ico">🎯</div><div class="ni-lbl">Goals</div></div>
+  <div class="ni" onclick="goPage('insights',null,this)"><div class="ni-ico">💡</div><div class="ni-lbl">Insights</div></div>
+  <div class="ni" onclick="goPage('tax',null,this)"><div class="ni-ico">🧾</div><div class="ni-lbl">Tax</div></div>
 </div>
 
 <script>
-const IRS_RATE = 0.67;
+// ═══ CONSTANTS ═══
+const IRS = 0.67;
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const PLT_COLORS = {uber:'#1dbf73',doordash:'#ff3008',grubhub:'#f63440'};
-const PLT_LABELS = {uber:'🚗 Uber',doordash:'🍕 DoorDash',grubhub:'🛍 Grubhub'};
+const PC = {uber:'#1dbf73',doordash:'#ff3008',grubhub:'#f63440'};
+const PL = {uber:'🚗 Uber',doordash:'🍕 DoorDash',grubhub:'🛍 Grubhub'};
+const EXP_META = {
+  gas:     {icon:'⛽',label:'Gas',       deductPct:1.00, color:'#f5c842'},
+  phone:   {icon:'📱',label:'Phone',     deductPct:0.60, color:'#60a5fa'},
+  maintenance:{icon:'🔧',label:'Maintenance',deductPct:0.50,color:'#a78bfa'},
+  insurance:{icon:'🛡',label:'Insurance',deductPct:0.50,color:'#fb923c'},
+  carwash: {icon:'🚿',label:'Car Wash',  deductPct:1.00, color:'#34d399'},
+  other:   {icon:'📦',label:'Other',     deductPct:0.50, color:'#6b7280'},
+};
+const QT_DL = [
+  {q:1,label:'Q1 Payment',months:[0,1,2],  due:'April 15, 2025',    ts:new Date('2025-04-15').getTime()},
+  {q:2,label:'Q2 Payment',months:[3,4],     due:'June 16, 2025',     ts:new Date('2025-06-16').getTime()},
+  {q:3,label:'Q3 Payment',months:[5,6,7],   due:'Sep 15, 2025',      ts:new Date('2025-09-15').getTime()},
+  {q:4,label:'Q4 Payment',months:[8,9,10,11],due:'Jan 15, 2026',     ts:new Date('2026-01-15').getTime()},
+];
+const BRACKETS_S = [{min:0,max:11925,r:.10},{min:11925,max:48475,r:.12},{min:48475,max:103350,r:.22},{min:103350,max:197300,r:.24},{min:197300,max:250525,r:.32},{min:250525,max:626350,r:.35},{min:626350,max:Infinity,r:.37}];
+const BRACKETS_MFJ = [{min:0,max:23850,r:.10},{min:23850,max:96950,r:.12},{min:96950,max:206700,r:.22},{min:206700,max:394600,r:.24},{min:394600,max:501050,r:.32},{min:501050,max:751600,r:.35},{min:751600,max:Infinity,r:.37}];
+const STD_DED = {single:15000,mfj:30000,mfs:15000,hoh:22500};
 
-let selPlat = 'uber';
-let trips = JSON.parse(localStorage.getItem('gp_trips')||'[]');
-let weeklyData = JSON.parse(localStorage.getItem('gp_weekly')||JSON.stringify({Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0}));
+// ═══ STATE ═══
+let trips    = JSON.parse(localStorage.getItem('gp_trips')   || '[]');
+let expenses = JSON.parse(localStorage.getItem('gp_exp')     || '[]');
+let goals    = JSON.parse(localStorage.getItem('gp_goals')   || JSON.stringify({daily:0,weekly:0,monthly:0,annual:0}));
+let weeklyD  = JSON.parse(localStorage.getItem('gp_weekly')  || JSON.stringify({Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0}));
+let qtS      = JSON.parse(localStorage.getItem('gp_qt_s')    || JSON.stringify({filing:'single',otherInc:0,otherExp:0,state:0}));
+let qtSaved  = JSON.parse(localStorage.getItem('gp_qt_saved')|| '{}');
+let selPlatform = 'uber';
+let filterPlatform = 'all';
 
-function todayTrips(){ return trips.filter(t=>new Date(t.ts).toDateString()===new Date().toDateString()); }
-function yearTrips(){ return trips.filter(t=>new Date(t.ts).getFullYear()===new Date().getFullYear()); }
-function setText(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+// ═══ HELPERS ═══
+const $ = id => document.getElementById(id);
+function setText(id,v){ const e=$(id); if(e) e.textContent=v; }
+function todayStr(){ return new Date().toDateString(); }
+function thisYear(){ return new Date().getFullYear(); }
+function thisMonth(){ return new Date().getMonth(); }
+function todayTrips(){ return trips.filter(t=>new Date(t.ts).toDateString()===todayStr()); }
+function yearTrips(){ return trips.filter(t=>new Date(t.ts).getFullYear()===thisYear()); }
+function weekTrips(){
+  const now=new Date(); const day=now.getDay(); const monday=new Date(now);
+  monday.setDate(now.getDate()-(day===0?6:day-1)); monday.setHours(0,0,0,0);
+  return trips.filter(t=>t.ts>=monday.getTime());
+}
+function monthTrips(){ return trips.filter(t=>{ const d=new Date(t.ts); return d.getFullYear()===thisYear()&&d.getMonth()===thisMonth(); }); }
+function fmt(n){ return '$'+Math.abs(n).toFixed(2); }
+function fmtK(n){ return n>=1000?'$'+(n/1000).toFixed(1)+'k':'$'+Math.round(n); }
 
+function tripGrade(earned, minutes){
+  if(!minutes) return 'B';
+  const rate = earned/(minutes/60);
+  if(rate>=30) return 'A';
+  if(rate>=22) return 'B';
+  if(rate>=15) return 'C';
+  if(rate>=10) return 'D';
+  return 'F';
+}
+
+function showToast(msg){
+  const t=$('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ═══ DATE & STREAK ═══
 function updateDateBadge(){
   const d=new Date();
   const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
   setText('date-badge',days[d.getDay()]+', '+MONTHS[d.getMonth()].toUpperCase()+' '+d.getDate());
+  // Streak: count consecutive days with trips
+  let streak=0, check=new Date(); check.setHours(0,0,0,0);
+  for(let i=0;i<365;i++){
+    const ds=check.toDateString();
+    if(trips.some(t=>new Date(t.ts).toDateString()===ds)){ streak++; check.setDate(check.getDate()-1); }
+    else break;
+  }
+  setText('streak-badge','🔥 '+streak+' day streak');
 }
 
-function updateDashboard(){
+// ═══ MAIN DASHBOARD ═══
+function updateAll(){
+  updateDateBadge();
+  updateHome();
+  updateTracker();
+  updateExpenses();
+  updateGoals();
+  updateWeekly();
+  updateInsights();
+  updateTax();
+  updateQTax();
+}
+
+function updateHome(){
   const tt=todayTrips(), yt=yearTrips();
   const gross=tt.reduce((s,t)=>s+t.earned,0);
-  const gas=tt.reduce((s,t)=>s+t.gas,0);
+  const gas=tt.reduce((s,t)=>s+(t.gas||0),0);
   const miles=tt.reduce((s,t)=>s+t.miles,0);
   const mins=tt.reduce((s,t)=>s+t.minutes,0);
-  const ded=miles*IRS_RATE;
+  const ded=miles*IRS;
   const profit=gross-gas;
   const hourly=mins>0?gross/(mins/60):0;
   const yMiles=yt.reduce((s,t)=>s+t.miles,0);
-  const yGross=yt.reduce((s,t)=>s+t.earned,0);
-  const yDed=yMiles*IRS_RATE;
+  const yDed=yMiles*IRS;
 
-  // Home
-  setText('total-earn','$'+gross.toFixed(2));
-  setText('trips-sub',tt.length+' trip'+(tt.length!==1?'s':'')+' logged');
-  setText('profit-badge','$'+profit.toFixed(2)+' profit');
-  setText('total-miles',miles.toFixed(1));
-  setText('tax-ded','$'+ded.toFixed(2)+' deduction');
-  setText('hourly-rate','$'+hourly.toFixed(2));
-  setText('trip-count',tt.length);
-  setText('year-miles-home',Math.round(yMiles));
-  setText('year-ded-home','$'+yDed.toFixed(2)+' deduction');
+  setText('h-earn','$'+gross.toFixed(2));
+  setText('h-sub',tt.length+' trip'+(tt.length!==1?'s':'')+' logged');
+  setText('h-profit-badge','$'+profit.toFixed(2)+' profit');
+  setText('h-miles',miles.toFixed(1));
+  setText('h-miles-ded','$'+ded.toFixed(2)+' deduction');
+  setText('h-hourly','$'+hourly.toFixed(2));
+  setText('h-trips',tt.length);
+  setText('h-yr-miles',Math.round(yMiles));
+  setText('h-yr-ded','$'+yDed.toFixed(2)+' deduction');
 
-  // Profit
-  setText('profit-big','$'+profit.toFixed(2));
-  setText('br-gross','$'+gross.toFixed(2));
-  setText('br-gas','-$'+gas.toFixed(2));
-  setText('br-miles','$'+ded.toFixed(2));
-  setText('br-net','$'+profit.toFixed(2));
-  const h=Math.floor(mins/60),m=mins%60;
-  setText('br-time',h+'h '+m+'m');
+  // Projection: extrapolate from hours worked
+  const hourOfDay=new Date().getHours()||1;
+  const dayProjection=hourOfDay>0?(gross/hourOfDay)*16:0;
+  setText('h-projection','$'+dayProjection.toFixed(2));
+  const daysInMonth=new Date(thisYear(),thisMonth()+1,0).getDate();
+  const dayOfMonth=new Date().getDate();
+  const moTrips=monthTrips(); const moGross=moTrips.reduce((s,t)=>s+t.earned,0);
+  const moProjection=dayOfMonth>0?(moGross/dayOfMonth)*daysInMonth:0;
+  setText('h-mo-proj','$'+moProjection.toFixed(2));
 
-  // Trips list
-  const el=document.getElementById('trips-list');
-  if(!tt.length){
-    el.innerHTML='<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips yet — log your first below ↓</div>';
+  // Goal mini
+  const dGoal=goals.daily||0;
+  if(dGoal>0){
+    const pct=Math.min(gross/dGoal,1)*100;
+    const bar=$('goal-bar');
+    if(bar){ bar.style.width=pct+'%'; if(pct>=100) bar.classList.add('complete'); else bar.classList.remove('complete'); }
+    setText('goal-progress-text','$'+gross.toFixed(0)+' / $'+dGoal);
+    const remain=Math.max(dGoal-gross,0);
+    setText('goal-remain-text',remain>0?'$'+remain.toFixed(2)+' to reach today\'s goal':'🎉 Daily goal reached!');
   } else {
-    el.innerHTML=tt.slice().reverse().map(t=>`
-      <div class="trip-item">
-        <div class="trip-dot ${t.platform}"></div>
-        <div class="trip-info">
-          <div class="trip-platform">${PLT_LABELS[t.platform]||t.platform}</div>
-          <div class="trip-meta">${t.miles} mi · ${t.minutes} min</div>
-        </div>
-        <div>
-          <div class="trip-earn">+$${t.earned.toFixed(2)}</div>
-          <div class="trip-profit">$${(t.earned-t.gas).toFixed(2)} net</div>
-        </div>
-      </div>`).join('');
+    setText('goal-progress-text','No goal set');
+    setText('goal-remain-text','Set a goal in the Goals tab');
+    const bar=$('goal-bar'); if(bar) bar.style.width='0%';
   }
 
-  // Weekly
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const today=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
-  const maxV=Math.max(...Object.values(weeklyData),1);
-  setText('week-total','$'+Object.values(weeklyData).reduce((s,v)=>s+v,0).toFixed(2));
-  document.getElementById('chart-bars').innerHTML=days.map(d=>{
-    const pct=((weeklyData[d]||0)/maxV)*100;
-    return `<div class="bar-wrap">
-      <div style="font-size:9px;font-family:'JetBrains Mono',monospace;color:#1dbf73;margin-bottom:2px;">${weeklyData[d]>0?'$'+(weeklyData[d]).toFixed(0):''}</div>
-      <div class="bar${d===today?' today':''}" style="height:${Math.max(pct,2)}%"></div>
+  // Trip list
+  renderTripList('trips-list', tt.slice().reverse());
+}
+
+function renderTripList(elId, tripArr){
+  const el=$(elId);
+  if(!el) return;
+  if(!tripArr.length){
+    el.innerHTML='<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips yet</div>';
+    return;
+  }
+  el.innerHTML=tripArr.map(t=>{
+    const grade=tripGrade(t.earned,t.minutes);
+    const gradeCls='grade-'+grade.toLowerCase();
+    const net=(t.earned-(t.gas||0)).toFixed(2);
+    return `<div class="trip-item">
+      <div class="trip-dot ${t.platform}"></div>
+      <div class="ti">
+        <div class="ti-top">
+          <div class="ti-plat">${PL[t.platform]||t.platform}</div>
+          <div class="ti-grade ${gradeCls}">${grade}</div>
+        </div>
+        <div class="ti-meta">${t.miles} mi · ${t.minutes} min${t.tip&&t.tip>0?' · 💰 $'+t.tip.toFixed(2)+' tip':''}</div>
+        ${t.note?`<div class="ti-note">${t.note}</div>`:''}
+      </div>
+      <div class="ti-right">
+        <div class="ti-earn">+$${t.earned.toFixed(2)}</div>
+        <div class="ti-net">$${net} net</div>
+      </div>
     </div>`;
   }).join('');
-  document.getElementById('chart-labels').innerHTML=days.map(d=>
-    `<div style="flex:1;text-align:center;font-size:10px;color:${d===today?'#1dbf73':'#6b7280'};font-weight:700;">${d}</div>`
-  ).join('');
+}
 
-  // Tax page
-  setText('tax-yearly-ded','$'+yDed.toFixed(2));
-  setText('tax-yearly-miles',Math.round(yMiles)+' miles driven');
-  setText('tax-total-miles',Math.round(yMiles));
-  setText('tax-total-ded','$'+Math.round(yDed));
-  setText('tax-year-gross','$'+Math.round(yGross));
-  setText('tax-year-trips',yt.length);
+function updateTracker(){
+  renderTripList('tracker-trips-list', todayTrips().slice().reverse());
+}
+
+function updateExpenses(){
+  const yt=yearTrips();
+  const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
+  const allExp=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
+  const total=allExp.reduce((s,e)=>s+e.amt,0)+yGas;
+  const totalDed=allExp.reduce((s,e)=>s+e.amt*(EXP_META[e.cat]?.deductPct||0.5),0)+yGas;
+
+  setText('exp-total','$'+total.toFixed(2));
+  setText('exp-ded-badge','$'+totalDed.toFixed(2)+' deductible');
+
+  const byCat={gas:yGas,phone:0,maintenance:0,insurance:0,carwash:0,other:0};
+  allExp.forEach(e=>{ if(byCat[e.cat]!==undefined) byCat[e.cat]+=e.amt; else byCat.other+=e.amt; });
+  setText('exp-gas',fmtK(byCat.gas));
+  setText('exp-phone',fmtK(byCat.phone));
+  setText('exp-maint',fmtK(byCat.maintenance+byCat.insurance+byCat.carwash));
+  setText('exp-other',fmtK(byCat.other));
+
+  // Expense log
+  const el=$('exp-list');
+  if(!el) return;
+  // Add gas from trips as entries
+  const allDisplay=[...allExp].sort((a,b)=>b.ts-a.ts);
+  if(!allDisplay.length&&yGas===0){
+    el.innerHTML='<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No expenses logged yet</div>';
+    return;
+  }
+  el.innerHTML=(allDisplay.length?allDisplay.map(e=>{
+    const m=EXP_META[e.cat]||EXP_META.other;
+    const ded=(e.amt*m.deductPct).toFixed(2);
+    const d=new Date(e.ts);
+    return `<div class="exp-item">
+      <div class="exp-icon" style="background:${m.color}20;">${m.icon}</div>
+      <div class="exp-info">
+        <div class="exp-cat">${m.label}${e.note?' — '+e.note:''}</div>
+        <div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="exp-amt">-$${e.amt.toFixed(2)}</div>
+        <div class="exp-ded">$${ded} deductible</div>
+      </div>
+    </div>`;
+  }).join(''):'')+(yGas>0?`<div class="exp-item"><div class="exp-icon" style="background:#f5c84220;">⛽</div><div class="exp-info"><div class="exp-cat">Gas (from trip logs)</div><div class="exp-date">Year total</div></div><div style="text-align:right;"><div class="exp-amt">-$${yGas.toFixed(2)}</div><div class="exp-ded">$${yGas.toFixed(2)} deductible</div></div></div>`:'');
+}
+
+function updateGoals(){
+  const wt=weekTrips(), mt=monthTrips(), yt=yearTrips();
+  const wEarn=wt.reduce((s,t)=>s+t.earned,0);
+  const mEarn=mt.reduce((s,t)=>s+t.earned,0);
+  const yEarn=yt.reduce((s,t)=>s+t.earned,0);
+  const g=goals;
+
+  // Weekly
+  const wPct=g.weekly>0?Math.min(wEarn/g.weekly,1):0;
+  setText('g-weekly-earn','$'+wEarn.toFixed(2));
+  setText('g-weekly-sub','of $'+g.weekly+' weekly goal');
+  const wRemain=Math.max((g.weekly||0)-wEarn,0);
+  setText('g-weekly-badge',wRemain>0?'$'+wRemain.toFixed(0)+' to go':'🎉 Goal Crushed!');
+  const wBar=$('g-week-bar'); if(wBar){ wBar.style.width=(wPct*100)+'%'; if(wPct>=1) wBar.classList.add('complete'); else wBar.classList.remove('complete'); }
+  setText('g-week-pct',Math.round(wPct*100)+'%');
+  const now=new Date(); const dow=now.getDay(); const daysLeft=dow===0?0:7-dow;
+  setText('g-days-left',daysLeft+' day'+(daysLeft!==1?'s':'')+' left in week');
+  const pace=g.weekly>0&&wEarn>0?(wEarn/Math.max(dow||1,1))*7:0;
+  setText('g-weekly-pace',pace>0?'On pace for $'+Math.round(pace):'Log trips to see pace');
+
+  // Monthly
+  const mPct=g.monthly>0?Math.min(mEarn/g.monthly,1):0;
+  setText('g-mo-pct',Math.round(mPct*100)+'%');
+  setText('g-mo-sub','$'+Math.round(mEarn)+' of $'+(g.monthly||0));
+
+  // Annual
+  const yPct=g.annual>0?Math.min(yEarn/g.annual,1):0;
+  setText('g-yr-pct',Math.round(yPct*100)+'%');
+  setText('g-yr-sub','$'+Math.round(yEarn)+' of $'+(g.annual||0));
+
+  // Restore inputs
+  if(g.daily)   { const e=$('g-daily');   if(e) e.value=g.daily; }
+  if(g.weekly)  { const e=$('g-weekly');  if(e) e.value=g.weekly; }
+  if(g.monthly) { const e=$('g-monthly'); if(e) e.value=g.monthly; }
+  if(g.annual)  { const e=$('g-annual');  if(e) e.value=g.annual; }
+}
+
+function updateWeekly(){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const todayDay=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+  const maxV=Math.max(...Object.values(weeklyD),1);
+  const wTotal=Object.values(weeklyD).reduce((s,v)=>s+v,0);
+  const wt=weekTrips();
+  const wMiles=wt.reduce((s,t)=>s+t.miles,0);
+  const wMins=wt.reduce((s,t)=>s+t.minutes,0);
+  const wProfit=wt.reduce((s,t)=>s+t.earned-(t.gas||0),0);
+  const wHourly=wMins>0?wTotal/(wMins/60):0;
+
+  setText('w-total','$'+wTotal.toFixed(2));
+  setText('w-sub',wt.length+' trips this week');
+  setText('w-profit-badge','$'+wProfit.toFixed(2)+' profit');
+  setText('w-miles',Math.round(wMiles));
+  setText('w-miles-ded','$'+(wMiles*IRS).toFixed(0)+' deduction');
+  setText('w-hourly','$'+wHourly.toFixed(0));
+  setText('w-trips',wt.length);
+
+  // Best day
+  let bestDay='—', bestAmt=0;
+  days.forEach(d=>{ if((weeklyD[d]||0)>bestAmt){ bestAmt=weeklyD[d]; bestDay=d; } });
+  setText('w-best',fmtK(bestAmt));
+  setText('w-best-day',bestDay);
+
+  // Chart
+  const barsEl=$('chart-bars'); const lblsEl=$('chart-labels');
+  if(barsEl) barsEl.innerHTML=days.map(d=>{
+    const pct=((weeklyD[d]||0)/maxV)*100;
+    return `<div class="bw">
+      <div class="b-amt">${weeklyD[d]>0?'$'+(weeklyD[d]).toFixed(0):''}</div>
+      <div class="b${d===todayDay?' today':''}" style="height:${Math.max(pct,2)}%"></div>
+    </div>`;
+  }).join('');
+  if(lblsEl) lblsEl.innerHTML=days.map(d=>`<div style="flex:1;text-align:center;" class="b-lbl" style="color:${d===todayDay?'#1dbf73':'#6b7280'}">${d}</div>`).join('');
+}
+
+function updateInsights(){
+  const yt=yearTrips();
+  if(!yt.length){
+    setText('ins-score-big','—');
+    setText('ins-score-sub','Log trips to get your score');
+    return;
+  }
+
+  const totalEarn=yt.reduce((s,t)=>s+t.earned,0);
+  const totalMins=yt.reduce((s,t)=>s+t.minutes,0);
+  const avgRate=totalMins>0?totalEarn/(totalMins/60):0;
+  // Score: based on $/hr 0-100
+  const score=Math.min(Math.round((avgRate/35)*100),100);
+  const scoreLetter=score>=85?'A':score>=70?'B':score>=55?'C':score>=40?'D':'F';
+  const scoreColor=score>=85?'#1dbf73':score>=70?'#60a5fa':score>=55?'#f5c842':score>=40?'#fb923c':'#f87171';
+  setText('ins-score-big',scoreLetter);
+  $('ins-score-big').style.color=scoreColor;
+  setText('ins-score-sub','$'+avgRate.toFixed(2)+'/hr avg · '+yt.length+' trips analyzed');
+
+  // Best hour
+  const hourBuckets={};
+  yt.forEach(t=>{ const h=new Date(t.ts).getHours(); if(!hourBuckets[h])hourBuckets[h]={earn:0,cnt:0}; hourBuckets[h].earn+=t.earned; hourBuckets[h].cnt++; });
+  let bestH='—', bestHEarn=0;
+  Object.keys(hourBuckets).forEach(h=>{ if(hourBuckets[h].earn>bestHEarn){ bestHEarn=hourBuckets[h].earn; const hr=parseInt(h); bestH=(hr===0?12:hr>12?hr-12:hr)+(hr>=12?'pm':'am'); } });
+  setText('ins-best-hr',bestH);
+
+  // Top platform
+  const platEarn={uber:0,doordash:0,grubhub:0};
+  yt.forEach(t=>{ if(platEarn[t.platform]!==undefined) platEarn[t.platform]+=t.earned; });
+  const topPlat=Object.entries(platEarn).sort((a,b)=>b[1]-a[1])[0];
+  setText('ins-top-plat',topPlat?topPlat[0].charAt(0).toUpperCase()+topPlat[0].slice(1):'—');
+
+  const avgTrip=totalEarn/yt.length;
+  setText('ins-avg-trip','$'+avgTrip.toFixed(2));
+
+  // Grade breakdown
+  const grades={A:0,B:0,C:0,D:0,F:0};
+  yt.forEach(t=>{ grades[tripGrade(t.earned,t.minutes)]++; });
+  const gbEl=$('grade-breakdown');
+  if(gbEl) gbEl.innerHTML=Object.entries(grades).map(([g,c])=>{
+    const pct=yt.length>0?Math.round((c/yt.length)*100):0;
+    const gradeColors={A:'#1dbf73',B:'#60a5fa',C:'#f5c842',D:'#fb923c',F:'#f87171'};
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${gradeColors[g]};min-width:24px;">${g}</div>
+      <div style="flex:1;"><div class="split-bg" style="height:7px;background:var(--card2);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${gradeColors[g]};border-radius:4px;"></div></div></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);min-width:50px;text-align:right;">${c} trips (${pct}%)</div>
+    </div>`;
+  }).join('');
+
+  // Smart insights
+  const insightsEl=$('insights-list');
+  if(!insightsEl) return;
+  const insightCards=[];
+
+  if(avgRate>25) insightCards.push({icon:'💪',title:'Strong Hourly Rate',body:`You're averaging $${avgRate.toFixed(2)}/hr. That's above the gig worker average of ~$18-22/hr. Keep it up!`});
+  else insightCards.push({icon:'⏱',title:'Boost Your Hourly Rate',body:`Your avg is $${avgRate.toFixed(2)}/hr. Try working peak hours (7-9am, 5-8pm) to increase this.`});
+
+  if(topPlat&&platEarn[topPlat[0]]>0) insightCards.push({icon:'🏆',title:`${topPlat[0].charAt(0).toUpperCase()+topPlat[0].slice(1)} is Your Best Platform`,body:`You've earned $${platEarn[topPlat[0]].toFixed(2)} there this year. Focus more shifts on your top performer.`});
+
+  const fGrades=yt.filter(t=>tripGrade(t.earned,t.minutes)==='F').length;
+  if(fGrades>0) insightCards.push({icon:'🚫',title:`${fGrades} Low-Grade Trip${fGrades>1?'s':''}`,body:`You have ${fGrades} F-grade trip${fGrades>1?'s':''} earning under $10/hr. Consider declining short-distance, low-pay offers.`});
+
+  const yMiles=yt.reduce((s,t)=>s+t.miles,0);
+  const yDed=yMiles*IRS;
+  if(yDed>500) insightCards.push({icon:'💰',title:'Healthy Mileage Deduction',body:`You've earned $${yDed.toFixed(2)} in mileage deductions so far this year. On track for $${Math.round((yDed/Math.max(thisMonth()+1,1))*12)} by year end.`});
+
+  insightsEl.innerHTML=insightCards.map(i=>`<div class="insight-card"><div class="insight-icon">${i.icon}</div><div class="insight-title">${i.title}</div><div class="insight-body">${i.body}</div></div>`).join('');
+}
+
+function updateTax(){
+  const yt=yearTrips();
+  const yMiles=yt.reduce((s,t)=>s+t.miles,0);
+  const yGross=yt.reduce((s,t)=>s+t.earned,0);
+  const yDed=yMiles*IRS;
+
+  setText('tax-ded-big','$'+yDed.toFixed(2));
+  setText('tax-miles-badge',Math.round(yMiles)+' miles driven');
+  setText('tax-miles',Math.round(yMiles));
+  setText('tax-ded','$'+Math.round(yDed));
+  setText('tax-gross','$'+Math.round(yGross));
+  setText('tax-trips',yt.length);
 
   // Platform split
-  const platMiles={uber:0,doordash:0,grubhub:0};
-  yt.forEach(t=>{if(platMiles[t.platform]!==undefined)platMiles[t.platform]+=t.miles;});
-  const totalPM=Math.max(Object.values(platMiles).reduce((s,v)=>s+v,0),0.001);
-  document.getElementById('platform-split').innerHTML=['uber','doordash','grubhub'].map(p=>{
-    const mi=platMiles[p], pct=(mi/totalPM)*100, ded2=mi*IRS_RATE;
+  const platMi={uber:0,doordash:0,grubhub:0};
+  yt.forEach(t=>{ if(platMi[t.platform]!==undefined) platMi[t.platform]+=t.miles; });
+  const totPM=Math.max(Object.values(platMi).reduce((s,v)=>s+v,0),0.001);
+  const psEl=$('plat-split');
+  if(psEl) psEl.innerHTML=['uber','doordash','grubhub'].map(p=>{
+    const mi=platMi[p], pct=(mi/totPM)*100, d=mi*IRS;
     return `<div class="split-item">
-      <div class="split-header">
-        <div class="split-name" style="color:${PLT_COLORS[p]}">${PLT_LABELS[p]}</div>
-        <div class="split-vals">${mi.toFixed(1)} mi &nbsp;·&nbsp; $${ded2.toFixed(2)}</div>
-      </div>
-      <div class="split-bar-bg">
-        <div class="split-bar-fill" style="width:${pct}%;background:${PLT_COLORS[p]};opacity:0.8;"></div>
-      </div>
+      <div class="split-hdr"><div class="split-nm" style="color:${PC[p]}">${PL[p]}</div><div class="split-vl">${mi.toFixed(1)} mi · $${d.toFixed(2)}</div></div>
+      <div class="split-bg"><div class="split-fill" style="width:${pct}%;background:${PC[p]};opacity:0.8;"></div></div>
     </div>`;
   }).join('');
 
-  // Monthly table
-  const monthly={};
-  MONTHS.forEach((_,i)=>{monthly[i]={miles:0,earned:0,trips:0};});
-  yt.forEach(t=>{const mo=new Date(t.ts).getMonth();monthly[mo].miles+=t.miles;monthly[mo].earned+=t.earned;monthly[mo].trips++;});
-  const curMo=new Date().getMonth();
-  const rows=MONTHS.map((name,i)=>{
-    if(monthly[i].trips===0&&i>curMo) return '';
-    const d=monthly[i], ded3=d.miles*IRS_RATE, isNow=i===curMo;
-    return `<div class="month-row" style="${isNow?'border-color:rgba(96,165,250,0.4);':''}">
-      <div class="month-name" style="${isNow?'color:var(--tax);':''}">${name}</div>
-      <div class="month-miles">${d.miles.toFixed(1)} mi</div>
-      <div class="month-earn">$${d.earned.toFixed(0)}</div>
-      <div class="month-ded">$${ded3.toFixed(2)}</div>
+  // Monthly
+  const mo={}; MONTHS.forEach((_,i)=>mo[i]={miles:0,earned:0,trips:0});
+  yt.forEach(t=>{ const m=new Date(t.ts).getMonth(); mo[m].miles+=t.miles; mo[m].earned+=t.earned; mo[m].trips++; });
+  const curMo=thisMonth();
+  const mtEl=$('month-table');
+  if(mtEl) mtEl.innerHTML=MONTHS.map((name,i)=>{
+    if(mo[i].trips===0&&i>curMo) return '';
+    const d=mo[i], dd=d.miles*IRS, isNow=i===curMo;
+    return `<div class="mo-row" style="${isNow?'border-color:rgba(96,165,250,0.4);':''}">
+      <div class="mo-name" style="${isNow?'color:var(--tax);':''}">${name}</div>
+      <div class="mo-mi">${d.miles.toFixed(1)} mi</div>
+      <div class="mo-earn">$${d.earned.toFixed(0)}</div>
+      <div class="mo-ded">$${dd.toFixed(2)}</div>
+    </div>`;
+  }).join('')||'<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips yet</div>';
+}
+
+function updateQTax(){
+  const yt=yearTrips();
+  const yGross=yt.reduce((s,t)=>s+t.earned,0);
+  const yMiles=yt.reduce((s,t)=>s+t.miles,0);
+  const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
+  const allExp=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
+  const yExpDed=allExp.reduce((s,e)=>s+e.amt*(EXP_META[e.cat]?.deductPct||0.5),0);
+  const yMilesDed=yMiles*IRS;
+  const s=qtS;
+
+  // Tax calc
+  const totalGross=yGross+(+s.otherInc);
+  const totalDed=yMilesDed+yGas+yExpDed+(+s.otherExp);
+  const netSE=Math.max(yGross-yMilesDed-yGas-yExpDed-(+s.otherExp),0);
+  const seTax=netSE*0.9235*0.153;
+  const seDed=seTax/2;
+  const stdDed=STD_DED[s.filing]||15000;
+  const taxableInc=Math.max(totalGross-totalDed-seDed-stdDed,0);
+  const brackets=s.filing==='mfj'?BRACKETS_MFJ:BRACKETS_S;
+  let fedTax=0;
+  brackets.forEach(b=>{ if(taxableInc>b.min) fedTax+=(Math.min(taxableInc,b.max)-b.min)*b.r; });
+  const stateTax=taxableInc*(+s.state/100);
+  const totalTax=Math.max(seTax+fedTax+stateTax,0);
+  const effRate=totalGross>0?(totalTax/totalGross)*100:0;
+
+  // Current quarter
+  const now=Date.now();
+  const upcoming=QT_DL.find(q=>q.ts>=now)||QT_DL[3];
+  function qTax(qd){ return totalTax*(qd.months.length/12); }
+  const curQTax=qTax(upcoming);
+  const weeksLeft=Math.max(Math.ceil((upcoming.ts-now)/(7*24*3600*1000)),1);
+  const savedAmt=qtSaved['q'+upcoming.q]||0;
+  const stillNeed=Math.max(curQTax-savedAmt,0);
+  const weeklyNeed=stillNeed/weeksLeft;
+  const pct=curQTax>0?Math.min(savedAmt/curQTax,1):0;
+
+  setText('qt-q',upcoming.q);
+  setText('qt-due','$'+curQTax.toFixed(2));
+  setText('qt-due-date','Due '+upcoming.due);
+  setText('qt-weekly-badge','Set aside $'+weeklyNeed.toFixed(0)+'/week');
+  setText('qt-yr-tax','$'+Math.round(totalTax));
+  setText('qt-taxable','$'+Math.round(taxableInc));
+  setText('qt-se','$'+Math.round(seTax));
+  setText('qt-rate',effRate.toFixed(1)+'%');
+
+  // Ring
+  const ring=$('ring-c');
+  if(ring) ring.style.strokeDashoffset=264-(pct*264);
+  setText('ring-pct',Math.round(pct*100)+'%');
+  document.querySelectorAll('.qt-q-ref').forEach(e=>e.textContent=upcoming.q);
+  setText('qt-owed-ref','$'+curQTax.toFixed(2));
+  setText('qt-saved-ref','$'+savedAmt.toFixed(2));
+  setText('qt-still','$'+stillNeed.toFixed(2));
+
+  // Deadlines
+  const dlEl=$('dl-list');
+  if(dlEl) dlEl.innerHTML=QT_DL.map(qd=>{
+    const amt=qTax(qd);
+    const isPast=qd.ts<now;
+    const isSoon=!isPast&&(qd.ts-now)<30*24*3600*1000;
+    const qSaved=qtSaved['q'+qd.q]||0;
+    const isPaid=qSaved>=amt&&amt>0;
+    let cls='dl-card', stxt='UPCOMING', scls='ds-ok';
+    if(isPaid){cls+=' paid';stxt='PAID';scls='ds-paid';}
+    else if(isPast){cls+=' overdue';stxt='OVERDUE';scls='ds-late';}
+    else if(isSoon||qd.q===upcoming.q){cls+=' soon';stxt='DUE SOON';scls='ds-soon';}
+    const qc=['','q1','q2','q3','q4'];
+    return `<div class="${cls}">
+      <div class="dl-q ${qc[qd.q]}">Q${qd.q}</div>
+      <div class="dl-info"><div class="dl-lbl">${qd.label}</div><div class="dl-date">${qd.due}</div></div>
+      <div class="dl-right"><div class="dl-amt">$${amt.toFixed(0)}</div><div class="dl-status ${scls}">${stxt}</div></div>
     </div>`;
   }).join('');
-  document.getElementById('month-table').innerHTML=rows||
-    '<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips logged yet</div>';
 
-  updateQTaxPage();
+  // Restore settings
+  const fEl=$('qt-filing'); if(fEl) fEl.value=s.filing;
+  const iEl=$('qt-other-inc'); if(iEl&&+s.otherInc) iEl.value=s.otherInc;
+  const eEl=$('qt-other-exp'); if(eEl&&+s.otherExp) eEl.value=s.otherExp;
+  const sEl=$('qt-state'); if(sEl&&+s.state) sEl.value=s.state;
+}
+
+// ═══ ACTIONS ═══
+function logTrip(){
+  const earned=parseFloat($('t-earned')?.value)||0;
+  const tip=parseFloat($('t-tip')?.value)||0;
+  const miles=parseFloat($('t-miles')?.value)||0;
+  const minutes=parseInt($('t-mins')?.value)||0;
+  const note=$('t-note')?.value?.trim()||'';
+  if(earned<=0){ showToast('⚠️ Enter an amount'); return; }
+
+  const totalEarned=earned+tip;
+  trips.push({platform:selPlatform,earned:totalEarned,tip,miles,minutes,gas:0,note,ts:Date.now()});
+  localStorage.setItem('gp_trips',JSON.stringify(trips));
+
+  const day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+  weeklyD[day]=(weeklyD[day]||0)+totalEarned;
+  localStorage.setItem('gp_weekly',JSON.stringify(weeklyD));
+
+  ['t-earned','t-tip','t-miles','t-mins','t-note'].forEach(id=>{ const e=$(id); if(e) e.value=''; });
+  showToast('✓ Trip logged!');
+  updateAll();
+  goPage('home');
+}
+
+function logExpense(){
+  const cat=$('e-cat')?.value||'other';
+  const amt=parseFloat($('e-amt')?.value)||0;
+  const note=$('e-note')?.value?.trim()||'';
+  if(amt<=0){ showToast('⚠️ Enter an amount'); return; }
+  expenses.push({cat,amt,note,ts:Date.now()});
+  localStorage.setItem('gp_exp',JSON.stringify(expenses));
+  const eAmt=$('e-amt'); if(eAmt) eAmt.value='';
+  const eNote=$('e-note'); if(eNote) eNote.value='';
+  showToast('✓ Expense logged!');
+  updateAll();
+}
+
+function saveGoals(){
+  goals={
+    daily:parseFloat($('g-daily')?.value)||0,
+    weekly:parseFloat($('g-weekly')?.value)||0,
+    monthly:parseFloat($('g-monthly')?.value)||0,
+    annual:parseFloat($('g-annual')?.value)||0,
+  };
+  localStorage.setItem('gp_goals',JSON.stringify(goals));
+  showToast('🎯 Goals saved!');
+  updateAll();
+}
+
+function saveQTSettings(){
+  qtS={
+    filing:$('qt-filing')?.value||'single',
+    otherInc:parseFloat($('qt-other-inc')?.value)||0,
+    otherExp:parseFloat($('qt-other-exp')?.value)||0,
+    state:parseFloat($('qt-state')?.value)||0,
+  };
+  localStorage.setItem('gp_qt_s',JSON.stringify(qtS));
+  showToast('✓ Tax settings updated!');
+  updateQTax();
+}
+
+function updateSavings(){
+  const val=parseFloat($('qt-save-inp')?.value)||0;
+  const now=Date.now();
+  const uq=QT_DL.find(q=>q.ts>=now)||QT_DL[3];
+  qtSaved['q'+uq.q]=val;
+  localStorage.setItem('gp_qt_saved',JSON.stringify(qtSaved));
+  const inp=$('qt-save-inp'); if(inp) inp.value='';
+  showToast('💜 Savings updated!');
+  updateQTax();
 }
 
 function exportCSV(){
   const yt=yearTrips();
-  if(!yt.length){alert('No trips logged yet.');return;}
-  const header='Date,Time,Platform,Miles,Minutes,Earned ($),Gas ($),IRS Deduction ($),Net Profit ($)';
+  if(!yt.length){ showToast('⚠️ No trips to export'); return; }
+  const header='Date,Time,Platform,Miles,Minutes,Earned ($),Tip ($),Gas ($),IRS Deduction ($),Net Profit ($),Grade,Notes';
   const rows=yt.map(t=>{
     const d=new Date(t.ts);
-    return [(d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(),
+    return [
+      (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(),
       d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
-      t.platform,t.miles.toFixed(1),t.minutes,t.earned.toFixed(2),
-      t.gas.toFixed(2),(t.miles*IRS_RATE).toFixed(2),(t.earned-t.gas).toFixed(2)].join(',');
+      t.platform, t.miles.toFixed(1), t.minutes,
+      t.earned.toFixed(2), (t.tip||0).toFixed(2), (t.gas||0).toFixed(2),
+      (t.miles*IRS).toFixed(2), (t.earned-(t.gas||0)).toFixed(2),
+      tripGrade(t.earned,t.minutes), t.note||''
+    ].join(',');
   });
-  const tMiles=yt.reduce((s,t)=>s+t.miles,0);
-  const tEarn=yt.reduce((s,t)=>s+t.earned,0);
-  const tGas=yt.reduce((s,t)=>s+t.gas,0);
-  rows.push('','TOTALS,,,'+tMiles.toFixed(1)+',,'+tEarn.toFixed(2)+','+tGas.toFixed(2)+','+(tMiles*IRS_RATE).toFixed(2));
-  rows.push('IRS Rate: $'+IRS_RATE+'/mi,,,,,,,,');
-  rows.push('Tax Year: '+new Date().getFullYear()+',,,,,,,,');
+  const tM=yt.reduce((s,t)=>s+t.miles,0), tE=yt.reduce((s,t)=>s+t.earned,0), tG=yt.reduce((s,t)=>s+(t.gas||0),0);
+  rows.push('','TOTALS,,,'+tM.toFixed(1)+',,'+tE.toFixed(2)+',,'+''+tG.toFixed(2)+','+(tM*IRS).toFixed(2));
+  rows.push('IRS Rate: $'+IRS+'/mi');
+  rows.push('Tax Year: '+thisYear());
   const csv=[header,...rows].join('\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download='GigPro_Mileage_'+new Date().getFullYear()+'.csv';
-  a.click();
+  a.download='GigPro_'+thisYear()+'.csv'; a.click();
+  showToast('📥 CSV downloaded!');
 }
 
-function logTrip(){
-  const earned=parseFloat(document.getElementById('inp-earned').value)||0;
-  const miles=parseFloat(document.getElementById('inp-miles').value)||0;
-  const minutes=parseInt(document.getElementById('inp-minutes').value)||0;
-  const gas=parseFloat(document.getElementById('inp-gas').value)||0;
-  if(earned<=0){alert('Enter an amount earned.');return;}
-  trips.push({platform:selPlat,earned,miles,minutes,gas,ts:Date.now()});
-  localStorage.setItem('gp_trips',JSON.stringify(trips));
-  const day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
-  weeklyData[day]=(weeklyData[day]||0)+earned;
-  localStorage.setItem('gp_weekly',JSON.stringify(weeklyData));
-  ['inp-earned','inp-miles','inp-minutes','inp-gas'].forEach(id=>document.getElementById(id).value='');
-  updateDashboard();
-  showPage('home');
-  const hero=document.querySelector('#page-home .hero-card');
-  hero.style.transform='scale(1.02)';
-  setTimeout(()=>hero.style.transform='',200);
+// ═══ PLATFORM SELECT ═══
+function selPlat(p,el){
+  selPlatform=p;
+  document.querySelectorAll('.pb').forEach(b=>b.className='pb');
+  el.className='pb '+(p==='doordash'?'sd':p==='grubhub'?'sg':'su');
 }
 
-function selectPlatform(p,el){
-  selPlat=p;
-  document.querySelectorAll('.platform-btn').forEach(b=>b.className='platform-btn');
-  el.className='platform-btn sel-'+(p==='doordash'?'dd':p==='grubhub'?'gh':p);
-}
-
-function filterPlatform(p,el){
-  document.querySelectorAll('.pill').forEach(b=>{b.className=b.className.replace(' active','').replace('active-all','').trim();});
+function filterPlat(p,el){
+  filterPlatform=p;
+  document.querySelectorAll('.pill').forEach(b=>{ b.className=b.className.replace(' active','').replace('active-all','').trim(); });
   if(p==='all') el.classList.add('active-all');
   else el.classList.add('active');
 }
 
-function showPage(name,tabEl,navEl){
+// ═══ PAGE NAV ═══
+function goPage(name,tabEl,navEl){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(tabEl){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
-  if(navEl){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+  const pg=$('page-'+name); if(pg) pg.classList.add('active');
+  if(tabEl){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); tabEl.classList.add('active'); }
+  if(navEl){ document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active')); navEl.classList.add('active'); }
 }
 
-// ── QUARTERLY TAX ENGINE ──
-const QT_DEADLINES = [
-  {q:1, label:'Q1 Payment', months:[0,1,2],  due:'April 15, 2025',    dueTs: new Date('2025-04-15').getTime()},
-  {q:2, label:'Q2 Payment', months:[3,4],     due:'June 16, 2025',     dueTs: new Date('2025-06-16').getTime()},
-  {q:3, label:'Q3 Payment', months:[5,6,7],   due:'September 15, 2025',dueTs: new Date('2025-09-15').getTime()},
-  {q:4, label:'Q4 Payment', months:[8,9,10,11],due:'January 15, 2026', dueTs: new Date('2026-01-15').getTime()},
-];
-
-// 2025 federal income tax brackets (single)
-const BRACKETS_SINGLE = [
-  {min:0,      max:11925,  rate:0.10},
-  {min:11925,  max:48475,  rate:0.12},
-  {min:48475,  max:103350, rate:0.22},
-  {min:103350, max:197300, rate:0.24},
-  {min:197300, max:250525, rate:0.32},
-  {min:250525, max:626350, rate:0.35},
-  {min:626350, max:Infinity,rate:0.37},
-];
-const BRACKETS_MFJ = [
-  {min:0,       max:23850,  rate:0.10},
-  {min:23850,   max:96950,  rate:0.12},
-  {min:96950,   max:206700, rate:0.22},
-  {min:206700,  max:394600, rate:0.24},
-  {min:394600,  max:501050, rate:0.32},
-  {min:501050,  max:751600, rate:0.35},
-  {min:751600,  max:Infinity,rate:0.37},
-];
-const STD_DEDUCTION = {single:15000, mfj:30000, mfs:15000, hoh:22500};
-
-let qtSettings = JSON.parse(localStorage.getItem('gp_qt_settings')||JSON.stringify({
-  filing:'single', otherIncome:0, otherExp:0, stateRate:0
-}));
-let qtSaved = JSON.parse(localStorage.getItem('gp_qt_saved')||'{}'); // {q1:0,q2:0,...}
-
-function calcFedTax(taxableIncome, filing) {
-  const brackets = (filing==='mfj') ? BRACKETS_MFJ : BRACKETS_SINGLE;
-  let tax = 0;
-  for (const b of brackets) {
-    if (taxableIncome <= b.min) break;
-    tax += (Math.min(taxableIncome, b.max) - b.min) * b.rate;
-  }
-  return Math.max(tax, 0);
-}
-
-function calcQTax(grossIncome, milesDeduction, gasExp, otherIncome, otherExp, stateRate, filing) {
-  const totalGross   = grossIncome + otherIncome;
-  const totalDeduct  = milesDeduction + gasExp + otherExp;
-  const netSE        = Math.max(grossIncome - milesDeduction - gasExp - otherExp, 0);
-  const seTax        = netSE * 0.9235 * 0.153;
-  const seDed        = seTax / 2;
-  const stdDed       = STD_DEDUCTION[filing] || 15000;
-  const taxableInc   = Math.max(totalGross - totalDeduct - seDed - stdDed, 0);
-  const fedTax       = calcFedTax(taxableInc, filing);
-  const stateTax     = taxableInc * (stateRate / 100);
-  const totalTax     = seTax + fedTax + stateTax;
-  const effRate      = totalGross > 0 ? (totalTax / totalGross) * 100 : 0;
-  return { netSE, seTax, fedTax, stateTax, totalTax, taxableInc, effRate, totalGross, totalDeduct };
-}
-
-function updateQTaxPage() {
-  const yt = yearTrips();
-  const yGross  = yt.reduce((s,t)=>s+t.earned,0);
-  const yMiles  = yt.reduce((s,t)=>s+t.miles,0);
-  const yGas    = yt.reduce((s,t)=>s+t.gas,0);
-  const yMilesDed = yMiles * IRS_RATE;
-  const s = qtSettings;
-
-  const result = calcQTax(yGross, yMilesDed, yGas, +s.otherIncome, +s.otherExp, +s.stateRate, s.filing);
-
-  // Current quarter
-  const now = Date.now();
-  const curMo = new Date().getMonth();
-  let curQDef = QT_DEADLINES.find(q=>q.months.includes(curMo)) || QT_DEADLINES[3];
-  // If past due, show next upcoming
-  const upcoming = QT_DEADLINES.find(q=>q.dueTs >= now);
-  const activeQ = upcoming || QT_DEADLINES[3];
-
-  // Per-quarter tax (proportional to months in that quarter / 12)
-  function qTax(qDef) {
-    const fraction = qDef.months.length / 12;
-    return result.totalTax * fraction;
-  }
-
-  const curQTax = qTax(activeQ);
-  const weeksToDeadline = Math.max(Math.ceil((activeQ.dueTs - now)/(7*24*3600*1000)),1);
-  const savedKey = 'q'+activeQ.q;
-  const savedAmt = qtSaved[savedKey] || 0;
-  const stillNeed = Math.max(curQTax - savedAmt, 0);
-  const weeklyNeeded = weeksToDeadline > 0 ? stillNeed / weeksToDeadline : 0;
-  const pct = curQTax > 0 ? Math.min(savedAmt / curQTax, 1) : 0;
-
-  // Hero
-  setText('qt-cur-q', activeQ.q);
-  setText('qt-due-amt', '$'+curQTax.toFixed(2));
-  setText('qt-due-date', 'Due '+activeQ.due);
-  setText('qt-setaside-badge', 'Set aside $'+weeklyNeeded.toFixed(0)+'/week');
-
-  // Stats
-  setText('qt-year-total', '$'+Math.round(result.totalTax));
-  setText('qt-taxable', '$'+Math.round(result.taxableInc));
-  setText('qt-se-tax', '$'+Math.round(result.seTax));
-  setText('qt-eff-rate', result.effRate.toFixed(1)+'%');
-
-  // Ring
-  const circumference = 289;
-  const offset = circumference - (pct * circumference);
-  const ring = document.getElementById('ring-circle');
-  if (ring) ring.style.strokeDashoffset = offset;
-  setText('ring-pct', Math.round(pct*100)+'%');
-  setText('setaside-sub', '$'+savedAmt.toFixed(0)+' of $'+curQTax.toFixed(0)+' set aside');
-
-  // Set-aside breakdown
-  document.querySelectorAll('.qt-q-ref').forEach(el=>el.textContent=activeQ.q);
-  setText('qt-owed-ref', '$'+curQTax.toFixed(2));
-  setText('qt-saved-ref', '$'+savedAmt.toFixed(2));
-  setText('qt-still-need', '-$'+stillNeed.toFixed(2));
-
-  // Deadlines
-  const dlEl = document.getElementById('deadline-list');
-  dlEl.innerHTML = QT_DEADLINES.map(qd=>{
-    const qAmt = qTax(qd);
-    const isPast = qd.dueTs < now;
-    const isSoon = !isPast && (qd.dueTs - now) < 30*24*3600*1000;
-    const isActive = qd.q === activeQ.q;
-    const qSaved = qtSaved['q'+qd.q]||0;
-    const isPaid = qSaved >= qAmt && qAmt > 0;
-    let cls = 'deadline-card';
-    let statusTxt = '', statusCls = 'ok';
-    if (isPaid) { cls+=' paid'; statusTxt='PAID'; statusCls='done'; }
-    else if (isPast) { cls+=' overdue'; statusTxt='OVERDUE'; statusCls='late'; }
-    else if (isSoon || isActive) { cls+=' due-soon'; statusTxt='DUE SOON'; statusCls='soon'; }
-    else { statusTxt='UPCOMING'; statusCls='ok'; }
-    const qColors = ['','q1','q2','q3','q4'];
-    return `<div class="${cls}">
-      <div class="dl-quarter ${qColors[qd.q]}">Q${qd.q}</div>
-      <div class="dl-info">
-        <div class="dl-label">${qd.label}</div>
-        <div class="dl-date">${qd.due}</div>
-      </div>
-      <div class="dl-amount">
-        <div class="dl-amt-val">$${qAmt.toFixed(0)}</div>
-        <div class="dl-status ${statusCls}">${statusTxt}</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Restore settings UI
-  const filingEl = document.getElementById('qt-filing');
-  if(filingEl) filingEl.value = s.filing;
-  const oiEl = document.getElementById('qt-other-income');
-  if(oiEl && +s.otherIncome) oiEl.value = s.otherIncome;
-  const oeEl = document.getElementById('qt-other-exp');
-  if(oeEl && +s.otherExp) oeEl.value = s.otherExp;
-  const srEl = document.getElementById('qt-state-rate');
-  if(srEl && +s.stateRate) srEl.value = s.stateRate;
-}
-
-function saveQTaxSettings(){
-  qtSettings = {
-    filing: document.getElementById('qt-filing').value,
-    otherIncome: parseFloat(document.getElementById('qt-other-income').value)||0,
-    otherExp: parseFloat(document.getElementById('qt-other-exp').value)||0,
-    stateRate: parseFloat(document.getElementById('qt-state-rate').value)||0,
-  };
-  localStorage.setItem('gp_qt_settings', JSON.stringify(qtSettings));
-  updateQTaxPage();
-  const btn = document.querySelector('.save-settings-btn');
-  btn.textContent = '✓ Updated!';
-  setTimeout(()=>btn.textContent='✓  Update Calculations',1500);
-}
-
-function updateSavings(){
-  const val = parseFloat(document.getElementById('qt-savings-input').value)||0;
-  const now = Date.now();
-  const upcoming = QT_DEADLINES.find(q=>q.dueTs >= now) || QT_DEADLINES[3];
-  const key = 'q'+upcoming.q;
-  qtSaved[key] = val;
-  localStorage.setItem('gp_qt_saved', JSON.stringify(qtSaved));
-  document.getElementById('qt-savings-input').value='';
-  updateQTaxPage();
-}
-
-updateDateBadge();
-updateDashboard();
+// ═══ INIT ═══
+updateAll();
 </script>
 
 </body>
