@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>GigPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -416,7 +418,7 @@ border:1.5px solid rgba(99,102,241,0.3);
     <div class="row">
       <div>
         <div class="ob-label">Your Name</div>
-        <input class="ob-input" id="ob-name" type="text" placeholder="e.g. Marcus">
+        <input class="ob-input" id="ob-name" type="text" placeholder="e.g. Marcus" maxlength="60">
       </div>
       <div>
         <div class="ob-label">Filing Status</div>
@@ -567,7 +569,7 @@ border:1.5px solid rgba(99,102,241,0.3);
       <div class="fg"><label>Miles</label><input type="number" id="t-miles" placeholder="12.4" step="0.1" inputmode="decimal"></div>
       <div class="fg"><label>Minutes</label><input type="number" id="t-mins" placeholder="35" inputmode="numeric"></div>
     </div>
-    <div class="fg" style="margin-bottom:12px;"><label>Notes (optional)</label><input type="text" id="t-note" placeholder="surge pricing, long wait…" style="font-size:13px;"></div>
+    <div class="fg" style="margin-bottom:12px;"><label>Notes (optional)</label><input type="text" id="t-note" placeholder="surge pricing, long wait…" maxlength="500" style="font-size:13px;"></div>
     <button class="btn btn-indigo" onclick="logTrip()">✓ &nbsp;Log Trip</button>
   </div>
   <div class="sec" style="margin-top:4px;">Today's Trips</div>
@@ -609,7 +611,7 @@ border:1.5px solid rgba(99,102,241,0.3);
       </div>
       <div class="fg"><label>Amount ($)</label><input type="number" id="e-amt" placeholder="45.00" step="0.01" inputmode="decimal"></div>
     </div>
-    <div class="fg" style="margin-bottom:12px;"><label>Note (optional)</label><input type="text" id="e-note" placeholder="Shell station, oil change…" style="font-size:13px;"></div>
+    <div class="fg" style="margin-bottom:12px;"><label>Note (optional)</label><input type="text" id="e-note" placeholder="Shell station, oil change…" maxlength="500" style="font-size:13px;"></div>
     <button class="btn btn-sky" onclick="logExp()">✓ &nbsp;Log Expense</button>
   </div>
   <div class="sec">Expense Log</div>
@@ -874,6 +876,19 @@ let userPref = JSON.parse(localStorage.getItem('gp_pref')    ||'{"name":"","fili
 let selPlatform=userPref.platform||'uber';
 
 // ═══ HELPERS ═══
+// ═══ SECURITY: HTML ESCAPE ═══
+function escHtml(str){
+  if(str==null)return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#x27;')
+    .replace(/\//g,'&#x2F;');
+}
+
+
 const $=id=>document.getElementById(id);
 const setText=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 const todayStr=()=>new Date().toDateString();
@@ -1011,11 +1026,11 @@ function renderTrips(elId,arr){
       <div class="td" style="background:${c};box-shadow:0 0 7px ${c}55;"></div>
       <div class="ti-body">
         <div class="ti-top">
-          <div class="ti-plat">${PLT_L[t.platform]||t.platform}</div>
+          <div class="ti-plat">${escHtml(PLT_L[t.platform]||t.platform)}</div>
           <div class="ti-grade g${g}">${g}</div>
         </div>
         <div class="ti-meta">${t.miles} mi · ${t.minutes} min${t.tip>0?' · 💰 $'+t.tip.toFixed(2)+' tip':''}</div>
-        ${t.note?`<div class="ti-note">${t.note}</div>`:''}
+        ${t.note?`<div class="ti-note">${escHtml(t.note)}</div>`:''}
       </div>
       <div class="ti-r">
         <div class="ti-earn">+$${t.earned.toFixed(2)}</div>
@@ -1049,7 +1064,7 @@ function updateExpenses(){
     const d=new Date(e.ts);
     return `<div class="exp-item">
       <div class="exp-ico" style="background:${m.color}20;">${m.icon}</div>
-      <div class="exp-info"><div class="exp-cat">${m.label}${e.note?' — '+e.note:''}</div><div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div></div>
+      <div class="exp-info"><div class="exp-cat">${escHtml(m.label)}${e.note?' — '+escHtml(e.note):''}</div><div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div></div>
       <div class="exp-r"><div class="exp-amt">-$${e.amt.toFixed(2)}</div><div class="exp-ded">$${(e.amt*(m.dp||0.5)).toFixed(2)} deductible</div></div>
     </div>`;
   }).join('')+(yGas>0?`<div class="exp-item"><div class="exp-ico" style="background:#fbbf2420;">⛽</div><div class="exp-info"><div class="exp-cat">Gas (from trip logs)</div><div class="exp-date">Year total</div></div><div class="exp-r"><div class="exp-amt">-$${yGas.toFixed(2)}</div><div class="exp-ded">$${yGas.toFixed(2)} deductible</div></div></div>`:'');
@@ -1261,7 +1276,7 @@ function logTrip(){
   const tip=parseFloat($('t-tip')?.value)||0;
   const miles=parseFloat($('t-miles')?.value)||0;
   const mins=parseInt($('t-mins')?.value)||0;
-  const note=$('t-note')?.value?.trim()||'';
+  const note=($('t-note')?.value?.trim()||'').slice(0,500);
   if(earn<=0){showToast('⚠️ Enter an amount earned');return;}
   const total=earn+tip;
   trips.push({platform:selPlatform,earned:total,tip,miles,minutes:mins,gas:0,note,ts:Date.now()});
@@ -1278,7 +1293,7 @@ function logTrip(){
 function logExp(){
   const cat=$('e-cat')?.value||'other';
   const amt=parseFloat($('e-amt')?.value)||0;
-  const note=$('e-note')?.value?.trim()||'';
+  const note=($('e-note')?.value?.trim()||'').slice(0,500);
   if(amt<=0){showToast('⚠️ Enter an amount');return;}
   expenses.push({cat,amt,note,ts:Date.now()});
   localStorage.setItem('gp_exp',JSON.stringify(expenses));
@@ -1327,12 +1342,35 @@ function restoreBackup(input){
       const data=JSON.parse(e.target.result);
       if(!data.trips||!data.version){showToast('⚠️ Invalid backup file');return;}
       if(!confirm('This will replace all your current data. Continue?')){return;}
-      trips=data.trips||[]; expenses=data.expenses||[];
+      // Sanitize restored string fields before storing
+      function sanitizeTrip(t){
+        return {...t,
+          note:(t.note||'').slice(0,500).replace(/[<>]/g,''),
+          platform:(Object.keys(PLT_L).includes(t.platform)?t.platform:'uber'),
+          earned:Math.abs(parseFloat(t.earned)||0),
+          miles:Math.abs(parseFloat(t.miles)||0),
+          minutes:Math.abs(parseInt(t.minutes)||0),
+        };
+      }
+      function sanitizeExp(e){
+        return {...e,
+          note:(e.note||'').slice(0,500).replace(/[<>]/g,''),
+          cat:(Object.keys(EXP_M).includes(e.cat)?e.cat:'other'),
+          amt:Math.abs(parseFloat(e.amt)||0),
+        };
+      }
+      trips=(data.trips||[]).map(sanitizeTrip);
+      expenses=(data.expenses||[]).map(sanitizeExp);
       goals=data.goals||{daily:0,weekly:0,monthly:0,annual:0};
       weeklyD=data.weeklyD||{Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0};
       qtS=data.qtS||{filing:'single',otherInc:0,otherExp:0,state:0};
       qtSaved=data.qtSaved||{};
-      userPref=data.userPref||userPref;
+      const rp=data.userPref||{};
+      userPref={...userPref,
+        name:(rp.name||'').slice(0,60).replace(/[<>]/g,''),
+        filing:(['single','mfj','mfs','hoh'].includes(rp.filing)?rp.filing:'single'),
+        state:Math.abs(parseFloat(rp.state)||0),
+      };
       localStorage.setItem('gp_trips',JSON.stringify(trips));
       localStorage.setItem('gp_exp',JSON.stringify(expenses));
       localStorage.setItem('gp_goals',JSON.stringify(goals));
