@@ -135,6 +135,53 @@
 .stat-card:nth-child(2){animation-delay:0.05s;}
 .stat-card:nth-child(3){animation-delay:0.1s;}
 .stat-card:nth-child(4){animation-delay:0.15s;}
+
+/* ── QUARTERLY TAX ── */
+:root{ –qt:#a78bfa; }
+.hero-card.qt-hero{background:linear-gradient(135deg,#1a1228 0%,#120e1f 100%);border-color:rgba(167,139,250,0.3);}
+.hero-card.qt-hero::before{background:radial-gradient(circle,rgba(167,139,250,0.18) 0%,transparent 70%);}
+.hero-card.qt-hero .label{color:var(–qt);}
+.qt-badge{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:var(–qt);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+.stat-card.accent-qt{border-color:rgba(167,139,250,0.25);} .stat-card.accent-qt .s-val{color:var(–qt);}
+
+/* Filing deadline cards */
+.deadline-list{margin:0 20px 16px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:10;}
+.deadline-card{background:var(–card);border:1.5px solid var(–border);border-radius:18px;padding:16px 18px;display:flex;align-items:center;gap:14px;}
+.deadline-card.due-soon{border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.05);}
+.deadline-card.overdue{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.05);}
+.deadline-card.paid{border-color:rgba(29,191,115,0.3);opacity:0.6;}
+.dl-quarter{font-family:‘Bebas Neue’,sans-serif;font-size:28px;line-height:1;min-width:36px;}
+.dl-quarter.q1{color:#60a5fa;} .dl-quarter.q2{color:#34d399;} .dl-quarter.q3{color:var(–accent);} .dl-quarter.q4{color:#f87171;}
+.dl-info{flex:1;}
+.dl-label{font-size:13px;font-weight:700;color:var(–text);}
+.dl-date{font-size:11px;color:var(–muted);margin-top:2px;}
+.dl-amount{text-align:right;}
+.dl-amt-val{font-family:‘JetBrains Mono’,monospace;font-size:16px;font-weight:700;color:var(–qt);}
+.dl-status{font-size:10px;font-weight:700;letter-spacing:1px;margin-top:3px;text-transform:uppercase;}
+.dl-status.soon{color:var(–accent);} .dl-status.late{color:#f87171;} .dl-status.ok{color:var(–muted);} .dl-status.done{color:var(–uber);}
+
+/* Tax settings inputs */
+.qt-settings{margin:0 20px 16px;background:var(–card);border:1.5px solid var(–border);border-radius:24px;padding:20px;position:relative;z-index:10;}
+.qt-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.save-settings-btn{width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;font-family:‘DM Sans’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.save-settings-btn:active{transform:scale(0.98);}
+
+/* How it works explainer */
+.explainer{margin:0 20px 16px;background:rgba(167,139,250,0.06);border:1.5px solid rgba(167,139,250,0.15);border-radius:20px;padding:18px;position:relative;z-index:10;}
+.explainer-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(167,139,250,0.1);}
+.explainer-row:last-child{border-bottom:none;}
+.ex-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.ex-text{font-size:12px;color:var(–muted);line-height:1.5;}
+.ex-text strong{color:var(–text);}
+
+/* Progress ring */
+.setaside-ring{display:flex;flex-direction:column;align-items:center;padding:8px 0 4px;}
+.ring-wrap{position:relative;width:110px;height:110px;margin-bottom:8px;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.ring-pct{font-family:‘Bebas Neue’,sans-serif;font-size:28px;color:var(–qt);line-height:1;}
+.ring-label{font-size:10px;color:var(–muted);font-weight:600;letter-spacing:0.5px;}
+.setaside-label{font-size:12px;color:var(–muted);text-align:center;}
 </style>
 
 </head>
@@ -158,6 +205,7 @@
   <div class="tab" onclick="showPage('profit',this)"><span>💰</span>Profit</div>
   <div class="tab" onclick="showPage('weekly',this)"><span>📊</span>Weekly</div>
   <div class="tab" onclick="showPage('tax',this)"><span>🧾</span>Tax</div>
+  <div class="tab" onclick="showPage('qtax',this)"><span>📆</span>Q-Tax</div>
 </div>
 
 <!-- HOME -->
@@ -318,6 +366,149 @@
   <div class="scroll-pad"></div>
 </div>
 
+<!-- QUARTERLY TAX -->
+
+<div id="page-qtax" class="page">
+
+  <!-- Hero: amount owed this quarter -->
+
+  <div class="hero-card qt-hero">
+    <div class="label">Q<span id="qt-cur-q">?</span> Estimated Tax Due</div>
+    <div class="big-num" id="qt-due-amt">$0.00</div>
+    <div class="sub" id="qt-due-date">Due —</div>
+    <div class="tax-hero-row">
+      <div class="qt-badge" id="qt-setaside-badge">Set aside $0/week</div>
+      <div class="profit-label">to stay on track</div>
+    </div>
+  </div>
+
+  <!-- 4 quick stats -->
+
+  <div class="stat-grid">
+    <div class="stat-card accent-qt">
+      <div class="s-label">Year Tax Est.</div>
+      <div class="s-val" id="qt-year-total">$0</div>
+      <div class="s-sub">all 4 quarters</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Taxable Income</div>
+      <div class="s-val" id="qt-taxable">$0</div>
+      <div class="s-sub">after deductions</div>
+    </div>
+    <div class="stat-card accent-miles">
+      <div class="s-label">SE Tax</div>
+      <div class="s-val" id="qt-se-tax">$0</div>
+      <div class="s-sub">self-employ. (15.3%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-label">Effective Rate</div>
+      <div class="s-val" id="qt-eff-rate">0%</div>
+      <div class="s-sub">of gross income</div>
+    </div>
+  </div>
+
+  <!-- Set-aside progress -->
+
+  <div class="section-title">Set-Aside Progress</div>
+  <div class="profit-breakdown" style="margin:0 20px 16px;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="setaside-ring">
+        <div class="ring-wrap">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(167,139,250,0.12)" stroke-width="10"/>
+            <circle cx="55" cy="55" r="46" fill="none" stroke="#a78bfa" stroke-width="10"
+              stroke-dasharray="289" stroke-dashoffset="289"
+              id="ring-circle" stroke-linecap="round"/>
+          </svg>
+          <div class="ring-center">
+            <div class="ring-pct" id="ring-pct">0%</div>
+            <div class="ring-label">saved</div>
+          </div>
+        </div>
+        <div class="setaside-label" id="setaside-sub">$0 of $0 set aside</div>
+      </div>
+      <div style="flex:1;">
+        <div class="breakdown-row" style="padding:8px 0;">
+          <div class="br-label">Total Owed Q<span class="qt-q-ref">?</span></div>
+          <div class="br-val tax-col" id="qt-owed-ref">$0.00</div>
+        </div>
+        <div class="breakdown-row" style="padding:8px 0;">
+          <div class="br-label">You've Set Aside</div>
+          <div class="br-val positive" id="qt-saved-ref">$0.00</div>
+        </div>
+        <div class="breakdown-row" style="padding:8px 0;border-bottom:none;">
+          <div class="br-label">Still Need</div>
+          <div class="br-val negative" id="qt-still-need">$0.00</div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <input type="number" id="qt-savings-input" placeholder="Amount saved" inputmode="decimal"
+            style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;">
+          <button onclick="updateSavings()" style="padding:10px 14px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quarterly deadlines -->
+
+  <div class="section-title">2025 Payment Deadlines</div>
+  <div class="deadline-list" id="deadline-list"></div>
+
+  <!-- Settings -->
+
+  <div class="section-title">Your Tax Settings</div>
+  <div class="qt-settings">
+    <div class="qt-settings-grid">
+      <div class="field-group">
+        <label>Filing Status</label>
+        <select id="qt-filing">
+          <option value="single">Single</option>
+          <option value="mfj">Married (Joint)</option>
+          <option value="mfs">Married (Sep.)</option>
+          <option value="hoh">Head of House</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Other Income ($)</label>
+        <input type="number" id="qt-other-income" placeholder="0" inputmode="decimal">
+      </div>
+      <div class="field-group">
+        <label>Other Expenses ($)</label>
+        <input type="number" id="qt-other-exp" placeholder="0" inputmode="decimal">
+      </div>
+      <div class="field-group">
+        <label>State Tax Rate (%)</label>
+        <input type="number" id="qt-state-rate" placeholder="0" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+    <button class="save-settings-btn" onclick="saveQTaxSettings()">✓ &nbsp;Update Calculations</button>
+  </div>
+
+  <!-- How it works -->
+
+  <div class="section-title">How It's Calculated</div>
+  <div class="explainer">
+    <div class="explainer-row">
+      <div class="ex-icon">💵</div>
+      <div class="ex-text"><strong>Gross earnings</strong> minus IRS mileage deduction (67¢/mi), gas, and other expenses = taxable net income.</div>
+    </div>
+    <div class="explainer-row">
+      <div class="ex-icon">🏛</div>
+      <div class="ex-text"><strong>Self-employment tax</strong> is 15.3% on 92.35% of net income. You can deduct half of it from income tax.</div>
+    </div>
+    <div class="explainer-row">
+      <div class="ex-icon">📊</div>
+      <div class="ex-text"><strong>Income tax</strong> uses 2025 federal brackets. Add your state rate for total estimate.</div>
+    </div>
+    <div class="explainer-row">
+      <div class="ex-icon">⚠️</div>
+      <div class="ex-text"><strong>Disclaimer:</strong> This is an estimate only. Consult a tax professional for your actual filing.</div>
+    </div>
+  </div>
+
+  <div class="scroll-pad"></div>
+</div>
+
 <!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
@@ -335,6 +526,9 @@
   </div>
   <div class="nav-item" onclick="showPage('tax',null,this)">
     <div class="nav-icon">🧾</div><div class="nav-label">Tax</div>
+  </div>
+  <div class="nav-item" onclick="showPage('qtax',null,this)">
+    <div class="nav-icon">📆</div><div class="nav-label">Q-Tax</div>
   </div>
 </div>
 
@@ -468,6 +662,8 @@ function updateDashboard(){
   }).join('');
   document.getElementById('month-table').innerHTML=rows||
     '<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px;">No trips logged yet</div>';
+
+  updateQTaxPage();
 }
 
 function exportCSV(){
@@ -530,6 +726,188 @@ function showPage(name,tabEl,navEl){
   document.getElementById('page-'+name).classList.add('active');
   if(tabEl){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
   if(navEl){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+}
+
+// ── QUARTERLY TAX ENGINE ──
+const QT_DEADLINES = [
+  {q:1, label:'Q1 Payment', months:[0,1,2],  due:'April 15, 2025',    dueTs: new Date('2025-04-15').getTime()},
+  {q:2, label:'Q2 Payment', months:[3,4],     due:'June 16, 2025',     dueTs: new Date('2025-06-16').getTime()},
+  {q:3, label:'Q3 Payment', months:[5,6,7],   due:'September 15, 2025',dueTs: new Date('2025-09-15').getTime()},
+  {q:4, label:'Q4 Payment', months:[8,9,10,11],due:'January 15, 2026', dueTs: new Date('2026-01-15').getTime()},
+];
+
+// 2025 federal income tax brackets (single)
+const BRACKETS_SINGLE = [
+  {min:0,      max:11925,  rate:0.10},
+  {min:11925,  max:48475,  rate:0.12},
+  {min:48475,  max:103350, rate:0.22},
+  {min:103350, max:197300, rate:0.24},
+  {min:197300, max:250525, rate:0.32},
+  {min:250525, max:626350, rate:0.35},
+  {min:626350, max:Infinity,rate:0.37},
+];
+const BRACKETS_MFJ = [
+  {min:0,       max:23850,  rate:0.10},
+  {min:23850,   max:96950,  rate:0.12},
+  {min:96950,   max:206700, rate:0.22},
+  {min:206700,  max:394600, rate:0.24},
+  {min:394600,  max:501050, rate:0.32},
+  {min:501050,  max:751600, rate:0.35},
+  {min:751600,  max:Infinity,rate:0.37},
+];
+const STD_DEDUCTION = {single:15000, mfj:30000, mfs:15000, hoh:22500};
+
+let qtSettings = JSON.parse(localStorage.getItem('gp_qt_settings')||JSON.stringify({
+  filing:'single', otherIncome:0, otherExp:0, stateRate:0
+}));
+let qtSaved = JSON.parse(localStorage.getItem('gp_qt_saved')||'{}'); // {q1:0,q2:0,...}
+
+function calcFedTax(taxableIncome, filing) {
+  const brackets = (filing==='mfj') ? BRACKETS_MFJ : BRACKETS_SINGLE;
+  let tax = 0;
+  for (const b of brackets) {
+    if (taxableIncome <= b.min) break;
+    tax += (Math.min(taxableIncome, b.max) - b.min) * b.rate;
+  }
+  return Math.max(tax, 0);
+}
+
+function calcQTax(grossIncome, milesDeduction, gasExp, otherIncome, otherExp, stateRate, filing) {
+  const totalGross   = grossIncome + otherIncome;
+  const totalDeduct  = milesDeduction + gasExp + otherExp;
+  const netSE        = Math.max(grossIncome - milesDeduction - gasExp - otherExp, 0);
+  const seTax        = netSE * 0.9235 * 0.153;
+  const seDed        = seTax / 2;
+  const stdDed       = STD_DEDUCTION[filing] || 15000;
+  const taxableInc   = Math.max(totalGross - totalDeduct - seDed - stdDed, 0);
+  const fedTax       = calcFedTax(taxableInc, filing);
+  const stateTax     = taxableInc * (stateRate / 100);
+  const totalTax     = seTax + fedTax + stateTax;
+  const effRate      = totalGross > 0 ? (totalTax / totalGross) * 100 : 0;
+  return { netSE, seTax, fedTax, stateTax, totalTax, taxableInc, effRate, totalGross, totalDeduct };
+}
+
+function updateQTaxPage() {
+  const yt = yearTrips();
+  const yGross  = yt.reduce((s,t)=>s+t.earned,0);
+  const yMiles  = yt.reduce((s,t)=>s+t.miles,0);
+  const yGas    = yt.reduce((s,t)=>s+t.gas,0);
+  const yMilesDed = yMiles * IRS_RATE;
+  const s = qtSettings;
+
+  const result = calcQTax(yGross, yMilesDed, yGas, +s.otherIncome, +s.otherExp, +s.stateRate, s.filing);
+
+  // Current quarter
+  const now = Date.now();
+  const curMo = new Date().getMonth();
+  let curQDef = QT_DEADLINES.find(q=>q.months.includes(curMo)) || QT_DEADLINES[3];
+  // If past due, show next upcoming
+  const upcoming = QT_DEADLINES.find(q=>q.dueTs >= now);
+  const activeQ = upcoming || QT_DEADLINES[3];
+
+  // Per-quarter tax (proportional to months in that quarter / 12)
+  function qTax(qDef) {
+    const fraction = qDef.months.length / 12;
+    return result.totalTax * fraction;
+  }
+
+  const curQTax = qTax(activeQ);
+  const weeksToDeadline = Math.max(Math.ceil((activeQ.dueTs - now)/(7*24*3600*1000)),1);
+  const savedKey = 'q'+activeQ.q;
+  const savedAmt = qtSaved[savedKey] || 0;
+  const stillNeed = Math.max(curQTax - savedAmt, 0);
+  const weeklyNeeded = weeksToDeadline > 0 ? stillNeed / weeksToDeadline : 0;
+  const pct = curQTax > 0 ? Math.min(savedAmt / curQTax, 1) : 0;
+
+  // Hero
+  setText('qt-cur-q', activeQ.q);
+  setText('qt-due-amt', '$'+curQTax.toFixed(2));
+  setText('qt-due-date', 'Due '+activeQ.due);
+  setText('qt-setaside-badge', 'Set aside $'+weeklyNeeded.toFixed(0)+'/week');
+
+  // Stats
+  setText('qt-year-total', '$'+Math.round(result.totalTax));
+  setText('qt-taxable', '$'+Math.round(result.taxableInc));
+  setText('qt-se-tax', '$'+Math.round(result.seTax));
+  setText('qt-eff-rate', result.effRate.toFixed(1)+'%');
+
+  // Ring
+  const circumference = 289;
+  const offset = circumference - (pct * circumference);
+  const ring = document.getElementById('ring-circle');
+  if (ring) ring.style.strokeDashoffset = offset;
+  setText('ring-pct', Math.round(pct*100)+'%');
+  setText('setaside-sub', '$'+savedAmt.toFixed(0)+' of $'+curQTax.toFixed(0)+' set aside');
+
+  // Set-aside breakdown
+  document.querySelectorAll('.qt-q-ref').forEach(el=>el.textContent=activeQ.q);
+  setText('qt-owed-ref', '$'+curQTax.toFixed(2));
+  setText('qt-saved-ref', '$'+savedAmt.toFixed(2));
+  setText('qt-still-need', '-$'+stillNeed.toFixed(2));
+
+  // Deadlines
+  const dlEl = document.getElementById('deadline-list');
+  dlEl.innerHTML = QT_DEADLINES.map(qd=>{
+    const qAmt = qTax(qd);
+    const isPast = qd.dueTs < now;
+    const isSoon = !isPast && (qd.dueTs - now) < 30*24*3600*1000;
+    const isActive = qd.q === activeQ.q;
+    const qSaved = qtSaved['q'+qd.q]||0;
+    const isPaid = qSaved >= qAmt && qAmt > 0;
+    let cls = 'deadline-card';
+    let statusTxt = '', statusCls = 'ok';
+    if (isPaid) { cls+=' paid'; statusTxt='PAID'; statusCls='done'; }
+    else if (isPast) { cls+=' overdue'; statusTxt='OVERDUE'; statusCls='late'; }
+    else if (isSoon || isActive) { cls+=' due-soon'; statusTxt='DUE SOON'; statusCls='soon'; }
+    else { statusTxt='UPCOMING'; statusCls='ok'; }
+    const qColors = ['','q1','q2','q3','q4'];
+    return `<div class="${cls}">
+      <div class="dl-quarter ${qColors[qd.q]}">Q${qd.q}</div>
+      <div class="dl-info">
+        <div class="dl-label">${qd.label}</div>
+        <div class="dl-date">${qd.due}</div>
+      </div>
+      <div class="dl-amount">
+        <div class="dl-amt-val">$${qAmt.toFixed(0)}</div>
+        <div class="dl-status ${statusCls}">${statusTxt}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Restore settings UI
+  const filingEl = document.getElementById('qt-filing');
+  if(filingEl) filingEl.value = s.filing;
+  const oiEl = document.getElementById('qt-other-income');
+  if(oiEl && +s.otherIncome) oiEl.value = s.otherIncome;
+  const oeEl = document.getElementById('qt-other-exp');
+  if(oeEl && +s.otherExp) oeEl.value = s.otherExp;
+  const srEl = document.getElementById('qt-state-rate');
+  if(srEl && +s.stateRate) srEl.value = s.stateRate;
+}
+
+function saveQTaxSettings(){
+  qtSettings = {
+    filing: document.getElementById('qt-filing').value,
+    otherIncome: parseFloat(document.getElementById('qt-other-income').value)||0,
+    otherExp: parseFloat(document.getElementById('qt-other-exp').value)||0,
+    stateRate: parseFloat(document.getElementById('qt-state-rate').value)||0,
+  };
+  localStorage.setItem('gp_qt_settings', JSON.stringify(qtSettings));
+  updateQTaxPage();
+  const btn = document.querySelector('.save-settings-btn');
+  btn.textContent = '✓ Updated!';
+  setTimeout(()=>btn.textContent='✓  Update Calculations',1500);
+}
+
+function updateSavings(){
+  const val = parseFloat(document.getElementById('qt-savings-input').value)||0;
+  const now = Date.now();
+  const upcoming = QT_DEADLINES.find(q=>q.dueTs >= now) || QT_DEADLINES[3];
+  const key = 'q'+upcoming.q;
+  qtSaved[key] = val;
+  localStorage.setItem('gp_qt_saved', JSON.stringify(qtSaved));
+  document.getElementById('qt-savings-input').value='';
+  updateQTaxPage();
 }
 
 updateDateBadge();
