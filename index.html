@@ -2,62 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#080b12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="GigPro">
-<meta name="description" content="The smartest earnings tracker for gig workers.">
+<meta name="description" content="The smartest earnings tracker for gig workers. AI-powered insights, auto mileage tracking, and tax estimates — all in one app.">
 <link rel="manifest" href="manifest.json">
 <title>GigPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080b12;
-  --surface:#0e1420;
-  --card:#121826;
-  --card2:#18202e;
-  --border:rgba(255,255,255,0.06);
-  --border2:rgba(255,255,255,0.1);
-  --text:#eef2ff;
-  --muted:#64748b;
-  --muted2:#94a3b8;
-  --accent:#6366f1;
-  --accent2:#8b5cf6;
-  --gold:#f59e0b;
-  --teal:#14b8a6;
-  --rose:#f43f5e;
-  --sky:#38bdf8;
-  --green:#22c55e;
-  --uber:#1dbf73;
-  --lyft:#ff00bf;
-  --doordash:#ff3008;
-  --grubhub:#f63440;
-  --instacart:#43b02a;
-  --amazon:#ff9900;
-  --spark:#0071ce;
-  --shipt:#e4002b;
+  --bg:#080b12;--surface:#0e1420;--card:#121826;--card2:#18202e;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --text:#eef2ff;--muted:#64748b;--muted2:#94a3b8;
+  --accent:#6366f1;--accent2:#8b5cf6;--gold:#f59e0b;--teal:#14b8a6;
+  --rose:#f43f5e;--sky:#38bdf8;--green:#22c55e;
+  --uber:#1dbf73;--lyft:#ff00bf;--doordash:#ff3008;--grubhub:#f63440;
+  --instacart:#43b02a;--amazon:#ff9900;--spark:#0071ce;--shipt:#e4002b;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overscroll-behavior:none;}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'Outfit',sans-serif;
-  max-width:430px;margin:0 auto;
-  overflow-x:hidden;position:relative;min-height:100vh;
-}
-
-/* ── BACKGROUND ── */
-.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;
-background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(99,102,241,.18) 0%,transparent 60%),
-radial-gradient(ellipse 60% 40% at 80% 110%,rgba(139,92,246,.15) 0%,transparent 55%),
-radial-gradient(ellipse 50% 30% at 50% 50%,rgba(20,184,166,.06) 0%,transparent 60%),
-linear-gradient(160deg,#080b12 0%,#0a0e1a 40%,#08111a 100%);}
-.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
-background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);
-background-size:40px 40px;
-mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100%);}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;max-width:430px;margin:0 auto;overflow-x:hidden;position:relative;min-height:100vh;}
+.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(99,102,241,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(139,92,246,.15) 0%,transparent 55%),radial-gradient(ellipse 50% 30% at 50% 50%,rgba(20,184,166,.06) 0%,transparent 60%),linear-gradient(160deg,#080b12 0%,#0a0e1a 40%,#08111a 100%);}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100%);}
 
 /* ── ONBOARDING ── */
 #onboarding{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;max-width:430px;margin:0 auto;}
@@ -91,6 +60,8 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
 .date-badge{background:linear-gradient(135deg,var(--gold),#d97706);color:#000;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:20px;}
 .streak-badge{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fb7185;font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;}
+.pro-header-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;font-size:9px;font-weight:900;padding:4px 10px;border-radius:20px;letter-spacing:1.5px;cursor:pointer;text-transform:uppercase;}
+.upgrade-header-btn{background:rgba(245,158,11,.1);border:1.5px solid rgba(245,158,11,.4);color:#fcd34d;font-size:9px;font-weight:700;padding:4px 9px;border-radius:20px;cursor:pointer;letter-spacing:.5px;}
 
 /* ── PLATFORMS ── */
 .platforms{display:flex;gap:7px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
@@ -120,6 +91,8 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .tab{flex-shrink:0;text-align:center;padding:8px 12px;border-radius:11px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted);border:1.5px solid transparent;white-space:nowrap;}
 .tab.active{background:rgba(99,102,241,.15);color:#a5b4fc;border-color:rgba(99,102,241,.3);}
 .tab span{display:block;font-size:14px;margin-bottom:1px;}
+.tab.pro-tab{color:#fcd34d;}
+.tab.pro-tab.active{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fcd34d;}
 
 /* ── HERO ── */
 .hero{margin:0 20px 14px;border-radius:24px;padding:22px;position:relative;overflow:hidden;z-index:10;}
@@ -133,11 +106,17 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .hero.h-goal::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(245,158,11,.2) 0%,transparent 70%);}
 .hero.h-green{background:linear-gradient(135deg,rgba(34,197,94,.15) 0%,rgba(22,163,74,.1) 100%);border:1.5px solid rgba(34,197,94,.25);}
 .hero.h-green::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(34,197,94,.2) 0%,transparent 70%);}
+.hero.h-coach{background:linear-gradient(135deg,rgba(99,102,241,.2) 0%,rgba(139,92,246,.15) 100%);border:1.5px solid rgba(99,102,241,.35);}
+.hero.h-coach::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(99,102,241,.25) 0%,transparent 70%);}
+.hero.h-refer{background:linear-gradient(135deg,rgba(20,184,166,.15) 0%,rgba(13,148,136,.1) 100%);border:1.5px solid rgba(20,184,166,.25);}
+.hero.h-refer::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(20,184,166,.2) 0%,transparent 70%);}
 .h-lbl{font-size:10px;font-weight:700;letter-spacing:1.8px;color:rgba(165,180,252,.8);text-transform:uppercase;margin-bottom:5px;}
 .h-tax .h-lbl,.hero.h-tax .h-lbl{color:rgba(125,211,252,.8);}
 .h-qt .h-lbl,.hero.h-qt .h-lbl{color:rgba(196,181,253,.8);}
 .h-goal .h-lbl,.hero.h-goal .h-lbl{color:rgba(252,211,77,.8);}
 .h-green .h-lbl,.hero.h-green .h-lbl{color:rgba(134,239,172,.8);}
+.h-coach .h-lbl,.hero.h-coach .h-lbl{color:rgba(165,180,252,.8);}
+.h-refer .h-lbl,.hero.h-refer .h-lbl{color:rgba(94,234,212,.8);}
 .h-num{font-family:'Bebas Neue',sans-serif;font-size:58px;line-height:1;color:#fff;letter-spacing:1px;}
 .h-sub{font-size:13px;color:rgba(255,255,255,.35);margin-top:3px;}
 .h-row{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;}
@@ -204,6 +183,7 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .btn-outline{background:rgba(99,102,241,.08);border:1.5px solid rgba(99,102,241,.35);color:#a5b4fc;}
 .btn-outline-sky{background:rgba(56,189,248,.08);border:1.5px solid rgba(56,189,248,.35);color:#7dd3fc;}
 .btn-rose{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;box-shadow:0 6px 20px rgba(244,63,94,.25);}
+.btn-teal{background:linear-gradient(135deg,#14b8a6,#0d9488);color:#fff;box-shadow:0 6px 20px rgba(20,184,166,.25);}
 .btn-sm{padding:9px 14px;font-size:13px;border-radius:10px;width:auto;}
 
 /* ── BREAKDOWN ROWS ── */
@@ -344,6 +324,86 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:16px;color:#fff;}
 .modal-close{float:right;background:var(--card2);border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
+/* ── PRO UPGRADE MODAL ── */
+.upg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.upg-overlay.open{opacity:1;pointer-events:all;}
+.upg-sheet{background:var(--surface);border-radius:28px 28px 0 0;padding:24px 20px 50px;width:100%;max-width:430px;transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1);}
+.upg-overlay.open .upg-sheet{transform:translateY(0);}
+.upg-close{float:right;background:var(--card2);border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.upg-emoji{font-size:36px;display:block;margin-bottom:8px;}
+.upg-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;background:linear-gradient(135deg,#fcd34d,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
+.upg-sub{font-size:13px;color:var(--muted2);margin-bottom:16px;}
+.price-row{display:flex;gap:10px;margin:16px 0;}
+.price-card{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;}
+.price-card.sel{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.07);}
+.price-card-name{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.price-card-amt{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fcd34d;}
+.price-card-per{font-size:10px;color:var(--muted);margin-top:2px;}
+.price-save{font-size:9px;color:#86efac;font-weight:700;margin-top:3px;}
+.pro-features{margin:12px 0 16px;}
+.pf-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted2);}
+.pf-row:last-child{border-bottom:none;}
+.pf-row span{color:#86efac;font-size:14px;}
+.code-row{display:flex;gap:8px;margin-top:8px;}
+.code-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;letter-spacing:2px;text-transform:uppercase;}
+
+/* ── GPS TRACKING ── */
+.gps-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;margin:0 20px 14px;position:relative;z-index:10;}
+.gps-card.tracking{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.03);}
+.gps-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.gps-pulse{width:10px;height:10px;border-radius:50%;background:#22c55e;animation:gpsPulse 1.4s ease-in-out infinite;flex-shrink:0;}
+@keyframes gpsPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.5);}}
+.gps-title{font-size:13px;font-weight:700;flex:1;}
+.gps-mi-big{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#86efac;line-height:1;margin:4px 0;}
+.gps-meta{font-size:11px;color:var(--muted);}
+.gps-btn-row{display:flex;gap:8px;margin-top:10px;}
+
+/* ── AI COACH ── */
+.chat-container{margin:0 20px 14px;position:relative;z-index:10;}
+.chat-msgs{height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 8px;scrollbar-width:thin;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.chat-bubble{max-width:86%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;word-break:break-word;}
+.chat-bubble.ai{background:var(--card2);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;border:1.5px solid var(--border);}
+.chat-bubble.user{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+.chat-bubble.typing{color:var(--muted);font-style:italic;}
+.quick-prompts{display:flex;gap:6px;flex-wrap:wrap;margin:0 20px 10px;position:relative;z-index:10;}
+.qp{padding:7px 12px;background:var(--card2);border:1.5px solid var(--border);border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted2);white-space:nowrap;transition:all .2s;}
+.qp:active{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.4);color:#a5b4fc;}
+.chat-input-row{display:flex;gap:8px;margin:0 20px 14px;position:relative;z-index:10;}
+.chat-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.chat-inp:focus{border-color:rgba(99,102,241,.5);}
+.chat-send{background:linear-gradient(135deg,#6366f1,#4f46e5);border:none;border-radius:12px;width:46px;height:46px;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(99,102,241,.3);}
+.chat-send:disabled{opacity:.35;cursor:not-allowed;}
+.api-setup{background:rgba(99,102,241,.06);border:1.5px solid rgba(99,102,241,.2);border-radius:16px;padding:16px;margin:0 20px 14px;position:relative;z-index:10;}
+.api-setup-title{font-size:13px;font-weight:700;margin-bottom:6px;}
+.api-setup-body{font-size:12px;color:var(--muted2);line-height:1.5;margin-bottom:10px;}
+.api-setup-row{display:flex;gap:8px;}
+.api-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;}
+.api-save-btn{background:#6366f1;border:none;border-radius:10px;padding:10px 16px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;}
+
+/* ── REFERRAL ── */
+.ref-code{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;letter-spacing:4px;color:#5eead4;background:rgba(20,184,166,.08);border:1.5px solid rgba(20,184,166,.3);border-radius:14px;padding:16px;text-align:center;margin:12px 0;cursor:pointer;}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0;}
+.ref-stat{background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:14px;text-align:center;}
+.ref-stat-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#5eead4;}
+.ref-stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
+.ref-how{margin:14px 0;}
+.ref-step{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
+.ref-step:last-child{border-bottom:none;}
+.ref-step-num{width:28px;height:28px;border-radius:50%;background:rgba(20,184,166,.15);border:1.5px solid rgba(20,184,166,.3);color:#5eead4;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ref-step-txt{font-size:13px;color:var(--muted2);}
+.ref-step-txt strong{color:var(--text);}
+
+/* ── AFFILIATE CARDS ── */
+.aff-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;transition:transform .15s;text-decoration:none;}
+.aff-card:active{transform:scale(.98);}
+.aff-ico{font-size:28px;flex-shrink:0;}
+.aff-info{flex:1;}
+.aff-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.aff-body{font-size:11px;color:var(--muted2);}
+.aff-reward{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#86efac;white-space:nowrap;flex-shrink:0;}
+
 /* ── PAGE ── */
 .page{display:none;}.page.active{display:block;}
 .scroll-pad{height:110px;}
@@ -356,6 +416,9 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .ni-lbl{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;}
 .ni.active .ni-lbl{color:#a5b4fc;}
 .ni.active .ni-ico{filter:drop-shadow(0 0 5px rgba(99,102,241,.7));}
+.ni.pro-nav .ni-lbl{color:#fbbf24;}
+.ni.pro-nav.active .ni-lbl{color:#fcd34d;}
+.ni.pro-nav.active .ni-ico{filter:drop-shadow(0 0 5px rgba(245,158,11,.7));}
 
 /* ── TOAST ── */
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-weight:700;font-size:13px;padding:10px 20px;border-radius:20px;z-index:9999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 24px rgba(99,102,241,.4);}
@@ -378,7 +441,6 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 .empty-title{font-size:15px;font-weight:700;color:var(--muted2);margin-bottom:6px;}
 .empty-body{font-size:13px;line-height:1.5;}
 
-/* ── SWIPE DELETE HINT ── */
 .swipe-hint{text-align:center;font-size:11px;color:var(--muted);padding:4px 0 8px;opacity:.6;}
 </style>
 </head>
@@ -396,14 +458,14 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
       <div class="ob-body">The smartest earnings tracker for gig workers. Built to help you earn more, spend less, and never get surprised at tax time.</div>
     </div>
     <div class="ob-slide" id="ob1">
-      <div class="ob-emoji">💰</div>
-      <div class="ob-title">Everything In One Place</div>
-      <div class="ob-body">Track trips, expenses, mileage deductions, quarterly taxes, and earnings goals across Uber, DoorDash, Amazon Flex, Spark, and more.</div>
+      <div class="ob-emoji">🤖</div>
+      <div class="ob-title">Your AI Coach</div>
+      <div class="ob-body">Ask your AI earnings coach anything — "How do I earn more this week?" or "Which platform is best for me?" — powered by real data.</div>
     </div>
     <div class="ob-slide" id="ob2">
-      <div class="ob-emoji">🧾</div>
-      <div class="ob-title">Save Big On Taxes</div>
-      <div class="ob-body">Most gig workers miss out on thousands in deductions. GigPro tracks every mile, every expense, and shows your real quarterly tax estimate — automatically.</div>
+      <div class="ob-emoji">📍</div>
+      <div class="ob-title">Auto Mileage Tracking</div>
+      <div class="ob-body">Hit Start Trip and GigPro tracks every mile via GPS. Stop the trip and your mileage auto-fills — no guessing, no math.</div>
     </div>
     <div class="ob-slide" id="ob3">
       <div class="ob-emoji">⚙️</div>
@@ -447,12 +509,11 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
 <!-- ═══ MAIN APP ═══ -->
 <div id="app" style="display:none;">
 
-<!-- PWA Install Banner -->
 <div class="install-banner hidden" id="install-banner">
   <div class="install-ico">📲</div>
   <div class="install-txt">
     <div class="install-title">Install GigPro App</div>
-    <div class="install-sub">Add to home screen for the full app experience</div>
+    <div class="install-sub">Add to home screen for the full experience</div>
   </div>
   <button class="install-btn" id="install-btn" onclick="installPWA()">Install</button>
   <button class="install-close" onclick="dismissInstall()">✕</button>
@@ -463,6 +524,7 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   <div class="header-right">
     <div class="date-badge" id="date-badge">--</div>
     <div class="streak-badge" id="streak-badge">🔥 0 day streak</div>
+    <div id="pro-header-el"></div>
   </div>
 </div>
 
@@ -487,6 +549,8 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   <div class="tab" onclick="goPage('insights',this)"><span>💡</span>Insights</div>
   <div class="tab" onclick="goPage('tax',this)"><span>🧾</span>Tax</div>
   <div class="tab" onclick="goPage('qtax',this)"><span>📆</span>Q-Tax</div>
+  <div class="tab pro-tab" onclick="goPage('coach',this)"><span>🤖</span>AI Coach</div>
+  <div class="tab pro-tab" onclick="goPage('refer',this)"><span>🔗</span>Refer</div>
   <div class="tab" onclick="goPage('backup',this)"><span>☁️</span>Backup</div>
 </div>
 
@@ -521,10 +585,50 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   </div>
   <div class="sec">Recent Trips</div>
   <div class="trips-list" id="trips-list"></div>
+  <!-- Affiliate section -->
+  <div class="sec" style="margin-top:4px;">Earn More & Save More</div>
+  <div style="margin:0 20px 14px;position:relative;z-index:10;">
+    <a class="aff-card" href="https://upside.app" target="_blank" rel="noopener">
+      <div class="aff-ico">⛽</div>
+      <div class="aff-info"><div class="aff-title">GetUpside — Gas Savings</div><div class="aff-body">Save 15–25¢/gal at thousands of stations</div></div>
+      <div class="aff-reward">Free →</div>
+    </a>
+    <a class="aff-card" href="https://stride.app" target="_blank" rel="noopener">
+      <div class="aff-ico">📋</div>
+      <div class="aff-info"><div class="aff-title">Stride Health Insurance</div><div class="aff-body">Gig worker health plans starting $0/mo</div></div>
+      <div class="aff-reward">Compare →</div>
+    </a>
+    <a class="aff-card" href="https://turbotax.intuit.com/personal-taxes/self-employed/" target="_blank" rel="noopener">
+      <div class="aff-ico">🧾</div>
+      <div class="aff-info"><div class="aff-title">TurboTax Self-Employed</div><div class="aff-body">Import your GigPro data at tax time</div></div>
+      <div class="aff-reward">File →</div>
+    </a>
+  </div>
+  <div class="scroll-pad"></div>
 </div>
 
 <!-- ══ TRACKER ══ -->
 <div id="page-tracker" class="page">
+  <!-- GPS Auto-Track Card -->
+  <div class="gps-card" id="gps-card">
+    <div class="gps-hdr">
+      <div id="gps-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;"></div>
+      <div class="gps-title" id="gps-title">📍 Auto Mileage Tracking</div>
+    </div>
+    <div id="gps-idle-view">
+      <div style="font-size:12px;color:var(--muted2);margin-bottom:10px;">Start a trip and GPS tracks your miles automatically. Miles auto-fill when you stop.</div>
+      <button class="btn btn-green" onclick="startGPS()" style="padding:12px;">🚀 &nbsp;Start Trip Tracking</button>
+    </div>
+    <div id="gps-tracking-view" style="display:none;">
+      <div class="gps-mi-big" id="gps-mi-live">0.00</div>
+      <div class="gps-meta" id="gps-meta">miles tracked · GPS active</div>
+      <div class="gps-btn-row">
+        <button class="btn btn-rose" onclick="stopGPS()" style="padding:12px;flex:1;">⏹ &nbsp;Stop &amp; Fill Miles</button>
+        <button onclick="cancelGPS()" style="padding:12px 16px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div class="sec">Log a Trip</div>
   <div class="card">
     <div style="margin-bottom:8px;">
@@ -700,7 +804,7 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   <div class="sec">Monthly Mileage Log</div>
   <div style="margin:0 20px 14px;position:relative;z-index:10;" id="month-table"></div>
   <div style="margin:0 20px 14px;position:relative;z-index:10;">
-    <button class="btn btn-outline-sky" onclick="exportCSV()">⬇ &nbsp;Export Mileage Log (CSV)</button>
+    <button class="btn btn-outline-sky" onclick="exportCSVGated()">⬇ &nbsp;Export Mileage Log (CSV)</button>
   </div>
   <div class="scroll-pad"></div>
 </div>
@@ -766,6 +870,104 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   <div class="scroll-pad"></div>
 </div>
 
+<!-- ══ AI COACH ══ -->
+<div id="page-coach" class="page">
+  <div class="hero h-coach">
+    <div class="h-lbl">🤖 AI Earnings Coach</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1.1;color:#fff;margin-top:4px;">Your personal gig strategy advisor</div>
+    <div class="h-sub" style="margin-top:6px;">Powered by your real trip data</div>
+    <div class="h-row">
+      <div class="badge bg-indigo" id="coach-status-badge">Ready to coach</div>
+    </div>
+  </div>
+
+  <!-- API Setup (shown when no key) -->
+  <div class="api-setup" id="api-setup-card">
+    <div class="api-setup-title">🔑 Connect Your AI Coach</div>
+    <div class="api-setup-body">Enter your Anthropic API key to activate the AI coach. Get a free key at console.anthropic.com — new accounts get free credits.<br><br>Your key is stored only on this device.</div>
+    <div class="api-setup-row">
+      <input class="api-inp" id="api-key-inp" type="password" placeholder="sk-ant-..." autocomplete="off">
+      <button class="api-save-btn" onclick="saveApiKey()">Save</button>
+    </div>
+  </div>
+
+  <!-- Chat Interface -->
+  <div id="coach-chat-wrap">
+    <div class="sec">Quick Questions</div>
+    <div class="quick-prompts" id="quick-prompts">
+      <div class="qp" onclick="sendQuick('How do I earn more this week?')">💰 Earn more</div>
+      <div class="qp" onclick="sendQuick('Which platform should I focus on?')">🏆 Best platform</div>
+      <div class="qp" onclick="sendQuick('Am I on track for my weekly goal?')">🎯 Goal check</div>
+      <div class="qp" onclick="sendQuick('How much should I set aside for taxes?')">🧾 Tax estimate</div>
+      <div class="qp" onclick="sendQuick('What are my best earning hours?')">⏰ Best hours</div>
+      <div class="qp" onclick="sendQuick('How do I get an A-grade trip rating?')">⭐ Grade tips</div>
+    </div>
+    <div class="chat-container">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="chat-bubble ai" id="coach-welcome">Hey! I'm your GigPro Coach. I can see your earnings data and I'm here to help you earn more, save more, and stress less. Ask me anything! 🚗💰</div>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-inp" id="coach-input" type="text" placeholder="Ask your coach anything…" maxlength="500" autocomplete="off">
+      <button class="chat-send" id="coach-send-btn" onclick="sendToCoach()">↑</button>
+    </div>
+    <div style="margin:0 20px 10px;position:relative;z-index:10;">
+      <button onclick="clearCoach()" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;">🗑 Clear conversation</button>
+      <button onclick="goPage('backup')" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;margin-left:12px;">⚙️ Change API key</button>
+    </div>
+  </div>
+  <div class="scroll-pad"></div>
+</div>
+
+<!-- ══ REFER ══ -->
+<div id="page-refer" class="page">
+  <div class="hero h-refer">
+    <div class="h-lbl">Refer & Earn</div>
+    <div class="h-num" style="font-size:48px;" id="ref-count">0</div>
+    <div class="h-sub">friends referred</div>
+    <div class="h-row">
+      <div class="badge bg-teal" id="ref-reward-badge">1 month Pro per referral</div>
+    </div>
+  </div>
+
+  <div class="sec">Your Referral Code</div>
+  <div style="margin:0 20px 0;position:relative;z-index:10;">
+    <div class="ref-code" id="ref-code-display" onclick="copyRefCode()">LOADING</div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:14px;">Tap to copy · Share with other gig workers</div>
+  </div>
+
+  <div style="margin:0 20px 14px;display:flex;gap:8px;position:relative;z-index:10;">
+    <button class="btn btn-teal" onclick="shareApp()" style="flex:1;">📤 &nbsp;Share GigPro</button>
+    <button onclick="copyRefCode()" style="padding:15px 18px;border-radius:14px;border:1.5px solid rgba(20,184,166,.3);background:rgba(20,184,166,.08);color:#5eead4;font-weight:700;font-size:13px;cursor:pointer;">Copy</button>
+  </div>
+
+  <div class="ref-stats">
+    <div class="ref-stat"><div class="ref-stat-val" id="ref-clicks">0</div><div class="ref-stat-lbl">Link Clicks</div></div>
+    <div class="ref-stat"><div class="ref-stat-val" id="ref-signups">0</div><div class="ref-stat-lbl">Signups</div></div>
+    <div class="ref-stat"><div class="ref-stat-val" id="ref-months">0</div><div class="ref-stat-lbl">Free Months</div></div>
+  </div>
+
+  <div class="sec">How It Works</div>
+  <div class="card">
+    <div class="ref-how">
+      <div class="ref-step"><div class="ref-step-num">1</div><div class="ref-step-txt">Share your referral code with other Uber, DoorDash, or Instacart drivers</div></div>
+      <div class="ref-step"><div class="ref-step-num">2</div><div class="ref-step-txt">They download GigPro and enter <strong>your code</strong> during setup</div></div>
+      <div class="ref-step"><div class="ref-step-num">3</div><div class="ref-step-txt">You both get <strong>1 month of Pro free</strong> — automatically applied</div></div>
+    </div>
+  </div>
+
+  <div class="sec">Best Places to Share</div>
+  <div class="card">
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div class="br" style="padding:11px 0;"><div class="br-lbl">🚗 UberDrivers subreddit</div><div style="font-size:11px;color:#86efac;font-weight:700;">High traffic</div></div>
+      <div class="br" style="padding:11px 0;"><div class="br-lbl">🍕 DoorDash Drivers Facebook</div><div style="font-size:11px;color:#86efac;font-weight:700;">200K+ members</div></div>
+      <div class="br" style="padding:11px 0;"><div class="br-lbl">📦 Amazon Flex Discord</div><div style="font-size:11px;color:#86efac;font-weight:700;">Active daily</div></div>
+      <div class="br" style="padding:11px 0;border-bottom:none;"><div class="br-lbl">🎵 GigWorker TikTok</div><div style="font-size:11px;color:#7dd3fc;font-weight:700;">Viral potential</div></div>
+    </div>
+  </div>
+  <div class="scroll-pad"></div>
+</div>
+
 <!-- ══ BACKUP ══ -->
 <div id="page-backup" class="page">
   <div class="hero h-green">
@@ -783,12 +985,34 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
       <div class="bstat"><div class="bstat-val" id="bk-exps">0</div><div class="bstat-lbl">Expenses</div></div>
       <div class="bstat"><div class="bstat-val" id="bk-days">0</div><div class="bstat-lbl">Days Active</div></div>
     </div>
+
+    <!-- API Key Management -->
+    <div class="backup-info" style="background:rgba(99,102,241,.06);border-color:rgba(99,102,241,.18);margin-bottom:12px;">
+      <div class="backup-info-title">🤖 AI Coach API Key</div>
+      <div class="backup-info-body" id="api-key-status">No API key saved. Visit the Coach tab to add one.</div>
+      <div style="margin-top:8px;display:flex;gap:8px;">
+        <input type="password" id="api-key-manage" placeholder="sk-ant-..." style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;">
+        <button onclick="saveApiKeyManage()" style="padding:9px 14px;border-radius:10px;border:none;background:#6366f1;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Save</button>
+        <button onclick="clearApiKey()" style="padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;">Clear</button>
+      </div>
+    </div>
+
+    <!-- Pro Status -->
+    <div class="backup-info" style="background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2);margin-bottom:12px;">
+      <div class="backup-info-title">⭐ GigPro Status</div>
+      <div class="backup-info-body" id="pro-status-txt">Free plan. Upgrade to Pro for full access.</div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button onclick="showUpgradeModal()" class="btn btn-gold" style="padding:10px;font-size:13px;">Upgrade to Pro</button>
+        <button onclick="deactivatePro()" id="deactivate-btn" style="display:none;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;">Deactivate</button>
+      </div>
+    </div>
+
     <div class="backup-info" style="margin-bottom:12px;">
       <div class="backup-info-title">⬇ Export Full Backup</div>
       <div class="backup-info-body">Downloads a .json backup file with all your trips, expenses, goals, and settings.</div>
     </div>
     <button class="btn btn-indigo" onclick="exportBackup()" style="margin-bottom:12px;">⬇ &nbsp;Download Backup (.json)</button>
-    <button class="btn btn-green" onclick="exportCSV()" style="margin-bottom:20px;">📊 &nbsp;Export Trip Log (.csv)</button>
+    <button class="btn btn-green" onclick="exportCSVGated()" style="margin-bottom:20px;">📊 &nbsp;Export Trip Log (.csv)</button>
     <div class="backup-info" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);margin-bottom:12px;">
       <div class="backup-info-title">⬆ Restore from Backup</div>
       <div class="backup-info-body">Select a GigPro .json backup file to restore all your data. This will replace current data.</div>
@@ -812,10 +1036,53 @@ mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100
   <div class="ni" onclick="goPage('tracker',null,this)"><div class="ni-ico">📍</div><div class="ni-lbl">Track</div></div>
   <div class="ni" onclick="goPage('expenses',null,this)"><div class="ni-ico">💸</div><div class="ni-lbl">Expenses</div></div>
   <div class="ni" onclick="goPage('goals',null,this)"><div class="ni-ico">🎯</div><div class="ni-lbl">Goals</div></div>
-  <div class="ni" onclick="goPage('insights',null,this)"><div class="ni-ico">💡</div><div class="ni-lbl">Insights</div></div>
+  <div class="ni pro-nav" onclick="goPage('coach',null,this)"><div class="ni-ico">🤖</div><div class="ni-lbl">Coach</div></div>
   <div class="ni" onclick="goPage('tax',null,this)"><div class="ni-ico">🧾</div><div class="ni-lbl">Tax</div></div>
 </div>
 </div><!-- end #app -->
+
+<!-- ═══ UPGRADE MODAL ═══ -->
+<div class="upg-overlay" id="upg-overlay" onclick="closeUpgradeIfOutside(event)">
+  <div class="upg-sheet">
+    <button class="upg-close" onclick="closeUpgradeModal()">✕</button>
+    <span class="upg-emoji">⭐</span>
+    <div class="upg-title">Upgrade to Pro</div>
+    <div class="upg-sub" id="upg-feature-msg">Unlock the full GigPro experience</div>
+
+    <div class="price-row">
+      <div class="price-card sel" id="pc-monthly" onclick="selectPlan('monthly')">
+        <div class="price-card-name">Monthly</div>
+        <div class="price-card-amt">$7.99</div>
+        <div class="price-card-per">per month</div>
+        <div class="price-save">&nbsp;</div>
+      </div>
+      <div class="price-card" id="pc-annual" onclick="selectPlan('annual')">
+        <div class="price-card-name">Annual</div>
+        <div class="price-card-amt">$59.99</div>
+        <div class="price-card-per">per year</div>
+        <div class="price-save">Save $36 · 37% off</div>
+      </div>
+    </div>
+
+    <div class="pro-features">
+      <div class="pf-row"><span>✓</span>AI Earnings Coach (unlimited messages)</div>
+      <div class="pf-row"><span>✓</span>GPS Auto Mileage Tracking</div>
+      <div class="pf-row"><span>✓</span>CSV & Tax Export</div>
+      <div class="pf-row"><span>✓</span>Advanced Q-Tax Breakdown</div>
+      <div class="pf-row"><span>✓</span>Referral Program Access</div>
+      <div class="pf-row"><span>✓</span>Priority Support</div>
+    </div>
+
+    <button class="btn btn-gold" id="stripe-btn" onclick="goToStripe()" style="margin-bottom:12px;">Continue to Payment →</button>
+
+    <div style="text-align:center;margin-bottom:10px;font-size:11px;color:var(--muted);">— or activate with a code —</div>
+    <div class="code-row">
+      <input class="code-inp" id="activation-code" placeholder="ENTER CODE" maxlength="20" autocomplete="off" oninput="this.value=this.value.toUpperCase()">
+      <button onclick="activateCode()" style="padding:10px 16px;border-radius:10px;border:none;background:rgba(245,158,11,.2);border:1.5px solid rgba(245,158,11,.4);color:#fcd34d;font-weight:700;font-size:13px;cursor:pointer;">Apply</button>
+    </div>
+    <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px;">Received a promo code? Enter it above.</div>
+  </div>
+</div>
 
 <script>
 // ═══ CONSTANTS ═══
@@ -829,50 +1096,23 @@ const QT_DL=[{q:1,label:'Q1 Payment',months:[0,1,2],due:'April 15, 2025',ts:new 
 const BR_S=[{min:0,max:11925,r:.10},{min:11925,max:48475,r:.12},{min:48475,max:103350,r:.22},{min:103350,max:197300,r:.24},{min:197300,max:250525,r:.32},{min:250525,max:626350,r:.35},{min:626350,max:Infinity,r:.37}];
 const BR_MFJ=[{min:0,max:23850,r:.10},{min:23850,max:96950,r:.12},{min:96950,max:206700,r:.22},{min:206700,max:394600,r:.24},{min:394600,max:501050,r:.32},{min:501050,max:751600,r:.35},{min:751600,max:Infinity,r:.37}];
 const STD={single:15000,mfj:30000,mfs:15000,hoh:22500};
-const MAX_TRIPS=5000;
-const MAX_EXPENSES=2000;
+const MAX_TRIPS=5000,MAX_EXPENSES=2000;
+// Pro activation codes — replace with Stripe webhooks in production
+const VALID_CODES=['GIGPRO2025','SHERMAR100','BETA2025','PROLAUNCH'];
+// Stripe payment link — replace with your actual Stripe link
+const STRIPE_LINK='https://buy.stripe.com/YOUR_LINK_HERE';
 
 // ═══ SECURITY HELPERS ═══
-function escHtml(str){
-  if(str==null)return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
-}
-function safeNum(v,min=0,max=99999){
-  const n=parseFloat(v);
-  if(!isFinite(n))return 0;
-  return Math.min(Math.max(n,min),max);
-}
-function safeInt(v,min=0,max=9999){
-  const n=parseInt(v);
-  if(!isFinite(n))return 0;
-  return Math.min(Math.max(n,min),max);
-}
-function safeStr(v,maxLen=200){
-  if(v==null)return '';
-  return String(v).replace(/[<>]/g,'').trim().slice(0,maxLen);
-}
-function safePlatform(v){
-  return Object.keys(PLT_L).includes(v)?v:'uber';
-}
-function safeExpCat(v){
-  return Object.keys(EXP_M).includes(v)?v:'other';
-}
+function escHtml(str){if(str==null)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
+function safeNum(v,min=0,max=99999){const n=parseFloat(v);if(!isFinite(n))return 0;return Math.min(Math.max(n,min),max);}
+function safeInt(v,min=0,max=9999){const n=parseInt(v);if(!isFinite(n))return 0;return Math.min(Math.max(n,min),max);}
+function safeStr(v,maxLen=200){if(v==null)return '';return String(v).replace(/[<>]/g,'').trim().slice(0,maxLen);}
+function safePlatform(v){return Object.keys(PLT_L).includes(v)?v:'uber';}
+function safeExpCat(v){return Object.keys(EXP_M).includes(v)?v:'other';}
 
 // ═══ STORAGE HELPERS ═══
-function storeSave(key,val){
-  try{
-    const str=JSON.stringify(val);
-    if(str.length>2*1024*1024){showToast('⚠️ Data too large to save','warn');return false;}
-    localStorage.setItem(key,str);return true;
-  }catch(e){
-    if(e.name==='QuotaExceededError'){showToast('⚠️ Storage full — export a backup!','warn');}
-    return false;
-  }
-}
-function storeLoad(key,fallback){
-  try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback;}
-  catch(e){return fallback;}
-}
+function storeSave(key,val){try{const str=JSON.stringify(val);if(str.length>2*1024*1024){showToast('⚠️ Data too large','warn');return false;}localStorage.setItem(key,str);return true;}catch(e){if(e.name==='QuotaExceededError')showToast('⚠️ Storage full!','warn');return false;}}
+function storeLoad(key,fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback;}catch(e){return fallback;}}
 
 // ═══ STATE ═══
 let trips    = storeLoad('gp_trips',[]);
@@ -881,18 +1121,15 @@ let goals    = storeLoad('gp_goals',{daily:0,weekly:0,monthly:0,annual:0});
 let qtS      = storeLoad('gp_qt_s',{filing:'single',otherInc:0,otherExp:0,state:0});
 let qtSaved  = storeLoad('gp_qt_saved',{});
 let userPref = storeLoad('gp_pref',{name:'',filing:'single',state:0,weekly:0,platform:'uber',onboarded:false});
-let selPlatform=safePlatform(userPref.platform);
+let isPro    = storeLoad('gp_pro',false);
+let selPlan  = 'monthly';
+let selPlatform = safePlatform(userPref.platform);
 
-// Weekly data computed from trips (no separate store — prevents desync)
-function getWeeklyData(){
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const d={Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0};
-  weekTrips().forEach(t=>{
-    const dy=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(t.ts).getDay()];
-    d[dy]=(d[dy]||0)+t.earned;
-  });
-  return d;
-}
+// GPS state
+let isTracking=false,gpsWatchId=null,gpsPositions=[],gpsMiles=0;
+
+// Coach state
+let coachHistory=[],isThinking=false;
 
 // ═══ HELPERS ═══
 const $=id=>document.getElementById(id);
@@ -903,190 +1140,348 @@ const thisMonth=()=>new Date().getMonth();
 const todayTrips=()=>trips.filter(t=>new Date(t.ts).toDateString()===todayStr());
 const yearTrips=()=>trips.filter(t=>new Date(t.ts).getFullYear()===thisYear());
 const monthTrips=()=>trips.filter(t=>{const d=new Date(t.ts);return d.getFullYear()===thisYear()&&d.getMonth()===thisMonth();});
-function weekTrips(){
-  const n=new Date(),dy=n.getDay();
-  const m=new Date(n);
-  m.setDate(n.getDate()-(dy===0?6:dy-1));
-  m.setHours(0,0,0,0);
-  return trips.filter(t=>t.ts>=m.getTime());
-}
+function weekTrips(){const n=new Date(),dy=n.getDay();const m=new Date(n);m.setDate(n.getDate()-(dy===0?6:dy-1));m.setHours(0,0,0,0);return trips.filter(t=>t.ts>=m.getTime());}
 const fmtK=n=>n>=1000?'$'+(n/1000).toFixed(1)+'k':'$'+Math.round(n);
 const grade=(e,m)=>{if(!m)return 'B';const r=e/(m/60);return r>=30?'A':r>=22?'B':r>=15?'C':r>=10?'D':'F';};
+function getWeeklyData(){const d={Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0};weekTrips().forEach(t=>{const dy=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(t.ts).getDay()];d[dy]=(d[dy]||0)+t.earned;});return d;}
 
 let toastTimer=null;
-function showToast(msg,type=''){
-  const t=$('toast');
-  t.textContent=msg;
-  t.className='toast'+(type?' '+type:'');
-  t.classList.add('show');
-  if(toastTimer)clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
+function showToast(msg,type=''){const t=$('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'');t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ═══ PRO SYSTEM ═══
+function updateProUI(){
+  const hel=$('pro-header-el');
+  if(hel){hel.innerHTML=isPro?'<div class="pro-header-badge">⭐ PRO</div>':'<div class="upgrade-header-btn" onclick="showUpgradeModal()">Upgrade Pro</div>';}
+  const stxt=$('pro-status-txt');if(stxt)stxt.textContent=isPro?'✅ GigPro Pro — Full access active.':'Free plan. Upgrade to Pro for full access.';
+  const dBtn=$('deactivate-btn');if(dBtn)dBtn.style.display=isPro?'block':'none';
+  updateApiKeyStatus();
+}
+
+function showUpgradeModal(msg){
+  const el=$('upg-feature-msg');if(el)el.textContent=msg||'Unlock the full GigPro experience';
+  $('upg-overlay').classList.add('open');
+}
+function closeUpgradeModal(){$('upg-overlay').classList.remove('open');}
+function closeUpgradeIfOutside(e){if(e.target===$('upg-overlay'))closeUpgradeModal();}
+
+function selectPlan(p){
+  selPlan=p;
+  document.querySelectorAll('.price-card').forEach(c=>c.classList.remove('sel'));
+  $('pc-'+p)?.classList.add('sel');
+}
+
+function activateCode(){
+  const code=($('activation-code')?.value||'').trim().toUpperCase();
+  if(VALID_CODES.includes(code)){
+    isPro=true;storeSave('gp_pro',true);
+    closeUpgradeModal();
+    showToast('🎉 Pro activated! Welcome to GigPro Pro!');
+    updateProUI();
+  }else{
+    showToast('⚠️ Invalid code. Try again.','warn');
+  }
+}
+
+function goToStripe(){
+  if(STRIPE_LINK.includes('YOUR_LINK')){showToast('⚠️ Stripe link not configured yet','warn');return;}
+  window.open(STRIPE_LINK,'_blank');
+}
+
+function deactivatePro(){
+  if(!confirm('Deactivate Pro?'))return;
+  isPro=false;storeSave('gp_pro',false);updateProUI();showToast('Pro deactivated');
+}
+
+// ═══ GPS TRACKING ═══
+function haversine(lat1,lon1,lat2,lon2){
+  const R=3958.8,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.asin(Math.sqrt(a));
+}
+function calcTotalDist(positions){
+  let total=0;
+  for(let i=1;i<positions.length;i++){
+    const p1=positions[i-1].coords,p2=positions[i].coords;
+    if(p1.accuracy<100&&p2.accuracy<100)total+=haversine(p1.latitude,p1.longitude,p2.latitude,p2.longitude);
+  }
+  return total;
+}
+function startGPS(){
+  if(!navigator.geolocation){showToast('⚠️ GPS not supported on this device','warn');return;}
+  showToast('📍 Requesting GPS permission…');
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      gpsPositions=[pos];gpsMiles=0;isTracking=true;updateGPSCard();
+      gpsWatchId=navigator.geolocation.watchPosition(
+        p=>{gpsPositions.push(p);gpsMiles=calcTotalDist(gpsPositions);setText('gps-mi-live',gpsMiles.toFixed(2));},
+        ()=>showToast('⚠️ GPS signal lost','warn'),
+        {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
+      );
+      showToast('🚀 Trip tracking started!');
+    },
+    err=>{
+      if(err.code===1)showToast('⚠️ Location permission denied','warn');
+      else showToast('⚠️ Could not start GPS','warn');
+    },
+    {enableHighAccuracy:true,timeout:10000}
+  );
+}
+function stopGPS(){
+  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
+  const finalMiles=gpsMiles;
+  const mi=$('t-miles');if(mi)mi.value=finalMiles.toFixed(1);
+  isTracking=false;gpsPositions=[];gpsMiles=0;updateGPSCard();
+  showToast(`✓ ${finalMiles.toFixed(2)} miles tracked → auto-filled`);
+}
+function cancelGPS(){
+  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
+  isTracking=false;gpsPositions=[];gpsMiles=0;updateGPSCard();
+  showToast('Trip tracking cancelled');
+}
+function updateGPSCard(){
+  const card=$('gps-card');if(!card)return;
+  const idle=$('gps-idle-view'),tracking=$('gps-tracking-view');
+  const dot=$('gps-status-dot'),title=$('gps-title');
+  if(isTracking){
+    card.classList.add('tracking');
+    if(idle)idle.style.display='none';
+    if(tracking)tracking.style.display='block';
+    if(dot){dot.style.background='#22c55e';dot.style.animation='gpsPulse 1.4s ease-in-out infinite';}
+    if(title)title.textContent='📍 Tracking Active';
+  }else{
+    card.classList.remove('tracking');
+    if(idle)idle.style.display='block';
+    if(tracking)tracking.style.display='none';
+    if(dot){dot.style.background='var(--muted)';dot.style.animation='none';}
+    if(title)title.textContent='📍 Auto Mileage Tracking';
+  }
+}
+
+// ═══ AI COACH ═══
+function getApiKey(){return localStorage.getItem('gp_api_key')||'';}
+function saveApiKey(){
+  const k=($('api-key-inp')?.value||'').trim();
+  if(!k.startsWith('sk-')){showToast('⚠️ Key should start with sk-','warn');return;}
+  localStorage.setItem('gp_api_key',k);
+  $('api-key-inp').value='';
+  showToast('✅ API key saved!');
+  updateApiSetupVisibility();updateApiKeyStatus();
+}
+function saveApiKeyManage(){
+  const k=($('api-key-manage')?.value||'').trim();
+  if(!k.startsWith('sk-')){showToast('⚠️ Key should start with sk-','warn');return;}
+  localStorage.setItem('gp_api_key',k);
+  $('api-key-manage').value='';
+  showToast('✅ API key saved!');updateApiKeyStatus();
+}
+function clearApiKey(){
+  localStorage.removeItem('gp_api_key');
+  showToast('API key cleared');updateApiKeyStatus();updateApiSetupVisibility();
+}
+function updateApiKeyStatus(){
+  const k=getApiKey();
+  const el=$('api-key-status');
+  if(el)el.textContent=k?`API key saved: sk-...${k.slice(-6)}`:'No API key saved. Visit the Coach tab to add one.';
+}
+function updateApiSetupVisibility(){
+  const hasKey=!!getApiKey();
+  const setup=$('api-setup-card');
+  const chat=$('coach-chat-wrap');
+  if(setup)setup.style.display=hasKey?'none':'block';
+  if(chat)chat.style.display=hasKey?'block':'block';
+}
+
+function buildCoachSystem(){
+  const yt=yearTrips();
+  const yG=yt.reduce((s,t)=>s+t.earned,0);
+  const yM=yt.reduce((s,t)=>s+t.miles,0);
+  const yMins=yt.reduce((s,t)=>s+t.minutes,0);
+  const avgHr=yMins>0?yG/(yMins/60):0;
+  const wt=weekTrips();
+  const wG=wt.reduce((s,t)=>s+t.earned,0);
+  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
+  const yExp=ae.reduce((s,e)=>s+e.amt,0);
+  const pe={};Object.keys(PLT_L).forEach(p=>pe[p]={earn:0,trips:0});
+  yt.forEach(t=>{if(pe[t.platform]){pe[t.platform].earn+=t.earned;pe[t.platform].trips++;}});
+  const platSummary=Object.entries(pe).filter(([,v])=>v.trips>0).map(([p,v])=>`${p}: $${v.earn.toFixed(0)} (${v.trips} trips, $${v.trips>0?(v.earn/v.trips).toFixed(2):0}/trip)`).join(' | ')||'No trips yet';
+  const grades={A:0,B:0,C:0,D:0,F:0};yt.forEach(t=>grades[grade(t.earned,t.minutes)]++);
+  return `You are GigPro Coach — an expert AI earnings advisor built into the GigPro gig worker earnings app.
+You have access to this user's REAL earnings data. Use their actual numbers in your advice. Be specific, direct, and actionable.
+Keep responses under 160 words. Use bullet points for lists. Be encouraging but honest. No generic advice — reference their data.
+
+USER: ${userPref.name||'Driver'} | Primary platform: ${userPref.platform}
+YEAR EARNINGS: $${yG.toFixed(2)} across ${yt.length} trips, ${yM.toFixed(0)} miles driven
+AVERAGE HOURLY RATE: $${avgHr.toFixed(2)}/hr
+THIS WEEK: $${wG.toFixed(2)} (${wt.length} trips)
+YEAR EXPENSES: $${yExp.toFixed(2)} | MILEAGE DEDUCTION: $${(yM*0.67).toFixed(2)}
+TRIP GRADES: A=${grades.A} B=${grades.B} C=${grades.C} D=${grades.D} F=${grades.F}
+PLATFORMS: ${platSummary}
+GOALS: Daily=$${goals.daily} | Weekly=$${goals.weekly} | Monthly=$${goals.monthly} | Annual=$${goals.annual}`;
+}
+
+function addChatMsg(role,text){
+  const wrap=$('chat-msgs');if(!wrap)return;
+  const div=document.createElement('div');
+  div.className='chat-bubble '+role;
+  div.textContent=text;
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function showTyping(show){
+  const existing=document.getElementById('typing-bubble');
+  if(show&&!existing){
+    const wrap=$('chat-msgs');if(!wrap)return;
+    const div=document.createElement('div');
+    div.id='typing-bubble';div.className='chat-bubble ai typing';div.textContent='Coach is thinking…';
+    wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;
+  }else if(!show&&existing){existing.remove();}
+}
+async function sendToCoach(){
+  if(isThinking)return;
+  const apiKey=getApiKey();
+  if(!apiKey){showToast('⚠️ Set your API key in the Coach tab','warn');updateApiSetupVisibility();return;}
+  const inp=$('coach-input');
+  const msg=(inp?.value||'').trim();
+  if(!msg)return;
+  inp.value='';
+  addChatMsg('user',msg);
+  coachHistory.push({role:'user',content:msg});
+  isThinking=true;
+  const btn=$('coach-send-btn');if(btn)btn.disabled=true;
+  showTyping(true);
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:buildCoachSystem(),messages:coachHistory.slice(-8)})
+    });
+    if(!resp.ok){const d=await resp.json().catch(()=>({}));throw new Error(d.error?.message||'API error '+resp.status);}
+    const data=await resp.json();
+    const reply=data.content[0].text;
+    coachHistory.push({role:'assistant',content:reply});
+    showTyping(false);addChatMsg('ai',reply);
+  }catch(e){
+    showTyping(false);
+    addChatMsg('ai','⚠️ Could not connect. Check your API key is correct and you have credits available.');
+    console.error('Coach error:',e);
+  }
+  isThinking=false;if(btn)btn.disabled=false;
+}
+function sendQuick(prompt){
+  const inp=$('coach-input');if(inp)inp.value=prompt;sendToCoach();
+}
+function clearCoach(){coachHistory=[];const wrap=$('chat-msgs');if(wrap)wrap.innerHTML='<div class="chat-bubble ai">Chat cleared! What can I help you with?</div>';}
+
+// ═══ REFERRAL ═══
+function genRefCode(){
+  const name=userPref.name||'DRIVER';
+  const seed=name.replace(/[^a-zA-Z0-9]/g,'').toUpperCase().slice(0,4)||'GIG';
+  const num=Math.abs(trips.length*7+17).toString().slice(0,3).padStart(3,'0');
+  return seed+num;
+}
+function updateRefer(){
+  const code=genRefCode();
+  setText('ref-code-display',code);
+  const refs=storeLoad('gp_refs',{clicks:0,signups:0});
+  setText('ref-count',refs.signups||0);
+  setText('ref-clicks',refs.clicks||0);
+  setText('ref-signups',refs.signups||0);
+  setText('ref-months',refs.signups||0);
+}
+function copyRefCode(){
+  const code=genRefCode();
+  const shareText=`I'm using GigPro to track my gig earnings — it's free and way better than spreadsheets. Use my code ${code} when you sign up and we both get a free month Pro! gigpro.app`;
+  navigator.clipboard?.writeText(code).then(()=>showToast('✅ Code copied!')).catch(()=>showToast('Code: '+code));
+}
+async function shareApp(){
+  const code=genRefCode();
+  const shareData={title:'GigPro — Gig Worker Earnings Tracker',text:`Track your gig earnings, mileage, and taxes in one app. Use my referral code ${code} for a free month Pro!`,url:'https://gigpro.app'};
+  if(navigator.share){
+    try{await navigator.share(shareData);const refs=storeLoad('gp_refs',{clicks:0,signups:0});refs.clicks=(refs.clicks||0)+1;storeSave('gp_refs',refs);updateRefer();}
+    catch(e){}
+  }else{
+    navigator.clipboard?.writeText(`${shareData.text} ${shareData.url}`).then(()=>showToast('✅ Share text copied!')).catch(()=>{});
+  }
 }
 
 // ═══ PWA ═══
 let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();deferredPrompt=e;
-  const b=$('install-banner');
-  if(b&&!localStorage.getItem('gp_install_dismissed'))b.classList.remove('hidden');
-});
-function installPWA(){
-  if(!deferredPrompt)return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(r=>{
-    if(r.outcome==='accepted')showToast('🎉 GigPro installed!');
-    deferredPrompt=null;
-    dismissInstall();
-  });
-}
-function dismissInstall(){
-  const b=$('install-banner');if(b)b.classList.add('hidden');
-  localStorage.setItem('gp_install_dismissed','1');
-}
-
-// Register Service Worker
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  });
-}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=$('install-banner');if(b&&!localStorage.getItem('gp_install_dismissed'))b.classList.remove('hidden');});
+function installPWA(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')showToast('🎉 GigPro installed!');deferredPrompt=null;dismissInstall();});}
+function dismissInstall(){const b=$('install-banner');if(b)b.classList.add('hidden');localStorage.setItem('gp_install_dismissed','1');}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 
 // ═══ ONBOARDING ═══
-let obStep=0;
-const OB_TOTAL=4;
+let obStep=0;const OB_TOTAL=4;
 function obNext(){
-  if(obStep<OB_TOTAL-1){
-    const cur=$('ob'+obStep);cur.classList.add('exit');setTimeout(()=>cur.classList.remove('active','exit'),400);
-    obStep++;
-    const next=$('ob'+obStep);setTimeout(()=>next.classList.add('active'),50);
-    for(let i=0;i<OB_TOTAL;i++){const d=$('dot'+i);if(d){d.className='ob-dot';if(i<=obStep)d.classList.add('active');}}
-    if(obStep===OB_TOTAL-1)$('ob-btn').textContent="Let's Go! 🚀";
-  }else{obFinish();}
+  if(obStep<OB_TOTAL-1){const cur=$('ob'+obStep);cur.classList.add('exit');setTimeout(()=>cur.classList.remove('active','exit'),400);obStep++;const next=$('ob'+obStep);setTimeout(()=>next.classList.add('active'),50);for(let i=0;i<OB_TOTAL;i++){const d=$('dot'+i);if(d){d.className='ob-dot';if(i<=obStep)d.classList.add('active');}}if(obStep===OB_TOTAL-1)$('ob-btn').textContent="Let's Go! 🚀";}else{obFinish();}
 }
 function obFinish(){
-  const name=safeStr($('ob-name')?.value||'',60);
-  const filing=$('ob-filing')?.value||'single';
-  const state=safeNum($('ob-state')?.value,0,20);
-  const wGoal=safeNum($('ob-goal')?.value,0,99999);
-  const platform=safePlatform($('ob-platform')?.value);
-  userPref={name,filing,state,weekly:wGoal,platform,onboarded:true};
-  storeSave('gp_pref',userPref);
+  const name=safeStr($('ob-name')?.value||'',60);const filing=$('ob-filing')?.value||'single';const state=safeNum($('ob-state')?.value,0,20);const wGoal=safeNum($('ob-goal')?.value,0,99999);const platform=safePlatform($('ob-platform')?.value);
+  userPref={name,filing,state,weekly:wGoal,platform,onboarded:true};storeSave('gp_pref',userPref);
   if(wGoal>0){goals.weekly=wGoal;storeSave('gp_goals',goals);}
-  qtS.filing=filing;qtS.state=state;storeSave('gp_qt_s',qtS);
-  selPlatform=platform;
-  $('onboarding').style.display='none';
-  $('app').style.display='block';
-  updateAll();
-  syncPlatformBtn(selPlatform);
+  qtS.filing=filing;qtS.state=state;storeSave('gp_qt_s',qtS);selPlatform=platform;
+  $('onboarding').style.display='none';$('app').style.display='block';
+  updateAll();syncPlatformBtn(selPlatform);
 }
 
 // ═══ INIT ═══
 function init(){
-  if(userPref.onboarded){
-    $('onboarding').style.display='none';
-    $('app').style.display='block';
-    updateAll();
-    syncPlatformBtn(selPlatform);
-  }
+  if(userPref.onboarded){$('onboarding').style.display='none';$('app').style.display='block';updateAll();syncPlatformBtn(selPlatform);}
 }
 
 // ═══ DEBOUNCED UPDATE ═══
 let updateTimer=null;
-function scheduleUpdate(){
-  if(updateTimer)clearTimeout(updateTimer);
-  updateTimer=setTimeout(updateAll,50);
-}
-
-function updateAll(){
-  updateDateBadge();updateHome();updateTracker();updateExpenses();
-  updateGoals();updateWeekly();updateInsights();updateTax();updateQTax();updateBackup();
-}
+function scheduleUpdate(){if(updateTimer)clearTimeout(updateTimer);updateTimer=setTimeout(updateAll,50);}
+function updateAll(){updateDateBadge();updateHome();updateTracker();updateExpenses();updateGoals();updateWeekly();updateInsights();updateTax();updateQTax();updateBackup();updateGPSCard();updateProUI();updateApiSetupVisibility();updateRefer();}
 
 function updateDateBadge(){
-  const d=new Date();
-  const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const d=new Date();const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
   setText('date-badge',days[d.getDay()]+', '+MONTHS[d.getMonth()].toUpperCase()+' '+d.getDate());
-  // Streak: count consecutive days with at least 1 trip going back from today
   let streak=0,check=new Date();check.setHours(0,0,0,0);
-  for(let i=0;i<365;i++){
-    if(trips.some(t=>new Date(t.ts).toDateString()===check.toDateString())){
-      streak++;check.setDate(check.getDate()-1);
-    }else{break;}
-  }
+  for(let i=0;i<365;i++){if(trips.some(t=>new Date(t.ts).toDateString()===check.toDateString())){streak++;check.setDate(check.getDate()-1);}else{break;}}
   setText('streak-badge','🔥 '+streak+' day streak');
 }
 
 function updateHome(){
   const tt=todayTrips(),yt=yearTrips();
-  const gross=tt.reduce((s,t)=>s+t.earned,0);
-  const gas=tt.reduce((s,t)=>s+(t.gas||0),0);
-  const miles=tt.reduce((s,t)=>s+t.miles,0);
-  const mins=tt.reduce((s,t)=>s+t.minutes,0);
-  const profit=gross-gas;
-  const hourly=mins>0?gross/(mins/60):0;
+  const gross=tt.reduce((s,t)=>s+t.earned,0);const gas=tt.reduce((s,t)=>s+(t.gas||0),0);
+  const miles=tt.reduce((s,t)=>s+t.miles,0);const mins=tt.reduce((s,t)=>s+t.minutes,0);
+  const profit=gross-gas;const hourly=mins>0?gross/(mins/60):0;
   const yMiles=yt.reduce((s,t)=>s+t.miles,0);
-  setText('h-earn','$'+gross.toFixed(2));
-  setText('h-sub',tt.length+' trip'+(tt.length!==1?'s':'')+' logged');
-  setText('h-profit','$'+profit.toFixed(2)+' profit');
-  setText('h-miles',miles.toFixed(1));
-  setText('h-miles-sub','$'+(miles*IRS).toFixed(2)+' deduction');
-  setText('h-hourly','$'+hourly.toFixed(2));
-  setText('h-trips',tt.length);
-  setText('h-yr-mi',Math.round(yMiles));
-  setText('h-yr-ded','$'+(yMiles*IRS).toFixed(2)+' deduction');
-  // Projection: use elapsed hours in day
+  setText('h-earn','$'+gross.toFixed(2));setText('h-sub',tt.length+' trip'+(tt.length!==1?'s':'')+' logged');
+  setText('h-profit','$'+profit.toFixed(2)+' profit');setText('h-miles',miles.toFixed(1));
+  setText('h-miles-sub','$'+(miles*IRS).toFixed(2)+' deduction');setText('h-hourly','$'+hourly.toFixed(2));
+  setText('h-trips',tt.length);setText('h-yr-mi',Math.round(yMiles));setText('h-yr-ded','$'+(yMiles*IRS).toFixed(2)+' deduction');
   const now=new Date(),elapsed=now.getHours()+(now.getMinutes()/60)||1;
   const dayProj=gross>0?(gross/elapsed)*Math.min(elapsed+4,12):0;
   setText('h-proj-day','$'+dayProj.toFixed(2));
-  const dom=new Date().getDate();
-  const moG=monthTrips().reduce((s,t)=>s+t.earned,0);
+  const dom=new Date().getDate();const moG=monthTrips().reduce((s,t)=>s+t.earned,0);
   const dim=new Date(thisYear(),thisMonth()+1,0).getDate();
   setText('h-proj-mo','$'+(dom>0?(moG/dom)*dim:0).toFixed(2));
-  // Goal
-  const dg=goals.daily||0;
-  const gBar=$('goal-bar');
-  if(dg>0){
-    const pct=Math.min(gross/dg,1)*100;
-    if(gBar){gBar.style.width=pct+'%';gBar.className='gbar-fill'+(pct>=100?' done':'');}
-    setText('goal-txt','$'+gross.toFixed(0)+' / $'+dg);
-    setText('goal-remain',gross>=dg?'🎉 Daily goal reached!':'$'+(dg-gross).toFixed(2)+' to reach today\'s goal');
-  }else{
-    if(gBar)gBar.style.width='0%';
-    setText('goal-txt','No goal set');
-    setText('goal-remain','Set a goal in the Goals tab');
-  }
+  const dg=goals.daily||0;const gBar=$('goal-bar');
+  if(dg>0){const pct=Math.min(gross/dg,1)*100;if(gBar){gBar.style.width=pct+'%';gBar.className='gbar-fill'+(pct>=100?' done':'');}setText('goal-txt','$'+gross.toFixed(0)+' / $'+dg);setText('goal-remain',gross>=dg?'🎉 Daily goal reached!':'$'+(dg-gross).toFixed(2)+' to reach today\'s goal');}
+  else{if(gBar)gBar.style.width='0%';setText('goal-txt','No goal set');setText('goal-remain','Set a goal in the Goals tab');}
   renderTrips('trips-list',tt.slice().reverse().slice(0,10));
 }
 
 function renderTrips(elId,arr,showDelete=true){
   const el=$(elId);if(!el)return;
-  if(!arr.length){
-    el.innerHTML=`<div class="empty"><div class="empty-ico">🚗</div><div class="empty-title">No trips yet</div><div class="empty-body">Log your first trip in the Tracker tab</div></div>`;
-    return;
-  }
+  if(!arr.length){el.innerHTML=`<div class="empty"><div class="empty-ico">🚗</div><div class="empty-title">No trips yet</div><div class="empty-body">Log your first trip in the Tracker tab</div></div>`;return;}
   el.innerHTML=arr.map(t=>{
-    const g=grade(t.earned,t.minutes);
-    const c=PLT_C[t.platform]||'#64748b';
-    const net=(t.earned-(t.gas||0)).toFixed(2);
+    const g=grade(t.earned,t.minutes);const c=PLT_C[t.platform]||'#64748b';const net=(t.earned-(t.gas||0)).toFixed(2);
     const delBtn=showDelete?`<div class="ti-del" onclick="deleteTrip('${t.id}',this.parentElement)">🗑</div>`:'';
     return `<div class="ti-card" id="ti-${t.id}" data-id="${t.id}">
       <div class="td" style="background:${c};box-shadow:0 0 7px ${c}55;"></div>
       <div class="ti-body">
-        <div class="ti-top">
-          <div class="ti-plat">${escHtml(PLT_L[t.platform]||t.platform)}</div>
-          <div class="ti-grade g${g}">${g}</div>
-        </div>
+        <div class="ti-top"><div class="ti-plat">${escHtml(PLT_L[t.platform]||t.platform)}</div><div class="ti-grade g${g}">${g}</div></div>
         <div class="ti-meta">${t.miles} mi · ${t.minutes} min${t.tip>0?' · 💰 $'+t.tip.toFixed(2)+' tip':''}${t.gas>0?' · ⛽ $'+t.gas.toFixed(2):''}</div>
         ${t.note?`<div class="ti-note">${escHtml(t.note)}</div>`:''}
       </div>
-      <div class="ti-r">
-        <div class="ti-earn">+$${t.earned.toFixed(2)}</div>
-        <div class="ti-net">$${net} net</div>
-      </div>
+      <div class="ti-r"><div class="ti-earn">+$${t.earned.toFixed(2)}</div><div class="ti-net">$${net} net</div></div>
       ${delBtn}
     </div>`;
   }).join('');
-  // Swipe to delete
   if(showDelete)initSwipe(el);
 }
 
@@ -1094,132 +1489,73 @@ function initSwipe(container){
   container.querySelectorAll('.ti-card').forEach(card=>{
     let startX=0,isDragging=false;
     card.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;isDragging=true;},{passive:true});
-    card.addEventListener('touchmove',e=>{
-      if(!isDragging)return;
-      const dx=startX-e.touches[0].clientX;
-      if(dx>40){card.classList.add('swipe-active');card.querySelector('.ti-del')?.classList.add('visible');}
-      else if(dx<-10){card.classList.remove('swipe-active');card.querySelector('.ti-del')?.classList.remove('visible');}
-    },{passive:true});
+    card.addEventListener('touchmove',e=>{if(!isDragging)return;const dx=startX-e.touches[0].clientX;if(dx>40){card.classList.add('swipe-active');card.querySelector('.ti-del')?.classList.add('visible');}else if(dx<-10){card.classList.remove('swipe-active');card.querySelector('.ti-del')?.classList.remove('visible');}},{passive:true});
     card.addEventListener('touchend',()=>{isDragging=false;});
   });
 }
 
 function deleteTrip(id,cardEl){
   if(!confirm('Delete this trip?'))return;
-  trips=trips.filter(t=>t.id!==id);
-  storeSave('gp_trips',trips);
+  trips=trips.filter(t=>t.id!==id);storeSave('gp_trips',trips);
   if(cardEl){cardEl.style.transition='all .3s';cardEl.style.opacity='0';cardEl.style.maxHeight='0';cardEl.style.padding='0';setTimeout(()=>scheduleUpdate(),300);}
   else scheduleUpdate();
   showToast('🗑 Trip deleted');
 }
 
-function deleteExp(id){
-  if(!confirm('Delete this expense?'))return;
-  expenses=expenses.filter(e=>e.id!==id);
-  storeSave('gp_exp',expenses);
-  scheduleUpdate();
-  showToast('🗑 Expense deleted');
-}
-
+function deleteExp(id){if(!confirm('Delete this expense?'))return;expenses=expenses.filter(e=>e.id!==id);storeSave('gp_exp',expenses);scheduleUpdate();showToast('🗑 Expense deleted');}
 function updateTracker(){renderTrips('trk-list',todayTrips().slice().reverse());}
 
 function updateExpenses(){
-  const yt=yearTrips();
-  const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
+  const yt=yearTrips();const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
   const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
-  const total=ae.reduce((s,e)=>s+e.amt,0)+yGas;
-  const totalDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0)+yGas;
-  setText('exp-total','$'+total.toFixed(2));
-  setText('exp-ded-badge','$'+totalDed.toFixed(2)+' deductible');
+  const total=ae.reduce((s,e)=>s+e.amt,0)+yGas;const totalDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0)+yGas;
+  setText('exp-total','$'+total.toFixed(2));setText('exp-ded-badge','$'+totalDed.toFixed(2)+' deductible');
   const bc={gas:yGas,phone:0,maintenance:0,insurance:0,carwash:0,supplies:0,other:0};
   ae.forEach(e=>{if(bc[e.cat]!==undefined)bc[e.cat]+=e.amt;else bc.other+=e.amt;});
-  setText('exp-gas',fmtK(bc.gas));
-  setText('exp-phone',fmtK(bc.phone));
-  setText('exp-maint',fmtK(bc.maintenance+bc.insurance+bc.carwash+bc.supplies));
-  setText('exp-other',fmtK(bc.other));
+  setText('exp-gas',fmtK(bc.gas));setText('exp-phone',fmtK(bc.phone));
+  setText('exp-maint',fmtK(bc.maintenance+bc.insurance+bc.carwash+bc.supplies));setText('exp-other',fmtK(bc.other));
   const el=$('exp-list');if(!el)return;
-  if(!ae.length&&yGas===0){
-    el.innerHTML=`<div class="empty"><div class="empty-ico">💸</div><div class="empty-title">No expenses yet</div><div class="empty-body">Track gas, phone, maintenance and more</div></div>`;
-    return;
-  }
-  const sorted=[...ae].sort((a,b)=>b.ts-a.ts);
-  el.innerHTML=sorted.map(e=>{
-    const m=EXP_M[e.cat]||EXP_M.other;
-    const d=new Date(e.ts);
-    return `<div class="exp-item">
-      <div class="exp-ico" style="background:${m.color}20;">${m.icon}</div>
-      <div class="exp-info"><div class="exp-cat">${escHtml(m.label)}${e.note?' — '+escHtml(e.note):''}</div><div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div></div>
-      <div class="exp-r"><div class="exp-amt">-$${e.amt.toFixed(2)}</div><div class="exp-ded">$${(e.amt*(m.dp||0.5)).toFixed(2)} deductible</div></div>
-      <button class="exp-del" onclick="deleteExp('${e.id}')" title="Delete">🗑</button>
-    </div>`;
+  if(!ae.length&&yGas===0){el.innerHTML=`<div class="empty"><div class="empty-ico">💸</div><div class="empty-title">No expenses yet</div><div class="empty-body">Track gas, phone, maintenance and more</div></div>`;return;}
+  el.innerHTML=[...ae].sort((a,b)=>b.ts-a.ts).map(e=>{
+    const m=EXP_M[e.cat]||EXP_M.other;const d=new Date(e.ts);
+    return `<div class="exp-item"><div class="exp-ico" style="background:${m.color}20;">${m.icon}</div><div class="exp-info"><div class="exp-cat">${escHtml(m.label)}${e.note?' — '+escHtml(e.note):''}</div><div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div></div><div class="exp-r"><div class="exp-amt">-$${e.amt.toFixed(2)}</div><div class="exp-ded">$${(e.amt*(m.dp||0.5)).toFixed(2)} deductible</div></div><button class="exp-del" onclick="deleteExp('${e.id}')">🗑</button></div>`;
   }).join('')+(yGas>0?`<div class="exp-item"><div class="exp-ico" style="background:#fbbf2420;">⛽</div><div class="exp-info"><div class="exp-cat">Gas (from trip logs)</div><div class="exp-date">Year total</div></div><div class="exp-r"><div class="exp-amt">-$${yGas.toFixed(2)}</div><div class="exp-ded">$${yGas.toFixed(2)} deductible</div></div></div>`:'');
 }
 
 function updateGoals(){
   const wt=weekTrips(),mt=monthTrips(),yt=yearTrips();
-  const wE=wt.reduce((s,t)=>s+t.earned,0);
-  const mE=mt.reduce((s,t)=>s+t.earned,0);
-  const yE=yt.reduce((s,t)=>s+t.earned,0);
-  const g=goals;
-  const wPct=g.weekly>0?Math.min(wE/g.weekly,1):0;
-  setText('g-wk-earn','$'+wE.toFixed(2));
-  setText('g-wk-sub','of $'+(g.weekly||0)+' weekly goal');
-  const wRem=Math.max((g.weekly||0)-wE,0);
-  setText('g-wk-badge',wRem>0?'$'+wRem.toFixed(0)+' to go':'🎉 Goal Crushed!');
+  const wE=wt.reduce((s,t)=>s+t.earned,0),mE=mt.reduce((s,t)=>s+t.earned,0),yE=yt.reduce((s,t)=>s+t.earned,0);
+  const g=goals;const wPct=g.weekly>0?Math.min(wE/g.weekly,1):0;
+  setText('g-wk-earn','$'+wE.toFixed(2));setText('g-wk-sub','of $'+(g.weekly||0)+' weekly goal');
+  const wRem=Math.max((g.weekly||0)-wE,0);setText('g-wk-badge',wRem>0?'$'+wRem.toFixed(0)+' to go':'🎉 Goal Crushed!');
   const wBar=$('g-wk-bar');if(wBar){wBar.style.width=(wPct*100)+'%';wBar.className='gbar-fill'+(wPct>=1?' done':'');}
   setText('g-wk-pct',Math.round(wPct*100)+'%');
-  const dow=new Date().getDay();
-  const dl=dow===0?0:7-dow;
+  const dow=new Date().getDay();const dl=dow===0?0:7-dow;
   setText('g-days-left',dl+' day'+(dl!==1?'s':'')+' left in week');
   const pace=g.weekly>0&&wE>0?(wE/Math.max(dow===0?7:dow,1))*7:0;
   setText('g-pace',pace>0?'On pace for $'+Math.round(pace):'');
-  const mPct=g.monthly>0?Math.min(mE/g.monthly,1):0;
-  setText('g-mo-pct',Math.round(mPct*100)+'%');
-  setText('g-mo-sub','$'+Math.round(mE)+' of $'+(g.monthly||0));
-  const yPct=g.annual>0?Math.min(yE/g.annual,1):0;
-  setText('g-yr-pct',Math.round(yPct*100)+'%');
-  setText('g-yr-sub','$'+Math.round(yE)+' of $'+(g.annual||0));
-  if(g.daily){const e=$('g-daily');if(e)e.value=g.daily;}
-  if(g.weekly){const e=$('g-weekly');if(e)e.value=g.weekly;}
-  if(g.monthly){const e=$('g-monthly');if(e)e.value=g.monthly;}
-  if(g.annual){const e=$('g-annual');if(e)e.value=g.annual;}
+  const mPct=g.monthly>0?Math.min(mE/g.monthly,1):0;setText('g-mo-pct',Math.round(mPct*100)+'%');setText('g-mo-sub','$'+Math.round(mE)+' of $'+(g.monthly||0));
+  const yPct=g.annual>0?Math.min(yE/g.annual,1):0;setText('g-yr-pct',Math.round(yPct*100)+'%');setText('g-yr-sub','$'+Math.round(yE)+' of $'+(g.annual||0));
+  if(g.daily){const e=$('g-daily');if(e)e.value=g.daily;}if(g.weekly){const e=$('g-weekly');if(e)e.value=g.weekly;}if(g.monthly){const e=$('g-monthly');if(e)e.value=g.monthly;}if(g.annual){const e=$('g-annual');if(e)e.value=g.annual;}
 }
 
 function updateWeekly(){
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const td=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
-  const wd=getWeeklyData();
-  const maxV=Math.max(...Object.values(wd),1);
-  const wTotal=Object.values(wd).reduce((s,v)=>s+v,0);
-  const wt=weekTrips();
-  const wMi=wt.reduce((s,t)=>s+t.miles,0);
-  const wMins=wt.reduce((s,t)=>s+t.minutes,0);
-  const wProfit=wt.reduce((s,t)=>s+t.earned-(t.gas||0),0);
-  const wHr=wMins>0?wTotal/(wMins/60):0;
-  setText('w-total','$'+wTotal.toFixed(2));
-  setText('w-sub',wt.length+' trips this week');
-  setText('w-profit','$'+wProfit.toFixed(2)+' profit');
-  setText('w-miles',Math.round(wMi));
-  setText('w-mi-ded','$'+(wMi*IRS).toFixed(0)+' deduction');
-  setText('w-hr','$'+wHr.toFixed(0));
-  setText('w-trips',wt.length);
-  let bDay='—',bAmt=0;
-  days.forEach(d=>{if((wd[d]||0)>bAmt){bAmt=wd[d];bDay=d;}});
-  setText('w-best',fmtK(bAmt));setText('w-best-day',bDay);
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const td=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+  const wd=getWeeklyData();const maxV=Math.max(...Object.values(wd),1);
+  const wt=weekTrips();const wMi=wt.reduce((s,t)=>s+t.miles,0);const wMins=wt.reduce((s,t)=>s+t.minutes,0);
+  const wTotal=Object.values(wd).reduce((s,v)=>s+v,0);const wProfit=wt.reduce((s,t)=>s+t.earned-(t.gas||0),0);const wHr=wMins>0?wTotal/(wMins/60):0;
+  setText('w-total','$'+wTotal.toFixed(2));setText('w-sub',wt.length+' trips this week');setText('w-profit','$'+wProfit.toFixed(2)+' profit');
+  setText('w-miles',Math.round(wMi));setText('w-mi-ded','$'+(wMi*IRS).toFixed(0)+' deduction');setText('w-hr','$'+wHr.toFixed(0));setText('w-trips',wt.length);
+  let bDay='—',bAmt=0;days.forEach(d=>{if((wd[d]||0)>bAmt){bAmt=wd[d];bDay=d;}});setText('w-best',fmtK(bAmt));setText('w-best-day',bDay);
   const barsEl=$('chart-bars'),lblsEl=$('chart-lbls');
-  if(barsEl)barsEl.innerHTML=days.map(d=>{
-    const pct=((wd[d]||0)/maxV)*100;
-    return `<div class="bw"><div class="b-amt">${wd[d]>0?'$'+wd[d].toFixed(0):''}</div><div class="b${d===td?' today':''}" style="height:${Math.max(pct,2)}%"></div></div>`;
-  }).join('');
+  if(barsEl)barsEl.innerHTML=days.map(d=>{const pct=((wd[d]||0)/maxV)*100;return `<div class="bw"><div class="b-amt">${wd[d]>0?'$'+wd[d].toFixed(0):''}</div><div class="b${d===td?' today':''}" style="height:${Math.max(pct,2)}%"></div></div>`;}).join('');
   if(lblsEl)lblsEl.innerHTML=days.map(d=>`<div style="flex:1;text-align:center;" class="b-lbl${d===td?' tday':''}">${d}</div>`).join('');
 }
 
 function updateInsights(){
   const yt=yearTrips();
   if(!yt.length){setText('ins-score','—');setText('ins-score-sub','Log trips to see your score');$('grade-bd').innerHTML='';$('ins-list').innerHTML='<div class="insight-card"><div class="ic-ico">📊</div><div class="ic-title">No data yet</div><div class="ic-body">Log some trips and come back for personalized insights.</div></div>';return;}
-  const tE=yt.reduce((s,t)=>s+t.earned,0);
-  const tM=yt.reduce((s,t)=>s+t.minutes,0);
-  const avgRate=tM>0?tE/(tM/60):0;
+  const tE=yt.reduce((s,t)=>s+t.earned,0);const tM=yt.reduce((s,t)=>s+t.minutes,0);const avgRate=tM>0?tE/(tM/60):0;
   const sl=avgRate>=30?'A':avgRate>=22?'B':avgRate>=15?'C':avgRate>=10?'D':'F';
   const sc={A:'#86efac',B:'#7dd3fc',C:'#fcd34d',D:'#fdba74',F:'#fda4af'};
   const scoreEl=$('ins-score');if(scoreEl){scoreEl.textContent=sl;scoreEl.style.color=sc[sl];}
@@ -1229,18 +1565,10 @@ function updateInsights(){
   setText('ins-hr',bH);
   const pe={};Object.keys(PLT_L).forEach(p=>pe[p]=0);yt.forEach(t=>{if(pe[t.platform]!==undefined)pe[t.platform]+=t.earned;});
   const top=Object.entries(pe).sort((a,b)=>b[1]-a[1])[0];
-  setText('ins-top',top&&top[1]>0?top[0].charAt(0).toUpperCase()+top[0].slice(1):'—');
-  setText('ins-avg','$'+(tE/yt.length).toFixed(2));
+  setText('ins-top',top&&top[1]>0?top[0].charAt(0).toUpperCase()+top[0].slice(1):'—');setText('ins-avg','$'+(tE/yt.length).toFixed(2));
   const grades={A:0,B:0,C:0,D:0,F:0};yt.forEach(t=>grades[grade(t.earned,t.minutes)]++);
   const gbEl=$('grade-bd');
-  if(gbEl)gbEl.innerHTML=Object.entries(grades).map(([g,c])=>{
-    const pct=yt.length>0?Math.round((c/yt.length)*100):0;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:${sc[g]};min-width:22px;">${g}</div>
-      <div style="flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${sc[g]};border-radius:3px;"></div></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:80px;text-align:right;">${c} trips (${pct}%)</div>
-    </div>`;
-  }).join('');
+  if(gbEl)gbEl.innerHTML=Object.entries(grades).map(([g,c])=>{const pct=yt.length>0?Math.round((c/yt.length)*100):0;return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);"><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:${sc[g]};min-width:22px;">${g}</div><div style="flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${sc[g]};border-radius:3px;"></div></div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:80px;text-align:right;">${c} trips (${pct}%)</div></div>`;}).join('');
   const il=$('ins-list');if(!il)return;
   const cards=[];
   if(avgRate>25)cards.push({i:'💪',t:'Strong Hourly Rate',b:`Averaging $${avgRate.toFixed(2)}/hr — above the gig worker average of $18-22/hr. Keep it up!`});
@@ -1251,87 +1579,43 @@ function updateInsights(){
   const yMi=yt.reduce((s,t)=>s+t.miles,0),yD=yMi*IRS;
   if(yD>500)cards.push({i:'💰',t:'Healthy Mileage Deduction',b:`$${yD.toFixed(2)} in deductions so far. On pace for $${Math.round((yD/Math.max(thisMonth()+1,1))*12)} by year end.`});
   const avgGas=yt.filter(t=>t.gas>0).reduce((s,t)=>s+t.gas,0);
-  if(avgGas>0){const gPct=((avgGas/tE)*100).toFixed(1);cards.push({i:'⛽',t:'Gas Cost Analysis',b:`You've spent $${avgGas.toFixed(2)} on gas — ${gPct}% of your gross earnings. Track per-trip gas to optimize routes.`});}
+  if(avgGas>0){const gPct=((avgGas/tE)*100).toFixed(1);cards.push({i:'⛽',t:'Gas Cost Analysis',b:`You've spent $${avgGas.toFixed(2)} on gas — ${gPct}% of your gross earnings.`});}
+  if(!isPro)cards.push({i:'🤖',t:'Unlock AI Coach',b:'Get personalized coaching based on your real data. Ask anything — best hours, platforms, tax strategy. Pro feature.'});
   il.innerHTML=cards.map(c=>`<div class="insight-card"><div class="ic-ico">${c.i}</div><div class="ic-title">${escHtml(c.t)}</div><div class="ic-body">${escHtml(c.b)}</div></div>`).join('');
 }
 
 function updateTax(){
-  const yt=yearTrips();
-  const yMi=yt.reduce((s,t)=>s+t.miles,0);
-  const yG=yt.reduce((s,t)=>s+t.earned,0);
-  const yD=yMi*IRS;
-  setText('tax-ded-big','$'+yD.toFixed(2));
-  setText('tax-mi-badge',Math.round(yMi)+' miles driven');
-  setText('tax-miles',Math.round(yMi));
-  setText('tax-ded','$'+Math.round(yD));
-  setText('tax-gross','$'+Math.round(yG));
-  setText('tax-trips',yt.length);
-  const pm={};Object.keys(PLT_L).forEach(p=>pm[p]=0);
-  yt.forEach(t=>{if(pm[t.platform]!==undefined)pm[t.platform]+=t.miles;});
+  const yt=yearTrips();const yMi=yt.reduce((s,t)=>s+t.miles,0);const yG=yt.reduce((s,t)=>s+t.earned,0);const yD=yMi*IRS;
+  setText('tax-ded-big','$'+yD.toFixed(2));setText('tax-mi-badge',Math.round(yMi)+' miles driven');
+  setText('tax-miles',Math.round(yMi));setText('tax-ded','$'+Math.round(yD));setText('tax-gross','$'+Math.round(yG));setText('tax-trips',yt.length);
+  const pm={};Object.keys(PLT_L).forEach(p=>pm[p]=0);yt.forEach(t=>{if(pm[t.platform]!==undefined)pm[t.platform]+=t.miles;});
   const tpm=Math.max(Object.values(pm).reduce((s,v)=>s+v,0),.001);
   const ps=$('plat-split');
-  if(ps)ps.innerHTML=Object.keys(PLT_L).map(p=>{
-    const mi=pm[p],pct=(mi/tpm)*100,d=mi*IRS;
-    if(mi===0)return '';
-    return `<div class="split-item"><div class="split-hdr"><div class="split-nm" style="color:${PLT_C[p]}">${PLT_L[p]}</div><div class="split-vl">${mi.toFixed(1)} mi · $${d.toFixed(2)}</div></div><div class="split-bg"><div class="split-fill" style="width:${pct}%;background:${PLT_C[p]};opacity:.85;"></div></div></div>`;
-  }).join('')||'<div class="empty"><div class="empty-ico">🗺️</div><div class="empty-title">No trips yet</div></div>';
-  const mo={};MONTHS.forEach((_,i)=>mo[i]={miles:0,earned:0,trips:0});
-  yt.forEach(t=>{const m=new Date(t.ts).getMonth();mo[m].miles+=t.miles;mo[m].earned+=t.earned;mo[m].trips++;});
+  if(ps)ps.innerHTML=Object.keys(PLT_L).map(p=>{const mi=pm[p],pct=(mi/tpm)*100,d=mi*IRS;if(mi===0)return '';return `<div class="split-item"><div class="split-hdr"><div class="split-nm" style="color:${PLT_C[p]}">${PLT_L[p]}</div><div class="split-vl">${mi.toFixed(1)} mi · $${d.toFixed(2)}</div></div><div class="split-bg"><div class="split-fill" style="width:${pct}%;background:${PLT_C[p]};opacity:.85;"></div></div></div>`;}).join('')||'<div class="empty"><div class="empty-ico">🗺️</div><div class="empty-title">No trips yet</div></div>';
+  const mo={};MONTHS.forEach((_,i)=>mo[i]={miles:0,earned:0,trips:0});yt.forEach(t=>{const m=new Date(t.ts).getMonth();mo[m].miles+=t.miles;mo[m].earned+=t.earned;mo[m].trips++;});
   const cm=thisMonth();
   const mt=$('month-table');
-  if(mt)mt.innerHTML=MONTHS.map((n,i)=>{
-    if(mo[i].trips===0&&i>cm)return '';
-    const dd=mo[i].miles*IRS,isN=i===cm;
-    return `<div class="mo-row" style="${isN?'border-color:rgba(56,189,248,.4);':''}"><div class="mo-name" style="${isN?'color:#7dd3fc;':''}">${n}</div><div class="mo-mi">${mo[i].miles.toFixed(1)} mi</div><div class="mo-earn">$${mo[i].earned.toFixed(0)}</div><div class="mo-ded">$${dd.toFixed(2)}</div></div>`;
-  }).join('')||'<div class="empty"><div class="empty-body">No trips yet</div></div>';
+  if(mt)mt.innerHTML=MONTHS.map((n,i)=>{if(mo[i].trips===0&&i>cm)return '';const dd=mo[i].miles*IRS,isN=i===cm;return `<div class="mo-row" style="${isN?'border-color:rgba(56,189,248,.4);':''}"><div class="mo-name" style="${isN?'color:#7dd3fc;':''}">${n}</div><div class="mo-mi">${mo[i].miles.toFixed(1)} mi</div><div class="mo-earn">$${mo[i].earned.toFixed(0)}</div><div class="mo-ded">$${dd.toFixed(2)}</div></div>`;}).join('')||'<div class="empty"><div class="empty-body">No trips yet</div></div>';
 }
 
 function updateQTax(){
-  const yt=yearTrips();
-  const yG=yt.reduce((s,t)=>s+t.earned,0);
-  const yMi=yt.reduce((s,t)=>s+t.miles,0);
-  const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
-  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
-  const yExpDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0);
-  const s=qtS;
-  const tG=yG+(+s.otherInc);
-  const netSE=Math.max(yG-yMi*IRS-yGas-yExpDed-(+s.otherExp),0);
-  const seTax=netSE*0.9235*0.153;
-  const seDed=seTax/2;
-  const std=STD[s.filing]||15000;
+  const yt=yearTrips();const yG=yt.reduce((s,t)=>s+t.earned,0);const yMi=yt.reduce((s,t)=>s+t.miles,0);const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
+  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());const yExpDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0);
+  const s=qtS;const tG=yG+(+s.otherInc);const netSE=Math.max(yG-yMi*IRS-yGas-yExpDed-(+s.otherExp),0);
+  const seTax=netSE*0.9235*0.153;const seDed=seTax/2;const std=STD[s.filing]||15000;
   const taxable=Math.max(tG-(yMi*IRS+yGas+yExpDed+(+s.otherExp))-seDed-std,0);
-  const brs=s.filing==='mfj'?BR_MFJ:BR_S;
-  let fed=0;brs.forEach(b=>{if(taxable>b.min)fed+=(Math.min(taxable,b.max)-b.min)*b.r;});
-  const stTax=taxable*((+s.state)/100);
-  const total=Math.max(seTax+fed+stTax,0);
-  const eff=tG>0?(total/tG)*100:0;
-  const now=Date.now();
-  const uq=QT_DL.find(q=>q.ts>=now)||QT_DL[3];
-  const qT=qd=>total*(qd.months.length/12);
-  const cqT=qT(uq);
-  const wl=Math.max(Math.ceil((uq.ts-now)/(7*24*3600*1000)),1);
-  const sv=qtSaved['q'+uq.q]||0;
-  const sn=Math.max(cqT-sv,0);
-  const pct=cqT>0?Math.min(sv/cqT,1):0;
-  setText('qt-q',uq.q);setText('qt-due','$'+cqT.toFixed(2));setText('qt-due-date','Due '+uq.due);
-  setText('qt-wk-badge','Set aside $'+(sn/wl).toFixed(0)+'/week');
+  const brs=s.filing==='mfj'?BR_MFJ:BR_S;let fed=0;brs.forEach(b=>{if(taxable>b.min)fed+=(Math.min(taxable,b.max)-b.min)*b.r;});
+  const stTax=taxable*((+s.state)/100);const total=Math.max(seTax+fed+stTax,0);const eff=tG>0?(total/tG)*100:0;
+  const now=Date.now();const uq=QT_DL.find(q=>q.ts>=now)||QT_DL[3];const qT=qd=>total*(qd.months.length/12);
+  const cqT=qT(uq);const wl=Math.max(Math.ceil((uq.ts-now)/(7*24*3600*1000)),1);const sv=qtSaved['q'+uq.q]||0;const sn=Math.max(cqT-sv,0);const pct=cqT>0?Math.min(sv/cqT,1):0;
+  setText('qt-q',uq.q);setText('qt-due','$'+cqT.toFixed(2));setText('qt-due-date','Due '+uq.due);setText('qt-wk-badge','Set aside $'+(sn/wl).toFixed(0)+'/week');
   setText('qt-yr','$'+Math.round(total));setText('qt-taxable','$'+Math.round(taxable));setText('qt-se','$'+Math.round(seTax));setText('qt-rate',eff.toFixed(1)+'%');
-  const rc=$('ring-c');if(rc)rc.style.strokeDashoffset=251-(pct*251);
-  setText('ring-pct',Math.round(pct*100)+'%');
+  const rc=$('ring-c');if(rc)rc.style.strokeDashoffset=251-(pct*251);setText('ring-pct',Math.round(pct*100)+'%');
   document.querySelectorAll('.qt-q-r').forEach(e=>e.textContent=uq.q);
   setText('qt-owed','$'+cqT.toFixed(2));setText('qt-saved','$'+sv.toFixed(2));setText('qt-still','$'+sn.toFixed(2));
   const dl=$('dl-list');
-  if(dl)dl.innerHTML=QT_DL.map(qd=>{
-    const amt=qT(qd),isPast=qd.ts<now,isSoon=!isPast&&(qd.ts-now)<30*24*3600*1000;
-    const qsv=qtSaved['q'+qd.q]||0,isPaid=qsv>=amt&&amt>0;
-    let cls='dl',st='UPCOMING',sc='dst-ok';
-    if(isPaid){cls+=' paid';st='PAID';sc='dst-paid';}else if(isPast){cls+=' over';st='OVERDUE';sc='dst-over';}else if(isSoon||qd.q===uq.q){cls+=' soon';st='DUE SOON';sc='dst-soon';}
-    return `<div class="${cls}"><div class="dl-q q${qd.q}">Q${qd.q}</div><div class="dl-info"><div class="dl-lbl">${qd.label}</div><div class="dl-date">${qd.due}</div></div><div class="dl-r"><div class="dl-amt">$${amt.toFixed(0)}</div><div class="dl-st ${sc}">${st}</div></div></div>`;
-  }).join('');
-  const fe=$('qt-filing');if(fe)fe.value=s.filing;
-  const oi=$('qt-oi');if(oi&&+s.otherInc)oi.value=s.otherInc;
-  const oe=$('qt-oe');if(oe&&+s.otherExp)oe.value=s.otherExp;
-  const sr=$('qt-state');if(sr&&+s.state)sr.value=s.state;
+  if(dl)dl.innerHTML=QT_DL.map(qd=>{const amt=qT(qd),isPast=qd.ts<now,isSoon=!isPast&&(qd.ts-now)<30*24*3600*1000;const qsv=qtSaved['q'+qd.q]||0,isPaid=qsv>=amt&&amt>0;let cls='dl',st='UPCOMING',sc2='dst-ok';if(isPaid){cls+=' paid';st='PAID';sc2='dst-paid';}else if(isPast){cls+=' over';st='OVERDUE';sc2='dst-over';}else if(isSoon||qd.q===uq.q){cls+=' soon';st='DUE SOON';sc2='dst-soon';}return `<div class="${cls}"><div class="dl-q q${qd.q}">Q${qd.q}</div><div class="dl-info"><div class="dl-lbl">${qd.label}</div><div class="dl-date">${qd.due}</div></div><div class="dl-r"><div class="dl-amt">$${amt.toFixed(0)}</div><div class="dl-st ${sc2}">${st}</div></div></div>`;}).join('');
+  const fe=$('qt-filing');if(fe)fe.value=s.filing;const oi=$('qt-oi');if(oi&&+s.otherInc)oi.value=s.otherInc;const oe=$('qt-oe');if(oe&&+s.otherExp)oe.value=s.otherExp;const sr=$('qt-state');if(sr&&+s.state)sr.value=s.state;
 }
 
 function updateBackup(){
@@ -1347,79 +1631,54 @@ function genId(){return Date.now().toString(36)+Math.random().toString(36).slice
 
 function logTrip(){
   if(trips.length>=MAX_TRIPS){showToast('⚠️ Max trips reached. Export & clear data.','warn');return;}
-  const earn=safeNum($('t-earn')?.value,0,9999);
-  const tip=safeNum($('t-tip')?.value,0,9999);
-  const miles=safeNum($('t-miles')?.value,0,9999);
-  const mins=safeInt($('t-mins')?.value,0,1440);
-  const gas=safeNum($('t-gas')?.value,0,999);
-  const note=safeStr($('t-note')?.value,200);
+  const earn=safeNum($('t-earn')?.value,0,9999);const tip=safeNum($('t-tip')?.value,0,9999);const miles=safeNum($('t-miles')?.value,0,9999);const mins=safeInt($('t-mins')?.value,0,1440);const gas=safeNum($('t-gas')?.value,0,999);const note=safeStr($('t-note')?.value,200);
   if(earn<=0){showToast('⚠️ Enter an amount earned','warn');return;}
   const total=earn+tip;
   trips.push({id:genId(),platform:selPlatform,earned:total,tip,miles,minutes:mins,gas,note,ts:Date.now()});
   if(!storeSave('gp_trips',trips)){trips.pop();return;}
   ['t-earn','t-tip','t-miles','t-mins','t-gas','t-note'].forEach(id=>{const e=$(id);if(e)e.value='';});
-  showToast('✓ Trip logged! +$'+total.toFixed(2));
-  scheduleUpdate();
-  goPage('home');
+  showToast('✓ Trip logged! +$'+total.toFixed(2));scheduleUpdate();goPage('home');
 }
 
 function logExp(){
   if(expenses.length>=MAX_EXPENSES){showToast('⚠️ Max expenses reached.','warn');return;}
-  const cat=safeExpCat($('e-cat')?.value);
-  const amt=safeNum($('e-amt')?.value,0,99999);
-  const note=safeStr($('e-note')?.value,200);
+  const cat=safeExpCat($('e-cat')?.value);const amt=safeNum($('e-amt')?.value,0,99999);const note=safeStr($('e-note')?.value,200);
   if(amt<=0){showToast('⚠️ Enter an amount','warn');return;}
   expenses.push({id:genId(),cat,amt,note,ts:Date.now()});
   if(!storeSave('gp_exp',expenses)){expenses.pop();return;}
-  const eA=$('e-amt');if(eA)eA.value='';
-  const eN=$('e-note');if(eN)eN.value='';
-  showToast('✓ Expense logged! -$'+amt.toFixed(2));
-  scheduleUpdate();
+  const eA=$('e-amt');if(eA)eA.value='';const eN=$('e-note');if(eN)eN.value='';
+  showToast('✓ Expense logged! -$'+amt.toFixed(2));scheduleUpdate();
 }
 
-function saveGoals(){
-  goals={
-    daily:safeNum($('g-daily')?.value,0,99999),
-    weekly:safeNum($('g-weekly')?.value,0,99999),
-    monthly:safeNum($('g-monthly')?.value,0,999999),
-    annual:safeNum($('g-annual')?.value,0,9999999)
-  };
-  storeSave('gp_goals',goals);
-  showToast('🎯 Goals saved!');scheduleUpdate();
+function saveGoals(){goals={daily:safeNum($('g-daily')?.value,0,99999),weekly:safeNum($('g-weekly')?.value,0,99999),monthly:safeNum($('g-monthly')?.value,0,999999),annual:safeNum($('g-annual')?.value,0,9999999)};storeSave('gp_goals',goals);showToast('🎯 Goals saved!');scheduleUpdate();}
+
+function saveQTS(){qtS={filing:(['single','mfj','mfs','hoh'].includes($('qt-filing')?.value)?$('qt-filing').value:'single'),otherInc:safeNum($('qt-oi')?.value,0,9999999),otherExp:safeNum($('qt-oe')?.value,0,9999999),state:safeNum($('qt-state')?.value,0,20)};storeSave('gp_qt_s',qtS);showToast('✓ Tax settings updated!');updateQTax();}
+
+function updateSavings(){const val=safeNum($('qt-inp')?.value,0,9999999);const uq=QT_DL.find(q=>q.ts>=Date.now())||QT_DL[3];qtSaved['q'+uq.q]=val;storeSave('gp_qt_saved',qtSaved);const i=$('qt-inp');if(i)i.value='';showToast('💜 Savings updated!');updateQTax();}
+
+// ═══ EXPORT ═══
+function exportCSVGated(){
+  if(!isPro){showUpgradeModal('CSV export is a Pro feature — upgrade to download your full mileage log.');return;}
+  exportCSV();
 }
 
-function saveQTS(){
-  qtS={
-    filing:(['single','mfj','mfs','hoh'].includes($('qt-filing')?.value)?$('qt-filing').value:'single'),
-    otherInc:safeNum($('qt-oi')?.value,0,9999999),
-    otherExp:safeNum($('qt-oe')?.value,0,9999999),
-    state:safeNum($('qt-state')?.value,0,20)
-  };
-  storeSave('gp_qt_s',qtS);
-  showToast('✓ Tax settings updated!');updateQTax();
+function exportCSV(){
+  const yt=yearTrips();if(!yt.length){showToast('⚠️ No trips to export','warn');return;}
+  function csvEsc(v){const s=String(v||'');return s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s;}
+  const hdr='Date,Time,Platform,Miles,Minutes,Earned ($),Tip ($),Gas ($),IRS Deduction ($),Net Profit ($),Grade,Notes';
+  const rows=yt.map(t=>{const d=new Date(t.ts);return [(d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(),d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),csvEsc(t.platform),t.miles.toFixed(1),t.minutes,t.earned.toFixed(2),(t.tip||0).toFixed(2),(t.gas||0).toFixed(2),(t.miles*IRS).toFixed(2),(t.earned-(t.gas||0)).toFixed(2),grade(t.earned,t.minutes),csvEsc(t.note||'')].join(',');});
+  const tM=yt.reduce((s,t)=>s+t.miles,0),tE=yt.reduce((s,t)=>s+t.earned,0);
+  rows.push('','TOTALS,,,'+tM.toFixed(1)+',,'+tE.toFixed(2)+',,,'+(tM*IRS).toFixed(2));
+  rows.push('IRS Rate: $'+IRS+'/mi','Tax Year: '+thisYear());
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([[hdr,...rows].join('\n')],{type:'text/csv;charset=utf-8;'}));a.download='GigPro_'+thisYear()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),10000);showToast('📥 CSV downloaded!');}catch(e){showToast('⚠️ Export failed','err');}
 }
 
-function updateSavings(){
-  const val=safeNum($('qt-inp')?.value,0,9999999);
-  const uq=QT_DL.find(q=>q.ts>=Date.now())||QT_DL[3];
-  qtSaved['q'+uq.q]=val;
-  storeSave('gp_qt_saved',qtSaved);
-  const i=$('qt-inp');if(i)i.value='';
-  showToast('💜 Savings updated!');updateQTax();
-}
-
-// ═══ BACKUP & RESTORE ═══
 function exportBackup(){
   try{
-    const data={version:'3.0',exported:new Date().toISOString(),trips,expenses,goals,qtS,qtSaved,userPref};
+    const data={version:'4.0',exported:new Date().toISOString(),trips,expenses,goals,qtS,qtSaved,userPref,isPro};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='GigPro_Backup_'+new Date().toISOString().split('T')[0]+'.json';
-    a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),10000);
-    localStorage.setItem('gp_last_backup',Date.now().toString());
-    showToast('✅ Backup downloaded!');updateBackup();
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='GigPro_Backup_'+new Date().toISOString().split('T')[0]+'.json';a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),10000);localStorage.setItem('gp_last_backup',Date.now().toString());showToast('✅ Backup downloaded!');updateBackup();
   }catch(e){showToast('⚠️ Export failed','err');}
 }
 
@@ -1430,47 +1689,15 @@ function restoreBackup(input){
   const reader=new FileReader();
   reader.onload=e=>{
     try{
-      const data=JSON.parse(e.target.result);
-      if(!data.trips||!data.version){showToast('⚠️ Invalid backup file','warn');return;}
+      const data=JSON.parse(e.target.result);if(!data.trips||!data.version){showToast('⚠️ Invalid backup file','warn');return;}
       if(!confirm('This will replace all your current data. Continue?')){return;}
-      function sanitizeTrip(t){
-        return {
-          id:safeStr(t.id||genId(),32),
-          note:safeStr(t.note||'',200),
-          platform:safePlatform(t.platform),
-          earned:safeNum(t.earned,0,9999),
-          tip:safeNum(t.tip,0,9999),
-          miles:safeNum(t.miles,0,9999),
-          minutes:safeInt(t.minutes,0,1440),
-          gas:safeNum(t.gas,0,999),
-          ts:safeInt(t.ts,0,9999999999999)
-        };
-      }
-      function sanitizeExp(e){
-        return {
-          id:safeStr(e.id||genId(),32),
-          note:safeStr(e.note||'',200),
-          cat:safeExpCat(e.cat),
-          amt:safeNum(e.amt,0,99999),
-          ts:safeInt(e.ts,0,9999999999999)
-        };
-      }
-      trips=(data.trips||[]).slice(0,MAX_TRIPS).map(sanitizeTrip);
-      expenses=(data.expenses||[]).slice(0,MAX_EXPENSES).map(sanitizeExp);
-      goals=data.goals||{daily:0,weekly:0,monthly:0,annual:0};
-      qtS=data.qtS||{filing:'single',otherInc:0,otherExp:0,state:0};
-      qtSaved=data.qtSaved||{};
-      const rp=data.userPref||{};
-      userPref={...userPref,
-        name:safeStr(rp.name||'',60),
-        filing:(['single','mfj','mfs','hoh'].includes(rp.filing)?rp.filing:'single'),
-        state:safeNum(rp.state,0,20),
-      };
-      storeSave('gp_trips',trips);storeSave('gp_exp',expenses);
-      storeSave('gp_goals',goals);storeSave('gp_qt_s',qtS);
-      storeSave('gp_qt_saved',qtSaved);storeSave('gp_pref',userPref);
-      showToast('✅ Restored! '+trips.length+' trips loaded');
-      scheduleUpdate();
+      function sanitizeTrip(t){return{id:safeStr(t.id||genId(),32),note:safeStr(t.note||'',200),platform:safePlatform(t.platform),earned:safeNum(t.earned,0,9999),tip:safeNum(t.tip,0,9999),miles:safeNum(t.miles,0,9999),minutes:safeInt(t.minutes,0,1440),gas:safeNum(t.gas,0,999),ts:safeInt(t.ts,0,9999999999999)};}
+      function sanitizeExp(e){return{id:safeStr(e.id||genId(),32),note:safeStr(e.note||'',200),cat:safeExpCat(e.cat),amt:safeNum(e.amt,0,99999),ts:safeInt(e.ts,0,9999999999999)};}
+      trips=(data.trips||[]).slice(0,MAX_TRIPS).map(sanitizeTrip);expenses=(data.expenses||[]).slice(0,MAX_EXPENSES).map(sanitizeExp);goals=data.goals||{daily:0,weekly:0,monthly:0,annual:0};qtS=data.qtS||{filing:'single',otherInc:0,otherExp:0,state:0};qtSaved=data.qtSaved||{};
+      const rp=data.userPref||{};userPref={...userPref,name:safeStr(rp.name||'',60),filing:(['single','mfj','mfs','hoh'].includes(rp.filing)?rp.filing:'single'),state:safeNum(rp.state,0,20)};
+      if(data.isPro)isPro=true;
+      storeSave('gp_trips',trips);storeSave('gp_exp',expenses);storeSave('gp_goals',goals);storeSave('gp_qt_s',qtS);storeSave('gp_qt_saved',qtSaved);storeSave('gp_pref',userPref);storeSave('gp_pro',isPro);
+      showToast('✅ Restored! '+trips.length+' trips loaded');scheduleUpdate();
     }catch(err){showToast('⚠️ Could not read file','err');}
   };
   reader.readAsText(file);input.value='';
@@ -1479,82 +1706,33 @@ function restoreBackup(input){
 function clearAll(){
   if(!confirm('Delete ALL data permanently? Export a backup first!'))return;
   if(!confirm('Are you 100% sure? This cannot be undone.'))return;
-  ['gp_trips','gp_exp','gp_goals','gp_qt_s','gp_qt_saved'].forEach(k=>localStorage.removeItem(k));
-  trips=[];expenses=[];goals={daily:0,weekly:0,monthly:0,annual:0};
-  qtS={filing:'single',otherInc:0,otherExp:0,state:0};qtSaved={};
+  ['gp_trips','gp_exp','gp_goals','gp_qt_s','gp_qt_saved','gp_pro'].forEach(k=>localStorage.removeItem(k));
+  trips=[];expenses=[];goals={daily:0,weekly:0,monthly:0,annual:0};qtS={filing:'single',otherInc:0,otherExp:0,state:0};qtSaved={};isPro=false;
   showToast('🗑 All data cleared');scheduleUpdate();
 }
 
-function exportCSV(){
-  const yt=yearTrips();
-  if(!yt.length){showToast('⚠️ No trips to export','warn');return;}
-  function csvEsc(v){const s=String(v||'');return s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s;}
-  const hdr='Date,Time,Platform,Miles,Minutes,Earned ($),Tip ($),Gas ($),IRS Deduction ($),Net Profit ($),Grade,Notes';
-  const rows=yt.map(t=>{
-    const d=new Date(t.ts);
-    return [(d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(),d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),csvEsc(t.platform),t.miles.toFixed(1),t.minutes,t.earned.toFixed(2),(t.tip||0).toFixed(2),(t.gas||0).toFixed(2),(t.miles*IRS).toFixed(2),(t.earned-(t.gas||0)).toFixed(2),grade(t.earned,t.minutes),csvEsc(t.note||'')].join(',');
-  });
-  const tM=yt.reduce((s,t)=>s+t.miles,0),tE=yt.reduce((s,t)=>s+t.earned,0);
-  rows.push('','TOTALS,,,'+tM.toFixed(1)+',,'+tE.toFixed(2)+',,,'+(tM*IRS).toFixed(2));
-  rows.push('IRS Rate: $'+IRS+'/mi','Tax Year: '+thisYear());
-  try{
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob([[hdr,...rows].join('\n')],{type:'text/csv;charset=utf-8;'}));
-    a.download='GigPro_'+thisYear()+'.csv';a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),10000);
-    showToast('📥 CSV downloaded!');
-  }catch(e){showToast('⚠️ Export failed','err');}
-}
-
 // ═══ PLATFORM & PAGE ═══
-function syncPlatformBtn(p){
-  document.querySelectorAll('.pb').forEach(b=>b.className='pb');
-  const target=document.querySelector(`.pb.${PLT_CSS[p]}`)||document.querySelectorAll('.pb')[0];
-  if(target)target.className='pb '+(PLT_CSS[p]||'su');
-}
-
-function selP(p,el){
-  selPlatform=safePlatform(p);
-  document.querySelectorAll('.pb').forEach(b=>b.className='pb');
-  el.className='pb '+(PLT_CSS[p]||'su');
-}
-
-function fPlat(p,el){
-  document.querySelectorAll('.pill').forEach(b=>{
-    b.className=b.className.replace(' on','');
-    if(b.classList.contains('active-all'))b.className=b.className.replace('active-all','').trim();
-  });
-  if(p==='all')el.classList.add('active-all');
-  else el.classList.add('on');
-}
+function syncPlatformBtn(p){document.querySelectorAll('.pb').forEach(b=>b.className='pb');const target=document.querySelector(`.pb.${PLT_CSS[p]}`)||document.querySelectorAll('.pb')[0];if(target)target.className='pb '+(PLT_CSS[p]||'su');}
+function selP(p,el){selPlatform=safePlatform(p);document.querySelectorAll('.pb').forEach(b=>b.className='pb');el.className='pb '+(PLT_CSS[p]||'su');}
+function fPlat(p,el){document.querySelectorAll('.pill').forEach(b=>{b.className=b.className.replace(' on','');if(b.classList.contains('active-all'))b.className=b.className.replace('active-all','').trim();});if(p==='all')el.classList.add('active-all');else el.classList.add('on');}
 
 let currentPage='home';
 function goPage(name,tabEl,navEl){
   currentPage=name;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const pg=$('page-'+name);if(pg)pg.classList.add('active');
-  // Sync nav tabs
-  if(tabEl){
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    tabEl.classList.add('active');
-  }else{
-    document.querySelectorAll('.tab').forEach(t=>{
-      if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+name+"'"))t.classList.add('active');
-      else t.classList.remove('active');
-    });
-  }
-  // Sync bottom nav
-  if(navEl){
-    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-    navEl.classList.add('active');
-  }else{
-    document.querySelectorAll('.ni').forEach(n=>{
-      if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+name+"'"))n.classList.add('active');
-      else n.classList.remove('active');
-    });
-  }
+  if(tabEl){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
+  else{document.querySelectorAll('.tab').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+name+"'"))t.classList.add('active');else t.classList.remove('active');});}
+  if(navEl){document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+  else{document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+name+"'"))n.classList.add('active');else n.classList.remove('active');});}
   window.scrollTo(0,0);
 }
+
+// Allow Enter key in coach input
+document.addEventListener('DOMContentLoaded',()=>{
+  const ci=$('coach-input');
+  if(ci)ci.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendToCoach();}});
+});
 
 // ═══ START ═══
 init();
