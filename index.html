@@ -1,1741 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com;">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#080b12">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GigPro">
-<meta name="description" content="The smartest earnings tracker for gig workers. AI-powered insights, auto mileage tracking, and tax estimates — all in one app.">
-<link rel="manifest" href="manifest.json">
-<title>GigPro</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>R.A.S. — Reputation Automated System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#080b12;--surface:#0e1420;--card:#121826;--card2:#18202e;
-  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
-  --text:#eef2ff;--muted:#64748b;--muted2:#94a3b8;
-  --accent:#6366f1;--accent2:#8b5cf6;--gold:#f59e0b;--teal:#14b8a6;
-  --rose:#f43f5e;--sky:#38bdf8;--green:#22c55e;
-  --uber:#1dbf73;--lyft:#ff00bf;--doordash:#ff3008;--grubhub:#f63440;
-  --instacart:#43b02a;--amazon:#ff9900;--spark:#0071ce;--shipt:#e4002b;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overscroll-behavior:none;}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;max-width:430px;margin:0 auto;overflow-x:hidden;position:relative;min-height:100vh;}
-.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 20% -10%,rgba(99,102,241,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(139,92,246,.15) 0%,transparent 55%),radial-gradient(ellipse 50% 30% at 50% 50%,rgba(20,184,166,.06) 0%,transparent 60%),linear-gradient(160deg,#080b12 0%,#0a0e1a 40%,#08111a 100%);}
-.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 40%,transparent 100%);}
-
-/* ── ONBOARDING ── */
-#onboarding{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;max-width:430px;margin:0 auto;}
-.ob-slides{flex:1;overflow:hidden;position:relative;}
-.ob-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;text-align:center;opacity:0;transform:translateX(60px);transition:all .4s cubic-bezier(.34,1.2,.64,1);pointer-events:none;}
-.ob-slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
-.ob-slide.exit{opacity:0;transform:translateX(-60px);}
-.ob-emoji{font-size:80px;margin-bottom:24px;animation:floatY 3s ease-in-out infinite;}
-@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.ob-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;margin-bottom:12px;background:linear-gradient(135deg,#fff,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.ob-body{font-size:16px;color:var(--muted2);line-height:1.6;max-width:300px;}
-.ob-form{width:100%;max-width:320px;margin-top:24px;}
-.ob-form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.ob-form .full{margin-bottom:10px;}
-.ob-label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
-.ob-input{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;outline:none;transition:border-color .2s;-webkit-appearance:none;}
-.ob-input:focus{border-color:rgba(99,102,241,.5);}
-.ob-input option{background:#18202e;}
-.ob-dots{display:flex;gap:6px;margin-bottom:24px;}
-.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--card2);transition:all .3s;}
-.ob-dot.active{background:var(--accent);width:24px;border-radius:4px;}
-.ob-bottom{padding:20px 24px 40px;display:flex;flex-direction:column;gap:10px;}
-.ob-next{padding:16px;border-radius:16px;border:none;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
-.ob-next.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,.35);}
-.ob-next.primary:active{transform:scale(.98);}
-.ob-skip{background:transparent;color:var(--muted);font-size:14px;text-align:center;}
-
-/* ── HEADER ── */
-.header{padding:52px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:10;}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;background:linear-gradient(135deg,#fff 0%,#a5b4fc 60%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
-.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
-.date-badge{background:linear-gradient(135deg,var(--gold),#d97706);color:#000;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:20px;}
-.streak-badge{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.3);color:#fb7185;font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;}
-.pro-header-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;font-size:9px;font-weight:900;padding:4px 10px;border-radius:20px;letter-spacing:1.5px;cursor:pointer;text-transform:uppercase;}
-.upgrade-header-btn{background:rgba(245,158,11,.1);border:1.5px solid rgba(245,158,11,.4);color:#fcd34d;font-size:9px;font-weight:700;padding:4px 9px;border-radius:20px;cursor:pointer;letter-spacing:.5px;}
-
-/* ── PLATFORMS ── */
-.platforms{display:flex;gap:7px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
-.platforms::-webkit-scrollbar{display:none;}
-.pill{flex-shrink:0;padding:7px 14px;border-radius:50px;font-size:12px;font-weight:600;border:1.5px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.pill.active-all{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2);}
-.pill.p-uber{background:rgba(29,191,115,.1);border-color:rgba(29,191,115,.3);color:var(--uber);}
-.pill.p-uber.on{background:var(--uber);color:#fff;}
-.pill.p-lyft{background:rgba(255,0,191,.1);border-color:rgba(255,0,191,.3);color:var(--lyft);}
-.pill.p-lyft.on{background:var(--lyft);color:#fff;}
-.pill.p-dd{background:rgba(255,48,8,.1);border-color:rgba(255,48,8,.3);color:var(--doordash);}
-.pill.p-dd.on{background:var(--doordash);color:#fff;}
-.pill.p-gh{background:rgba(246,52,64,.1);border-color:rgba(246,52,64,.3);color:var(--grubhub);}
-.pill.p-gh.on{background:var(--grubhub);color:#fff;}
-.pill.p-ic{background:rgba(67,176,42,.1);border-color:rgba(67,176,42,.3);color:var(--instacart);}
-.pill.p-ic.on{background:var(--instacart);color:#fff;}
-.pill.p-amz{background:rgba(255,153,0,.1);border-color:rgba(255,153,0,.3);color:var(--amazon);}
-.pill.p-amz.on{background:var(--amazon);color:#000;}
-.pill.p-spark{background:rgba(0,113,206,.1);border-color:rgba(0,113,206,.3);color:var(--spark);}
-.pill.p-spark.on{background:var(--spark);color:#fff;}
-.pill.p-shipt{background:rgba(228,0,43,.1);border-color:rgba(228,0,43,.3);color:var(--shipt);}
-.pill.p-shipt.on{background:var(--shipt);color:#fff;}
-
-/* ── NAV TABS ── */
-.nav-tabs{display:flex;gap:3px;padding:0 20px 14px;overflow-x:auto;scrollbar-width:none;position:relative;z-index:10;}
-.nav-tabs::-webkit-scrollbar{display:none;}
-.tab{flex-shrink:0;text-align:center;padding:8px 12px;border-radius:11px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted);border:1.5px solid transparent;white-space:nowrap;}
-.tab.active{background:rgba(99,102,241,.15);color:#a5b4fc;border-color:rgba(99,102,241,.3);}
-.tab span{display:block;font-size:14px;margin-bottom:1px;}
-.tab.pro-tab{color:#fcd34d;}
-.tab.pro-tab.active{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fcd34d;}
-
-/* ── HERO ── */
-.hero{margin:0 20px 14px;border-radius:24px;padding:22px;position:relative;overflow:hidden;z-index:10;}
-.hero.h-earn{background:linear-gradient(135deg,rgba(99,102,241,.25) 0%,rgba(139,92,246,.15) 100%);border:1.5px solid rgba(99,102,241,.3);}
-.hero.h-earn::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(99,102,241,.3) 0%,transparent 70%);}
-.hero.h-tax{background:linear-gradient(135deg,rgba(56,189,248,.15) 0%,rgba(14,165,233,.1) 100%);border:1.5px solid rgba(56,189,248,.25);}
-.hero.h-tax::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(56,189,248,.2) 0%,transparent 70%);}
-.hero.h-qt{background:linear-gradient(135deg,rgba(139,92,246,.2) 0%,rgba(109,40,217,.12) 100%);border:1.5px solid rgba(139,92,246,.3);}
-.hero.h-qt::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(139,92,246,.25) 0%,transparent 70%);}
-.hero.h-goal{background:linear-gradient(135deg,rgba(245,158,11,.15) 0%,rgba(217,119,6,.1) 100%);border:1.5px solid rgba(245,158,11,.25);}
-.hero.h-goal::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(245,158,11,.2) 0%,transparent 70%);}
-.hero.h-green{background:linear-gradient(135deg,rgba(34,197,94,.15) 0%,rgba(22,163,74,.1) 100%);border:1.5px solid rgba(34,197,94,.25);}
-.hero.h-green::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(34,197,94,.2) 0%,transparent 70%);}
-.hero.h-coach{background:linear-gradient(135deg,rgba(99,102,241,.2) 0%,rgba(139,92,246,.15) 100%);border:1.5px solid rgba(99,102,241,.35);}
-.hero.h-coach::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(99,102,241,.25) 0%,transparent 70%);}
-.hero.h-refer{background:linear-gradient(135deg,rgba(20,184,166,.15) 0%,rgba(13,148,136,.1) 100%);border:1.5px solid rgba(20,184,166,.25);}
-.hero.h-refer::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(20,184,166,.2) 0%,transparent 70%);}
-.h-lbl{font-size:10px;font-weight:700;letter-spacing:1.8px;color:rgba(165,180,252,.8);text-transform:uppercase;margin-bottom:5px;}
-.h-tax .h-lbl,.hero.h-tax .h-lbl{color:rgba(125,211,252,.8);}
-.h-qt .h-lbl,.hero.h-qt .h-lbl{color:rgba(196,181,253,.8);}
-.h-goal .h-lbl,.hero.h-goal .h-lbl{color:rgba(252,211,77,.8);}
-.h-green .h-lbl,.hero.h-green .h-lbl{color:rgba(134,239,172,.8);}
-.h-coach .h-lbl,.hero.h-coach .h-lbl{color:rgba(165,180,252,.8);}
-.h-refer .h-lbl,.hero.h-refer .h-lbl{color:rgba(94,234,212,.8);}
-.h-num{font-family:'Bebas Neue',sans-serif;font-size:58px;line-height:1;color:#fff;letter-spacing:1px;}
-.h-sub{font-size:13px;color:rgba(255,255,255,.35);margin-top:3px;}
-.h-row{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;}
-
-/* ── BADGES ── */
-.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block;}
-.bg-indigo{background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;}
-.bg-sky{background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.35);color:#7dd3fc;}
-.bg-violet{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);color:#c4b5fd;}
-.bg-gold{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);color:#fcd34d;}
-.bg-green{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#86efac;}
-.bg-rose{background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);color:#fda4af;}
-.bg-teal{background:rgba(20,184,166,.15);border:1px solid rgba(20,184,166,.3);color:#5eead4;}
-.badge-lbl{font-size:12px;color:var(--muted);}
-
-/* ── STAT CARDS ── */
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 20px 14px;position:relative;z-index:10;}
-.sc{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:16px;transition:transform .15s;}
-.sc:active{transform:scale(.97);}
-.sc-lbl{font-size:9px;font-weight:700;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase;margin-bottom:7px;}
-.sc-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--text);line-height:1;}
-.sc-sub{font-size:10px;color:var(--muted);margin-top:4px;}
-.sc.ci{border-color:rgba(99,102,241,.2);}.sc.ci .sc-val{color:#a5b4fc;}
-.sc.cg{border-color:rgba(34,197,94,.2);}.sc.cg .sc-val{color:#86efac;}
-.sc.cy{border-color:rgba(245,158,11,.2);}.sc.cy .sc-val{color:#fcd34d;}
-.sc.cs{border-color:rgba(56,189,248,.2);}.sc.cs .sc-val{color:#7dd3fc;}
-.sc.cv{border-color:rgba(139,92,246,.2);}.sc.cv .sc-val{color:#c4b5fd;}
-.sc.ct{border-color:rgba(20,184,166,.2);}.sc.ct .sc-val{color:#5eead4;}
-.sc.cr{border-color:rgba(244,63,94,.2);}.sc.cr .sc-val{color:#fda4af;}
-
-/* ── SECTION ── */
-.sec{padding:0 20px 10px;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;position:relative;z-index:10;}
-
-/* ── CARD ── */
-.card{margin:0 20px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:18px;position:relative;z-index:10;}
-
-/* ── FORMS ── */
-.fg{margin-bottom:0;}
-.fg label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;outline:none;transition:border-color .2s;-webkit-appearance:none;}
-.fg input:focus,.fg select:focus{border-color:rgba(99,102,241,.5);}
-.fg select option{background:#18202e;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
-.plat-sel{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.pb{padding:9px 10px;border-radius:10px;border:1.5px solid var(--border);background:var(--card2);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;white-space:nowrap;}
-.pb.su{background:rgba(29,191,115,.15);border-color:var(--uber);color:var(--uber);}
-.pb.sly{background:rgba(255,0,191,.12);border-color:var(--lyft);color:var(--lyft);}
-.pb.sdd{background:rgba(255,48,8,.12);border-color:var(--doordash);color:var(--doordash);}
-.pb.sgh{background:rgba(246,52,64,.1);border-color:var(--grubhub);color:var(--grubhub);}
-.pb.sic{background:rgba(67,176,42,.12);border-color:var(--instacart);color:var(--instacart);}
-.pb.samz{background:rgba(255,153,0,.12);border-color:var(--amazon);color:var(--amazon);}
-.pb.ssp{background:rgba(0,113,206,.12);border-color:var(--spark);color:var(--spark);}
-.pb.ssh{background:rgba(228,0,43,.1);border-color:var(--shipt);color:var(--shipt);}
-
-/* ── BUTTONS ── */
-.btn{width:100%;padding:15px;border-radius:14px;border:none;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
-.btn:active{transform:scale(.98);}
-.btn-indigo{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;box-shadow:0 6px 20px rgba(99,102,241,.3);}
-.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.25);}
-.btn-sky{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;box-shadow:0 6px 20px rgba(14,165,233,.25);}
-.btn-violet{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;box-shadow:0 6px 20px rgba(124,58,237,.25);}
-.btn-gold{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;box-shadow:0 6px 20px rgba(245,158,11,.25);}
-.btn-outline{background:rgba(99,102,241,.08);border:1.5px solid rgba(99,102,241,.35);color:#a5b4fc;}
-.btn-outline-sky{background:rgba(56,189,248,.08);border:1.5px solid rgba(56,189,248,.35);color:#7dd3fc;}
-.btn-rose{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;box-shadow:0 6px 20px rgba(244,63,94,.25);}
-.btn-teal{background:linear-gradient(135deg,#14b8a6,#0d9488);color:#fff;box-shadow:0 6px 20px rgba(20,184,166,.25);}
-.btn-sm{padding:9px 14px;font-size:13px;border-radius:10px;width:auto;}
-
-/* ── BREAKDOWN ROWS ── */
-.br{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
-.br:last-child{border-bottom:none;}
-.br-lbl{font-size:13px;color:var(--muted);}
-.bv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
-.bv-g{color:#86efac;}.bv-r{color:#fda4af;}.bv-y{color:#fcd34d;}.bv-s{color:#7dd3fc;}.bv-v{color:#c4b5fd;}
-
-/* ── TRIP CARDS ── */
-.trips-list{margin:0 20px 100px;display:flex;flex-direction:column;gap:8px;position:relative;z-index:10;}
-.ti-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;animation:fadeUp .3s ease both;position:relative;overflow:hidden;}
-.ti-card.swipe-active{transform:translateX(-70px);transition:transform .2s ease;}
-.td{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.ti-body{flex:1;min-width:0;}
-.ti-top{display:flex;align-items:center;gap:6px;}
-.ti-plat{font-size:12px;font-weight:600;color:var(--muted);}
-.ti-grade{font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;}
-.gA{background:rgba(34,197,94,.2);color:#86efac;}
-.gB{background:rgba(56,189,248,.2);color:#7dd3fc;}
-.gC{background:rgba(245,158,11,.2);color:#fcd34d;}
-.gD{background:rgba(251,146,60,.2);color:#fdba74;}
-.gF{background:rgba(244,63,94,.2);color:#fda4af;}
-.ti-meta{font-size:10px;color:var(--muted);margin-top:2px;}
-.ti-note{font-size:10px;color:rgba(255,255,255,.25);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ti-r{text-align:right;flex-shrink:0;}
-.ti-earn{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#86efac;}
-.ti-net{font-size:10px;color:var(--muted);margin-top:2px;}
-.ti-del{position:absolute;right:-70px;top:0;bottom:0;width:70px;background:#f43f5e;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:right .2s ease;}
-.ti-del.visible{right:0;}
-
-/* ── GOAL BAR ── */
-.gbar-bg{height:10px;background:var(--card2);border-radius:5px;overflow:hidden;margin:8px 0 5px;}
-.gbar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .8s cubic-bezier(.34,1.56,.64,1);}
-.gbar-fill.done{background:linear-gradient(90deg,#22c55e,#16a34a);}
-
-/* ── EXPENSE ITEM ── */
-.exp-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
-.exp-item:last-child{border-bottom:none;}
-.exp-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.exp-info{flex:1;}
-.exp-cat{font-size:13px;font-weight:600;}
-.exp-date{font-size:10px;color:var(--muted);margin-top:1px;}
-.exp-r{text-align:right;}
-.exp-amt{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:#fda4af;}
-.exp-ded{font-size:10px;color:#86efac;font-weight:700;margin-top:2px;}
-.exp-del{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;margin-left:6px;}
-
-/* ── CHART ── */
-.chart-wrap{height:110px;display:flex;align-items:flex-end;gap:6px;margin-bottom:8px;}
-.bw{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:2px;}
-.b{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,rgba(99,102,241,.7),rgba(99,102,241,.2));transition:height .6s cubic-bezier(.34,1.56,.64,1);}
-.b.today{background:linear-gradient(180deg,#6366f1,rgba(99,102,241,.4));box-shadow:0 0 10px rgba(99,102,241,.4);}
-.b-amt{font-size:8px;font-family:'JetBrains Mono',monospace;color:#a5b4fc;}
-.b-lbl{font-size:9px;font-weight:700;color:var(--muted);}
-.b-lbl.tday{color:#a5b4fc;}
-
-/* ── MONTH ROW ── */
-.mo-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;margin-bottom:7px;}
-.mo-name{font-size:13px;font-weight:600;min-width:32px;}
-.mo-mi{font-family:'JetBrains Mono',monospace;font-size:11px;color:#fcd34d;}
-.mo-earn{font-family:'JetBrains Mono',monospace;font-size:11px;color:#86efac;}
-.mo-ded{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#7dd3fc;}
-
-/* ── PLATFORM SPLIT ── */
-.split-item{margin-bottom:13px;}
-.split-hdr{display:flex;justify-content:space-between;margin-bottom:5px;}
-.split-nm{font-size:12px;font-weight:600;}
-.split-vl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
-.split-bg{height:6px;background:var(--card2);border-radius:3px;overflow:hidden;}
-.split-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.34,1.56,.64,1);}
-
-/* ── DEADLINES ── */
-.dl{background:var(--card);border:1.5px solid var(--border);border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:11px;margin-bottom:8px;}
-.dl.soon{border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.04);}
-.dl.over{border-color:rgba(244,63,94,.4);background:rgba(244,63,94,.04);}
-.dl.paid{opacity:.5;}
-.dl-q{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;min-width:30px;}
-.dl-q.q1{color:#7dd3fc;}.dl-q.q2{color:#86efac;}.dl-q.q3{color:#fcd34d;}.dl-q.q4{color:#fda4af;}
-.dl-info{flex:1;}
-.dl-lbl{font-size:13px;font-weight:700;}
-.dl-date{font-size:10px;color:var(--muted);margin-top:2px;}
-.dl-r{text-align:right;}
-.dl-amt{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:#c4b5fd;}
-.dl-st{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
-.dst-soon{color:#fcd34d;}.dst-over{color:#fda4af;}.dst-ok{color:var(--muted);}.dst-paid{color:#86efac;}
-
-/* ── RING ── */
-.ring-wrap{position:relative;width:96px;height:96px;}
-.ring-wrap svg{transform:rotate(-90deg);}
-.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.ring-pct{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#c4b5fd;line-height:1;}
-.ring-lbl{font-size:9px;color:var(--muted);font-weight:700;}
-
-/* ── EXPLAINER ── */
-.explainer{margin:0 20px 14px;background:rgba(139,92,246,.05);border:1.5px solid rgba(139,92,246,.12);border-radius:18px;padding:16px;position:relative;z-index:10;}
-.ex-row{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(139,92,246,.08);}
-.ex-row:last-child{border-bottom:none;}
-.ex-ico{font-size:15px;flex-shrink:0;margin-top:1px;}
-.ex-txt{font-size:12px;color:var(--muted2);line-height:1.5;}
-.ex-txt strong{color:var(--text);}
-
-/* ── INSIGHTS ── */
-.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
-.score-box{background:var(--card2);border-radius:11px;padding:11px 7px;text-align:center;}
-.score-box-lbl{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.5px;margin-bottom:4px;}
-.score-box-val{font-family:'Bebas Neue',sans-serif;font-size:20px;}
-.insight-card{background:var(--card2);border:1.5px solid var(--border);border-radius:13px;padding:13px;margin-bottom:8px;}
-.ic-ico{font-size:18px;margin-bottom:5px;}
-.ic-title{font-size:13px;font-weight:700;margin-bottom:3px;}
-.ic-body{font-size:12px;color:var(--muted2);line-height:1.5;}
-
-/* ── BACKUP ── */
-.backup-section{margin:0 20px 14px;position:relative;z-index:10;}
-.backup-info{background:rgba(56,189,248,.06);border:1.5px solid rgba(56,189,248,.15);border-radius:16px;padding:16px;margin-bottom:12px;}
-.backup-info-title{font-size:13px;font-weight:700;margin-bottom:4px;}
-.backup-info-body{font-size:12px;color:var(--muted2);line-height:1.5;}
-.backup-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
-.bstat{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
-.bstat-val{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#a5b4fc;}
-.bstat-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
-
-/* ── PWA INSTALL BANNER ── */
-.install-banner{margin:0 20px 14px;background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(139,92,246,.1));border:1.5px solid rgba(99,102,241,.3);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
-.install-banner.hidden{display:none;}
-.install-ico{font-size:28px;}
-.install-txt{flex:1;}
-.install-title{font-size:13px;font-weight:700;margin-bottom:2px;}
-.install-sub{font-size:11px;color:var(--muted2);}
-.install-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:9px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
-.install-close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;}
-
-/* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.2,.64,1);}
-.modal-overlay.open .modal{transform:translateY(0);}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:16px;color:#fff;}
-.modal-close{float:right;background:var(--card2);border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-
-/* ── PRO UPGRADE MODAL ── */
-.upg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
-.upg-overlay.open{opacity:1;pointer-events:all;}
-.upg-sheet{background:var(--surface);border-radius:28px 28px 0 0;padding:24px 20px 50px;width:100%;max-width:430px;transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1);}
-.upg-overlay.open .upg-sheet{transform:translateY(0);}
-.upg-close{float:right;background:var(--card2);border:none;color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.upg-emoji{font-size:36px;display:block;margin-bottom:8px;}
-.upg-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;background:linear-gradient(135deg,#fcd34d,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
-.upg-sub{font-size:13px;color:var(--muted2);margin-bottom:16px;}
-.price-row{display:flex;gap:10px;margin:16px 0;}
-.price-card{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;}
-.price-card.sel{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.07);}
-.price-card-name{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.price-card-amt{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fcd34d;}
-.price-card-per{font-size:10px;color:var(--muted);margin-top:2px;}
-.price-save{font-size:9px;color:#86efac;font-weight:700;margin-top:3px;}
-.pro-features{margin:12px 0 16px;}
-.pf-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted2);}
-.pf-row:last-child{border-bottom:none;}
-.pf-row span{color:#86efac;font-size:14px;}
-.code-row{display:flex;gap:8px;margin-top:8px;}
-.code-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;letter-spacing:2px;text-transform:uppercase;}
-
-/* ── GPS TRACKING ── */
-.gps-card{background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;margin:0 20px 14px;position:relative;z-index:10;}
-.gps-card.tracking{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.03);}
-.gps-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.gps-pulse{width:10px;height:10px;border-radius:50%;background:#22c55e;animation:gpsPulse 1.4s ease-in-out infinite;flex-shrink:0;}
-@keyframes gpsPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.5);}}
-.gps-title{font-size:13px;font-weight:700;flex:1;}
-.gps-mi-big{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#86efac;line-height:1;margin:4px 0;}
-.gps-meta{font-size:11px;color:var(--muted);}
-.gps-btn-row{display:flex;gap:8px;margin-top:10px;}
-
-/* ── AI COACH ── */
-.chat-container{margin:0 20px 14px;position:relative;z-index:10;}
-.chat-msgs{height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 8px;scrollbar-width:thin;}
-.chat-msgs::-webkit-scrollbar{width:3px;}
-.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-.chat-bubble{max-width:86%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;word-break:break-word;}
-.chat-bubble.ai{background:var(--card2);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;border:1.5px solid var(--border);}
-.chat-bubble.user{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
-.chat-bubble.typing{color:var(--muted);font-style:italic;}
-.quick-prompts{display:flex;gap:6px;flex-wrap:wrap;margin:0 20px 10px;position:relative;z-index:10;}
-.qp{padding:7px 12px;background:var(--card2);border:1.5px solid var(--border);border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted2);white-space:nowrap;transition:all .2s;}
-.qp:active{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.4);color:#a5b4fc;}
-.chat-input-row{display:flex;gap:8px;margin:0 20px 14px;position:relative;z-index:10;}
-.chat-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
-.chat-inp:focus{border-color:rgba(99,102,241,.5);}
-.chat-send{background:linear-gradient(135deg,#6366f1,#4f46e5);border:none;border-radius:12px;width:46px;height:46px;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(99,102,241,.3);}
-.chat-send:disabled{opacity:.35;cursor:not-allowed;}
-.api-setup{background:rgba(99,102,241,.06);border:1.5px solid rgba(99,102,241,.2);border-radius:16px;padding:16px;margin:0 20px 14px;position:relative;z-index:10;}
-.api-setup-title{font-size:13px;font-weight:700;margin-bottom:6px;}
-.api-setup-body{font-size:12px;color:var(--muted2);line-height:1.5;margin-bottom:10px;}
-.api-setup-row{display:flex;gap:8px;}
-.api-inp{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;}
-.api-save-btn{background:#6366f1;border:none;border-radius:10px;padding:10px 16px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;}
-
-/* ── REFERRAL ── */
-.ref-code{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;letter-spacing:4px;color:#5eead4;background:rgba(20,184,166,.08);border:1.5px solid rgba(20,184,166,.3);border-radius:14px;padding:16px;text-align:center;margin:12px 0;cursor:pointer;}
-.ref-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0;}
-.ref-stat{background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:14px;text-align:center;}
-.ref-stat-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#5eead4;}
-.ref-stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
-.ref-how{margin:14px 0;}
-.ref-step{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
-.ref-step:last-child{border-bottom:none;}
-.ref-step-num{width:28px;height:28px;border-radius:50%;background:rgba(20,184,166,.15);border:1.5px solid rgba(20,184,166,.3);color:#5eead4;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ref-step-txt{font-size:13px;color:var(--muted2);}
-.ref-step-txt strong{color:var(--text);}
-
-/* ── AFFILIATE CARDS ── */
-.aff-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;transition:transform .15s;text-decoration:none;}
-.aff-card:active{transform:scale(.98);}
-.aff-ico{font-size:28px;flex-shrink:0;}
-.aff-info{flex:1;}
-.aff-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
-.aff-body{font-size:11px;color:var(--muted2);}
-.aff-reward{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#86efac;white-space:nowrap;flex-shrink:0;}
-
-/* ── PAGE ── */
-.page{display:none;}.page.active{display:block;}
-.scroll-pad{height:110px;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-
-/* ── BOTTOM NAV ── */
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(8,11,18,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(99,102,241,.15);display:flex;padding:10px 0 22px;z-index:100;}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;}
-.ni-ico{font-size:18px;}
-.ni-lbl{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;}
-.ni.active .ni-lbl{color:#a5b4fc;}
-.ni.active .ni-ico{filter:drop-shadow(0 0 5px rgba(99,102,241,.7));}
-.ni.pro-nav .ni-lbl{color:#fbbf24;}
-.ni.pro-nav.active .ni-lbl{color:#fcd34d;}
-.ni.pro-nav.active .ni-ico{filter:drop-shadow(0 0 5px rgba(245,158,11,.7));}
-
-/* ── TOAST ── */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-weight:700;font-size:13px;padding:10px 20px;border-radius:20px;z-index:9999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 24px rgba(99,102,241,.4);}
-.toast.show{transform:translateX(-50%) translateY(0);}
-.toast.warn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;}
-.toast.err{background:linear-gradient(135deg,#f43f5e,#e11d48);}
-
-/* ── PROJECTION ── */
-.proj-card{margin:0 20px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;}
-.proj-left .proj-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
-.proj-left .proj-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:#86efac;}
-.proj-left .proj-sub{font-size:11px;color:var(--muted);}
-.proj-right{text-align:right;}
-.proj-right .proj-lbl{font-size:10px;color:var(--muted);margin-bottom:4px;}
-.proj-right .proj-val{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:#c4b5fd;}
-
-/* ── EMPTY STATE ── */
-.empty{text-align:center;padding:32px 20px;color:var(--muted);}
-.empty-ico{font-size:40px;margin-bottom:12px;}
-.empty-title{font-size:15px;font-weight:700;color:var(--muted2);margin-bottom:6px;}
-.empty-body{font-size:13px;line-height:1.5;}
-
-.swipe-hint{text-align:center;font-size:11px;color:var(--muted);padding:4px 0 8px;opacity:.6;}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',system-ui,sans-serif;background:#FAFAF7;color:#18170F;min-height:100vh;overflow-x:hidden}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D5D0C8;border-radius:2px}textarea:focus{outline:none;border-color:#1A5C3A!important}button{cursor:pointer;font-family:'DM Sans',system-ui,sans-serif;position:relative;overflow:hidden}#root{display:flex;min-height:100vh}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:rippleOut .6s ease-out forwards;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(4);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes fillBar{from{width:0}to{width:var(--tw)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(30px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateY(30px)}}
+@keyframes borderPulse{0%,100%{border-color:#FECACA}50%{border-color:#F87171}}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes dotPulse{0%,80%,100%{opacity:.3}40%{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes heroMesh{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes glowRing{0%,100%{box-shadow:0 0 0 0 rgba(26,92,58,.25)}50%{box-shadow:0 0 0 12px rgba(26,92,58,0)}}
+@keyframes goldGlow{0%,100%{box-shadow:0 0 0 0 rgba(217,119,6,.2)}50%{box-shadow:0 0 0 10px rgba(217,119,6,0)}}
+@keyframes typeGlow{0%,100%{border-color:#1A5C3A;box-shadow:0 0 0 0 rgba(26,92,58,0)}50%{border-color:#22C55E;box-shadow:0 0 16px 3px rgba(26,92,58,.12)}}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translateY(140px) rotate(1080deg) scale(.3);opacity:0}}
+@keyframes pulse2{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-100vh) translateX(40px);opacity:0}}
+@keyframes launchFade{0%{opacity:1}80%{opacity:1}100%{opacity:0;pointer-events:none}}
+@keyframes launchLogo{0%{opacity:0;transform:scale(.5)}40%{opacity:1;transform:scale(1.1)}60%{transform:scale(.95)}80%{transform:scale(1)}100%{transform:scale(1)}}
+@keyframes launchBar{0%{width:0}100%{width:100%}}
+@keyframes launchText{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideTab{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.afu{animation:fadeUp .55s cubic-bezier(.16,1,.3,1) both}.asr{animation:slideRight .45s cubic-bezier(.16,1,.3,1) both}.asi{animation:scaleIn .45s cubic-bezier(.16,1,.3,1) both}.tab-enter{animation:slideTab .4s cubic-bezier(.16,1,.3,1) both}
+.ch{transition:all .35s cubic-bezier(.16,1,.3,1)}.ch:hover{transform:translateY(-4px);box-shadow:0 12px 35px rgba(0,0,0,.07)}
+.chl{transition:all .4s cubic-bezier(.16,1,.3,1)}.chl:hover{transform:translateY(-7px) scale(1.02);box-shadow:0 20px 50px rgba(26,92,58,.1)}.chl:active{transform:translateY(-2px) scale(.98);transition:all .1s}
+.bp1{transition:all .35s cubic-bezier(.16,1,.3,1)}.bp1:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 30px rgba(26,92,58,.25)}.bp1:active{transform:translateY(0) scale(.97);transition:all .1s}
+.bs1{transition:all .35s cubic-bezier(.16,1,.3,1)}.bs1:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08);border-color:#C5C0B8!important}.bs1:active{transform:scale(.97);transition:all .1s}
+.bd1{transition:all .35s cubic-bezier(.16,1,.3,1)}.bd1:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 25px rgba(185,28,28,.2)}
+.bsn{transition:all .35s cubic-bezier(.16,1,.3,1)}.bsn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 25px rgba(67,56,202,.25)}.bsn:active{transform:scale(.95);transition:all .1s}
+.nb{transition:all .25s cubic-bezier(.16,1,.3,1);border-left:3px solid transparent}.nb:hover{transform:translateX(4px);background:#EFECEA!important}.nba{border-left-color:#1A5C3A!important;background:#EFECEA!important}
+.gg{animation:glowRing 2s ease infinite}.ggo{animation:goldGlow 2s ease infinite}
+.bp{animation:badgePulse 1.8s ease infinite}.ra{animation:borderPulse 2s ease infinite}
+.sb{background:linear-gradient(90deg,#1A5C3A 0%,#22C55E 50%,#1A5C3A 100%);background-size:200% 100%;animation:shimmer 2.5s ease infinite}
+.tg{animation:typeGlow 1.5s ease infinite}.fi{animation:float 3s ease infinite}
+.dl span{animation:dotPulse 1.4s ease infinite}.dl span:nth-child(2){animation-delay:.2s}.dl span:nth-child(3){animation-delay:.4s}
+.pf{animation:fillBar 1.2s cubic-bezier(.16,1,.3,1) both}
+.hero-mesh{background:linear-gradient(135deg,#FAFAF7 0%,#ECFDF5 12%,#FFF7ED 28%,#FAFAF7 42%,#F0FDF4 58%,#FFFBEB 72%,#FAFAF7 88%,#ECFDF5 100%);background-size:400% 400%;animation:heroMesh 12s ease infinite;position:relative;overflow:hidden}
+.hero-mesh::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 35%,rgba(26,92,58,.06) 0%,transparent 50%),radial-gradient(circle at 75% 55%,rgba(217,119,6,.04) 0%,transparent 50%);pointer-events:none}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(26,92,58,.15);animation:particleFloat linear infinite;pointer-events:none}
+.ticker-wrap{overflow:hidden;background:linear-gradient(90deg,#143D28,#1A5C3A,#15803D);padding:7px 0;position:relative}.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;width:80px;height:100%;z-index:2}.ticker-wrap::before{left:0;background:linear-gradient(90deg,#143D28,transparent)}.ticker-wrap::after{right:0;background:linear-gradient(90deg,transparent,#15803D)}.ticker{display:flex;gap:44px;animation:tickerScroll 35s linear infinite;white-space:nowrap;width:max-content}.ticker-item{color:rgba(255,255,255,.9);font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px}.ticker-dot{width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse2 1.5s ease infinite}
+.glass{background:rgba(255,255,255,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 20px rgba(0,0,0,.04)}
+.trust-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(236,253,245,.9);border:1px solid #A7F3D0;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:700;color:#047857;transition:all .3s}.trust-badge:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(4,120,87,.1)}
+.scarcity-bar{height:7px;border-radius:4px;background:#FEE2E2;overflow:hidden}.scarcity-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#EF4444,#F97316)}
+.testimonial-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px}.testimonial-track::-webkit-scrollbar{display:none}.testimonial-card{min-width:290px;scroll-snap-align:start}
+.confetti-piece{position:fixed;pointer-events:none;z-index:300;animation:confettiFall 1.8s cubic-bezier(.16,1,.3,1) forwards}
+.launch-screen{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0D2818,#143D28,#1A5C3A);animation:launchFade 2.8s ease forwards}.launch-logo{animation:launchLogo 1s cubic-bezier(.16,1,.3,1) both}.launch-bar-wrap{width:180px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;margin-top:20px;overflow:hidden}.launch-bar{height:100%;background:linear-gradient(90deg,#22C55E,#4ADE80);border-radius:2px;animation:launchBar 2s cubic-bezier(.16,1,.3,1) both;animation-delay:.5s}.launch-txt{animation:launchText .6s ease both;animation-delay:.8s}
+.loss-counter{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
-<div class="bg-mesh"></div>
-<div class="bg-grid"></div>
-<div class="toast" id="toast"></div>
-
-<!-- ═══ ONBOARDING ═══ -->
-<div id="onboarding">
-  <div class="ob-slides">
-    <div class="ob-slide active" id="ob0">
-      <div class="ob-emoji">🚗</div>
-      <div class="ob-title">Welcome to GigPro</div>
-      <div class="ob-body">The smartest earnings tracker for gig workers. Built to help you earn more, spend less, and never get surprised at tax time.</div>
-    </div>
-    <div class="ob-slide" id="ob1">
-      <div class="ob-emoji">🤖</div>
-      <div class="ob-title">Your AI Coach</div>
-      <div class="ob-body">Ask your AI earnings coach anything — "How do I earn more this week?" or "Which platform is best for me?" — powered by real data.</div>
-    </div>
-    <div class="ob-slide" id="ob2">
-      <div class="ob-emoji">📍</div>
-      <div class="ob-title">Auto Mileage Tracking</div>
-      <div class="ob-body">Hit Start Trip and GigPro tracks every mile via GPS. Stop the trip and your mileage auto-fills — no guessing, no math.</div>
-    </div>
-    <div class="ob-slide" id="ob3">
-      <div class="ob-emoji">⚙️</div>
-      <div class="ob-title">Quick Setup</div>
-      <div class="ob-body">Just a few details to personalize your experience.</div>
-      <div class="ob-form">
-        <div class="row">
-          <div><div class="ob-label">Your Name</div><input class="ob-input" id="ob-name" type="text" placeholder="e.g. Marcus" maxlength="60" autocomplete="given-name"></div>
-          <div><div class="ob-label">Filing Status</div>
-            <select class="ob-input" id="ob-filing">
-              <option value="single">Single</option><option value="mfj">Married Joint</option><option value="hoh">Head of House</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div><div class="ob-label">State Tax %</div><input class="ob-input" id="ob-state" type="number" placeholder="0" inputmode="decimal" min="0" max="20"></div>
-          <div><div class="ob-label">Weekly Goal $</div><input class="ob-input" id="ob-goal" type="number" placeholder="1200" inputmode="decimal" min="0" max="99999"></div>
-        </div>
-        <div class="full"><div class="ob-label">Primary Platform</div>
-          <select class="ob-input" id="ob-platform">
-            <option value="uber">🚗 Uber</option><option value="lyft">🩷 Lyft</option><option value="doordash">🍕 DoorDash</option>
-            <option value="grubhub">🛍 Grubhub</option><option value="instacart">🛒 Instacart</option>
-            <option value="amazon">📦 Amazon Flex</option><option value="spark">⚡ Walmart Spark</option><option value="shipt">🏪 Shipt</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:center;padding:16px 0 4px;">
-    <div class="ob-dots">
-      <div class="ob-dot active" id="dot0"></div><div class="ob-dot" id="dot1"></div>
-      <div class="ob-dot" id="dot2"></div><div class="ob-dot" id="dot3"></div>
-    </div>
-  </div>
-  <div class="ob-bottom">
-    <button class="ob-next primary" id="ob-btn" onclick="obNext()">Get Started →</button>
-    <button class="ob-next ob-skip" onclick="obFinish()">Skip setup</button>
-  </div>
-</div>
-
-<!-- ═══ MAIN APP ═══ -->
-<div id="app" style="display:none;">
-
-<div class="install-banner hidden" id="install-banner">
-  <div class="install-ico">📲</div>
-  <div class="install-txt">
-    <div class="install-title">Install GigPro App</div>
-    <div class="install-sub">Add to home screen for the full experience</div>
-  </div>
-  <button class="install-btn" id="install-btn" onclick="installPWA()">Install</button>
-  <button class="install-close" onclick="dismissInstall()">✕</button>
-</div>
-
-<div class="header">
-  <div class="logo">GigPro</div>
-  <div class="header-right">
-    <div class="date-badge" id="date-badge">--</div>
-    <div class="streak-badge" id="streak-badge">🔥 0 day streak</div>
-    <div id="pro-header-el"></div>
-  </div>
-</div>
-
-<div class="platforms">
-  <div class="pill active-all" onclick="fPlat('all',this)">ALL</div>
-  <div class="pill p-uber" onclick="fPlat('uber',this)">🚗 Uber</div>
-  <div class="pill p-lyft" onclick="fPlat('lyft',this)">🩷 Lyft</div>
-  <div class="pill p-dd" onclick="fPlat('doordash',this)">🍕 DoorDash</div>
-  <div class="pill p-gh" onclick="fPlat('grubhub',this)">🛍 Grubhub</div>
-  <div class="pill p-ic" onclick="fPlat('instacart',this)">🛒 Instacart</div>
-  <div class="pill p-amz" onclick="fPlat('amazon',this)">📦 Amazon</div>
-  <div class="pill p-spark" onclick="fPlat('spark',this)">⚡ Spark</div>
-  <div class="pill p-shipt" onclick="fPlat('shipt',this)">🏪 Shipt</div>
-</div>
-
-<div class="nav-tabs">
-  <div class="tab active" onclick="goPage('home',this)"><span>🏠</span>Home</div>
-  <div class="tab" onclick="goPage('tracker',this)"><span>📍</span>Tracker</div>
-  <div class="tab" onclick="goPage('expenses',this)"><span>💸</span>Expenses</div>
-  <div class="tab" onclick="goPage('goals',this)"><span>🎯</span>Goals</div>
-  <div class="tab" onclick="goPage('weekly',this)"><span>📊</span>Weekly</div>
-  <div class="tab" onclick="goPage('insights',this)"><span>💡</span>Insights</div>
-  <div class="tab" onclick="goPage('tax',this)"><span>🧾</span>Tax</div>
-  <div class="tab" onclick="goPage('qtax',this)"><span>📆</span>Q-Tax</div>
-  <div class="tab pro-tab" onclick="goPage('coach',this)"><span>🤖</span>AI Coach</div>
-  <div class="tab pro-tab" onclick="goPage('refer',this)"><span>🔗</span>Refer</div>
-  <div class="tab" onclick="goPage('backup',this)"><span>☁️</span>Backup</div>
-</div>
-
-<!-- ══ HOME ══ -->
-<div id="page-home" class="page active">
-  <div class="hero h-earn">
-    <div class="h-lbl">Today's Earnings</div>
-    <div class="h-num" id="h-earn">$0.00</div>
-    <div class="h-sub" id="h-sub">0 trips logged</div>
-    <div class="h-row">
-      <div class="badge bg-green" id="h-profit">$0.00 profit</div>
-      <div class="badge-lbl">after expenses</div>
-    </div>
-  </div>
-  <div class="card" style="padding:13px 16px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-      <div style="font-size:11px;font-weight:700;color:#fcd34d;letter-spacing:1px;">🎯 DAILY GOAL</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;" id="goal-txt">$0 / $0</div>
-    </div>
-    <div class="gbar-bg"><div class="gbar-fill" id="goal-bar" style="width:0%"></div></div>
-    <div style="font-size:11px;color:var(--muted);" id="goal-remain">Set a goal in the Goals tab</div>
-  </div>
-  <div class="sg">
-    <div class="sc cy"><div class="sc-lbl">Miles Today</div><div class="sc-val" id="h-miles">0.0</div><div class="sc-sub" id="h-miles-sub">$0.00 deduction</div></div>
-    <div class="sc cv"><div class="sc-lbl">$/Hr Rate</div><div class="sc-val" id="h-hourly">$0.00</div><div class="sc-sub">effective hourly</div></div>
-    <div class="sc ci"><div class="sc-lbl">Trips Today</div><div class="sc-val" id="h-trips">0</div><div class="sc-sub">logged</div></div>
-    <div class="sc cs"><div class="sc-lbl">Year Miles</div><div class="sc-val" id="h-yr-mi">0</div><div class="sc-sub" id="h-yr-ded">$0.00 deduction</div></div>
-  </div>
-  <div class="proj-card">
-    <div class="proj-left"><div class="proj-lbl">Day Projection</div><div class="proj-val" id="h-proj-day">$0.00</div><div class="proj-sub">at current pace</div></div>
-    <div class="proj-right"><div class="proj-lbl">Month Projection</div><div class="proj-val" id="h-proj-mo">$0.00</div></div>
-  </div>
-  <div class="sec">Recent Trips</div>
-  <div class="trips-list" id="trips-list"></div>
-  <!-- Affiliate section -->
-  <div class="sec" style="margin-top:4px;">Earn More & Save More</div>
-  <div style="margin:0 20px 14px;position:relative;z-index:10;">
-    <a class="aff-card" href="https://upside.app" target="_blank" rel="noopener">
-      <div class="aff-ico">⛽</div>
-      <div class="aff-info"><div class="aff-title">GetUpside — Gas Savings</div><div class="aff-body">Save 15–25¢/gal at thousands of stations</div></div>
-      <div class="aff-reward">Free →</div>
-    </a>
-    <a class="aff-card" href="https://stride.app" target="_blank" rel="noopener">
-      <div class="aff-ico">📋</div>
-      <div class="aff-info"><div class="aff-title">Stride Health Insurance</div><div class="aff-body">Gig worker health plans starting $0/mo</div></div>
-      <div class="aff-reward">Compare →</div>
-    </a>
-    <a class="aff-card" href="https://turbotax.intuit.com/personal-taxes/self-employed/" target="_blank" rel="noopener">
-      <div class="aff-ico">🧾</div>
-      <div class="aff-info"><div class="aff-title">TurboTax Self-Employed</div><div class="aff-body">Import your GigPro data at tax time</div></div>
-      <div class="aff-reward">File →</div>
-    </a>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ TRACKER ══ -->
-<div id="page-tracker" class="page">
-  <!-- GPS Auto-Track Card -->
-  <div class="gps-card" id="gps-card">
-    <div class="gps-hdr">
-      <div id="gps-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex-shrink:0;"></div>
-      <div class="gps-title" id="gps-title">📍 Auto Mileage Tracking</div>
-    </div>
-    <div id="gps-idle-view">
-      <div style="font-size:12px;color:var(--muted2);margin-bottom:10px;">Start a trip and GPS tracks your miles automatically. Miles auto-fill when you stop.</div>
-      <button class="btn btn-green" onclick="startGPS()" style="padding:12px;">🚀 &nbsp;Start Trip Tracking</button>
-    </div>
-    <div id="gps-tracking-view" style="display:none;">
-      <div class="gps-mi-big" id="gps-mi-live">0.00</div>
-      <div class="gps-meta" id="gps-meta">miles tracked · GPS active</div>
-      <div class="gps-btn-row">
-        <button class="btn btn-rose" onclick="stopGPS()" style="padding:12px;flex:1;">⏹ &nbsp;Stop &amp; Fill Miles</button>
-        <button onclick="cancelGPS()" style="padding:12px 16px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec">Log a Trip</div>
-  <div class="card">
-    <div style="margin-bottom:8px;">
-      <div class="fg" style="margin-bottom:6px;"><label>Platform</label></div>
-      <div class="plat-sel">
-        <div class="pb su" onclick="selP('uber',this)">🚗 Uber</div>
-        <div class="pb" onclick="selP('lyft',this)">🩷 Lyft</div>
-        <div class="pb" onclick="selP('doordash',this)">🍕 DD</div>
-        <div class="pb" onclick="selP('grubhub',this)">🛍 GH</div>
-        <div class="pb" onclick="selP('instacart',this)">🛒 IC</div>
-        <div class="pb" onclick="selP('amazon',this)">📦 AMZ</div>
-        <div class="pb" onclick="selP('spark',this)">⚡ Spark</div>
-        <div class="pb" onclick="selP('shipt',this)">🏪 Shipt</div>
-      </div>
-    </div>
-    <div class="form-grid">
-      <div class="fg"><label>Earned ($)</label><input type="number" id="t-earn" placeholder="18.50" step="0.01" inputmode="decimal" min="0" max="9999"></div>
-      <div class="fg"><label>Tip ($)</label><input type="number" id="t-tip" placeholder="0.00" step="0.01" inputmode="decimal" min="0" max="9999"></div>
-    </div>
-    <div class="form-grid-3">
-      <div class="fg"><label>Miles</label><input type="number" id="t-miles" placeholder="12.4" step="0.1" inputmode="decimal" min="0" max="9999"></div>
-      <div class="fg"><label>Minutes</label><input type="number" id="t-mins" placeholder="35" inputmode="numeric" min="0" max="1440"></div>
-      <div class="fg"><label>Gas ($)</label><input type="number" id="t-gas" placeholder="0.00" step="0.01" inputmode="decimal" min="0" max="999"></div>
-    </div>
-    <div class="fg" style="margin-bottom:12px;"><label>Notes (optional)</label><input type="text" id="t-note" placeholder="surge pricing, long wait…" maxlength="200" style="font-size:13px;" autocomplete="off"></div>
-    <button class="btn btn-indigo" onclick="logTrip()">✓ &nbsp;Log Trip</button>
-  </div>
-  <div class="sec" style="margin-top:4px;">Today's Trips <span style="color:var(--muted);font-size:9px;font-weight:400;letter-spacing:0;">(swipe left to delete)</span></div>
-  <div class="trips-list" id="trk-list" style="margin-bottom:20px;"></div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ EXPENSES ══ -->
-<div id="page-expenses" class="page">
-  <div class="hero h-tax">
-    <div class="h-lbl">Total Expenses This Year</div>
-    <div class="h-num" id="exp-total">$0.00</div>
-    <div class="h-sub">fully tracked &amp; categorized</div>
-    <div class="h-row">
-      <div class="badge bg-sky" id="exp-ded-badge">$0.00 deductible</div>
-      <div class="badge-lbl">estimated tax savings</div>
-    </div>
-  </div>
-  <div class="sg">
-    <div class="sc cy"><div class="sc-lbl">Gas</div><div class="sc-val" id="exp-gas">$0</div><div class="sc-sub">100% deductible</div></div>
-    <div class="sc cs"><div class="sc-lbl">Phone</div><div class="sc-val" id="exp-phone">$0</div><div class="sc-sub">~60% deductible</div></div>
-    <div class="sc cv"><div class="sc-lbl">Maintenance</div><div class="sc-val" id="exp-maint">$0</div><div class="sc-sub">pro-rated</div></div>
-    <div class="sc ci"><div class="sc-lbl">Other</div><div class="sc-val" id="exp-other">$0</div><div class="sc-sub">varies</div></div>
-  </div>
-  <div class="sec">Log Expense</div>
-  <div class="card">
-    <div class="form-grid">
-      <div class="fg"><label>Category</label>
-        <select id="e-cat">
-          <option value="gas">⛽ Gas</option><option value="phone">📱 Phone Bill</option>
-          <option value="maintenance">🔧 Car Maintenance</option><option value="insurance">🛡 Car Insurance</option>
-          <option value="carwash">🚿 Car Wash</option><option value="supplies">📦 Supplies</option><option value="other">🗂 Other</option>
-        </select>
-      </div>
-      <div class="fg"><label>Amount ($)</label><input type="number" id="e-amt" placeholder="45.00" step="0.01" inputmode="decimal" min="0" max="99999"></div>
-    </div>
-    <div class="fg" style="margin-bottom:12px;"><label>Note (optional)</label><input type="text" id="e-note" placeholder="Shell station, oil change…" maxlength="200" style="font-size:13px;" autocomplete="off"></div>
-    <button class="btn btn-sky" onclick="logExp()">✓ &nbsp;Log Expense</button>
-  </div>
-  <div class="sec">Expense Log</div>
-  <div class="card" id="exp-list"></div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ GOALS ══ -->
-<div id="page-goals" class="page">
-  <div class="hero h-goal">
-    <div class="h-lbl">Weekly Goal Progress</div>
-    <div class="h-num" id="g-wk-earn">$0.00</div>
-    <div class="h-sub" id="g-wk-sub">of $0 weekly goal</div>
-    <div class="h-row">
-      <div class="badge bg-gold" id="g-wk-badge">$0 to go</div>
-      <div class="badge-lbl" id="g-pace"></div>
-    </div>
-  </div>
-  <div class="card" style="padding:14px 16px;">
-    <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">WEEKLY PROGRESS</div>
-    <div class="gbar-bg" style="height:11px;"><div class="gbar-fill" id="g-wk-bar" style="width:0%"></div></div>
-    <div style="display:flex;justify-content:space-between;margin-top:5px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#fcd34d;" id="g-wk-pct">0%</div>
-      <div style="font-size:11px;color:var(--muted);" id="g-days-left"></div>
-    </div>
-  </div>
-  <div class="sec">Set Your Goals</div>
-  <div class="card">
-    <div class="form-grid">
-      <div class="fg"><label>Daily Goal ($)</label><input type="number" id="g-daily" placeholder="200" inputmode="decimal" min="0" max="99999"></div>
-      <div class="fg"><label>Weekly Goal ($)</label><input type="number" id="g-weekly" placeholder="1200" inputmode="decimal" min="0" max="99999"></div>
-      <div class="fg"><label>Monthly Goal ($)</label><input type="number" id="g-monthly" placeholder="5000" inputmode="decimal" min="0" max="999999"></div>
-      <div class="fg"><label>Annual Goal ($)</label><input type="number" id="g-annual" placeholder="60000" inputmode="decimal" min="0" max="9999999"></div>
-    </div>
-    <button class="btn btn-gold" onclick="saveGoals()">✓ &nbsp;Save Goals</button>
-  </div>
-  <div class="sg">
-    <div class="sc cg"><div class="sc-lbl">Monthly</div><div class="sc-val" id="g-mo-pct">0%</div><div class="sc-sub" id="g-mo-sub">$0 of $0</div></div>
-    <div class="sc cy"><div class="sc-lbl">Annual</div><div class="sc-val" id="g-yr-pct">0%</div><div class="sc-sub" id="g-yr-sub">$0 of $0</div></div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ WEEKLY ══ -->
-<div id="page-weekly" class="page">
-  <div class="hero h-earn">
-    <div class="h-lbl">This Week</div>
-    <div class="h-num" id="w-total">$0.00</div>
-    <div class="h-sub" id="w-sub">0 trips</div>
-    <div class="h-row">
-      <div class="badge bg-green" id="w-profit">$0.00 profit</div>
-      <div class="badge-lbl">after expenses</div>
-    </div>
-  </div>
-  <div class="sec">Daily Earnings</div>
-  <div class="card">
-    <div class="chart-wrap" id="chart-bars"></div>
-    <div style="display:flex;gap:6px;" id="chart-lbls"></div>
-  </div>
-  <div class="sg">
-    <div class="sc cy"><div class="sc-lbl">Week Miles</div><div class="sc-val" id="w-miles">0</div><div class="sc-sub" id="w-mi-ded">$0 deduction</div></div>
-    <div class="sc cv"><div class="sc-lbl">Avg $/Hr</div><div class="sc-val" id="w-hr">$0</div><div class="sc-sub">this week</div></div>
-    <div class="sc ci"><div class="sc-lbl">Total Trips</div><div class="sc-val" id="w-trips">0</div><div class="sc-sub">this week</div></div>
-    <div class="sc cg"><div class="sc-lbl">Best Day</div><div class="sc-val" id="w-best">$0</div><div class="sc-sub" id="w-best-day">—</div></div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ INSIGHTS ══ -->
-<div id="page-insights" class="page">
-  <div class="sec">Performance Score</div>
-  <div class="card">
-    <div style="text-align:center;margin-bottom:4px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:70px;line-height:1;" id="ins-score">—</div>
-      <div style="font-size:12px;color:var(--muted);" id="ins-score-sub">Log trips to get your score</div>
-    </div>
-    <div class="score-grid">
-      <div class="score-box"><div class="score-box-lbl">Best Hour</div><div class="score-box-val" style="color:#86efac;" id="ins-hr">—</div></div>
-      <div class="score-box"><div class="score-box-lbl">Top Platform</div><div class="score-box-val" style="color:#7dd3fc;" id="ins-top">—</div></div>
-      <div class="score-box"><div class="score-box-lbl">Avg/Trip</div><div class="score-box-val" style="color:#fcd34d;" id="ins-avg">$0</div></div>
-    </div>
-  </div>
-  <div class="sec">Trip Grades</div>
-  <div class="card" id="grade-bd"></div>
-  <div class="sec">Smart Insights</div>
-  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="ins-list">
-    <div class="insight-card"><div class="ic-ico">📊</div><div class="ic-title">No data yet</div><div class="ic-body">Log some trips and come back for personalized insights.</div></div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ TAX ══ -->
-<div id="page-tax" class="page">
-  <div class="hero h-tax">
-    <div class="h-lbl">2025 Tax Deduction</div>
-    <div class="h-num" id="tax-ded-big">$0.00</div>
-    <div class="h-sub">IRS standard mileage @ 67¢/mi</div>
-    <div class="h-row">
-      <div class="badge bg-sky" id="tax-mi-badge">0 miles driven</div>
-      <div class="badge-lbl">year to date</div>
-    </div>
-  </div>
-  <div class="sg">
-    <div class="sc cy"><div class="sc-lbl">Total Miles</div><div class="sc-val" id="tax-miles">0</div><div class="sc-sub">this year</div></div>
-    <div class="sc cs"><div class="sc-lbl">Deduction</div><div class="sc-val" id="tax-ded">$0</div><div class="sc-sub">@ 67¢/mi</div></div>
-    <div class="sc cg"><div class="sc-lbl">Year Gross</div><div class="sc-val" id="tax-gross">$0</div><div class="sc-sub">all platforms</div></div>
-    <div class="sc ci"><div class="sc-lbl">Year Trips</div><div class="sc-val" id="tax-trips">0</div><div class="sc-sub">total logged</div></div>
-  </div>
-  <div class="sec">Miles by Platform</div>
-  <div class="card" id="plat-split"></div>
-  <div class="sec">Monthly Mileage Log</div>
-  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="month-table"></div>
-  <div style="margin:0 20px 14px;position:relative;z-index:10;">
-    <button class="btn btn-outline-sky" onclick="exportCSVGated()">⬇ &nbsp;Export Mileage Log (CSV)</button>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ Q-TAX ══ -->
-<div id="page-qtax" class="page">
-  <div class="hero h-qt">
-    <div class="h-lbl">Q<span id="qt-q">?</span> Estimated Tax Due</div>
-    <div class="h-num" id="qt-due">$0.00</div>
-    <div class="h-sub" id="qt-due-date">Due —</div>
-    <div class="h-row">
-      <div class="badge bg-violet" id="qt-wk-badge">Set aside $0/week</div>
-      <div class="badge-lbl">to stay on track</div>
-    </div>
-  </div>
-  <div class="sg">
-    <div class="sc cv"><div class="sc-lbl">Year Tax Est.</div><div class="sc-val" id="qt-yr">$0</div><div class="sc-sub">all 4 quarters</div></div>
-    <div class="sc ci"><div class="sc-lbl">Taxable Income</div><div class="sc-val" id="qt-taxable">$0</div><div class="sc-sub">after deductions</div></div>
-    <div class="sc cy"><div class="sc-lbl">SE Tax</div><div class="sc-val" id="qt-se">$0</div><div class="sc-sub">15.3% self-employ</div></div>
-    <div class="sc cg"><div class="sc-lbl">Effective Rate</div><div class="sc-val" id="qt-rate">0%</div><div class="sc-sub">of gross income</div></div>
-  </div>
-  <div class="sec">Set-Aside Tracker</div>
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:16px;">
-      <div class="ring-wrap">
-        <svg width="96" height="96" viewBox="0 0 96 96">
-          <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(139,92,246,0.12)" stroke-width="8"/>
-          <circle cx="48" cy="48" r="40" fill="none" stroke="#a78bfa" stroke-width="8" stroke-dasharray="251" stroke-dashoffset="251" id="ring-c" stroke-linecap="round" style="transition:stroke-dashoffset .6s ease;"/>
-        </svg>
-        <div class="ring-center"><div class="ring-pct" id="ring-pct">0%</div><div class="ring-lbl">saved</div></div>
-      </div>
-      <div style="flex:1;">
-        <div class="br" style="padding:7px 0;"><div class="br-lbl">Owed Q<span class="qt-q-r">?</span></div><div class="bv bv-v" id="qt-owed">$0.00</div></div>
-        <div class="br" style="padding:7px 0;"><div class="br-lbl">Set Aside</div><div class="bv bv-g" id="qt-saved">$0.00</div></div>
-        <div class="br" style="padding:7px 0;border-bottom:none;"><div class="br-lbl">Still Need</div><div class="bv bv-r" id="qt-still">$0.00</div></div>
-        <div style="display:flex;gap:7px;margin-top:10px;">
-          <input type="number" id="qt-inp" placeholder="Amount saved" inputmode="decimal" min="0" style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;">
-          <button onclick="updateSavings()" style="padding:10px 14px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="sec">2025 Payment Deadlines</div>
-  <div style="margin:0 20px 14px;position:relative;z-index:10;" id="dl-list"></div>
-  <div class="sec">Tax Settings</div>
-  <div class="card">
-    <div class="form-grid">
-      <div class="fg"><label>Filing Status</label>
-        <select id="qt-filing"><option value="single">Single</option><option value="mfj">Married Joint</option><option value="mfs">Married Sep.</option><option value="hoh">Head of House</option></select>
-      </div>
-      <div class="fg"><label>Other Income ($)</label><input type="number" id="qt-oi" placeholder="0" inputmode="decimal" min="0"></div>
-      <div class="fg"><label>Extra Expenses ($)</label><input type="number" id="qt-oe" placeholder="0" inputmode="decimal" min="0"></div>
-      <div class="fg"><label>State Tax Rate (%)</label><input type="number" id="qt-state" placeholder="0" step="0.1" inputmode="decimal" min="0" max="20"></div>
-    </div>
-    <button class="btn btn-violet" onclick="saveQTS()">✓ &nbsp;Update Calculations</button>
-  </div>
-  <div class="explainer">
-    <div class="ex-row"><div class="ex-ico">💵</div><div class="ex-txt"><strong>Gross earnings</strong> minus mileage (67¢/mi), gas, and expenses = taxable income.</div></div>
-    <div class="ex-row"><div class="ex-ico">🏛</div><div class="ex-txt"><strong>SE tax</strong> is 15.3% on 92.35% of net. Half is deductible from income tax.</div></div>
-    <div class="ex-row"><div class="ex-ico">📊</div><div class="ex-txt"><strong>Income tax</strong> uses 2025 federal brackets + your state rate.</div></div>
-    <div class="ex-row"><div class="ex-ico">⚠️</div><div class="ex-txt"><strong>Estimate only.</strong> Consult a tax professional for actual filing.</div></div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ AI COACH ══ -->
-<div id="page-coach" class="page">
-  <div class="hero h-coach">
-    <div class="h-lbl">🤖 AI Earnings Coach</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1.1;color:#fff;margin-top:4px;">Your personal gig strategy advisor</div>
-    <div class="h-sub" style="margin-top:6px;">Powered by your real trip data</div>
-    <div class="h-row">
-      <div class="badge bg-indigo" id="coach-status-badge">Ready to coach</div>
-    </div>
-  </div>
-
-  <!-- API Setup (shown when no key) -->
-  <div class="api-setup" id="api-setup-card">
-    <div class="api-setup-title">🔑 Connect Your AI Coach</div>
-    <div class="api-setup-body">Enter your Anthropic API key to activate the AI coach. Get a free key at console.anthropic.com — new accounts get free credits.<br><br>Your key is stored only on this device.</div>
-    <div class="api-setup-row">
-      <input class="api-inp" id="api-key-inp" type="password" placeholder="sk-ant-..." autocomplete="off">
-      <button class="api-save-btn" onclick="saveApiKey()">Save</button>
-    </div>
-  </div>
-
-  <!-- Chat Interface -->
-  <div id="coach-chat-wrap">
-    <div class="sec">Quick Questions</div>
-    <div class="quick-prompts" id="quick-prompts">
-      <div class="qp" onclick="sendQuick('How do I earn more this week?')">💰 Earn more</div>
-      <div class="qp" onclick="sendQuick('Which platform should I focus on?')">🏆 Best platform</div>
-      <div class="qp" onclick="sendQuick('Am I on track for my weekly goal?')">🎯 Goal check</div>
-      <div class="qp" onclick="sendQuick('How much should I set aside for taxes?')">🧾 Tax estimate</div>
-      <div class="qp" onclick="sendQuick('What are my best earning hours?')">⏰ Best hours</div>
-      <div class="qp" onclick="sendQuick('How do I get an A-grade trip rating?')">⭐ Grade tips</div>
-    </div>
-    <div class="chat-container">
-      <div class="chat-msgs" id="chat-msgs">
-        <div class="chat-bubble ai" id="coach-welcome">Hey! I'm your GigPro Coach. I can see your earnings data and I'm here to help you earn more, save more, and stress less. Ask me anything! 🚗💰</div>
-      </div>
-    </div>
-    <div class="chat-input-row">
-      <input class="chat-inp" id="coach-input" type="text" placeholder="Ask your coach anything…" maxlength="500" autocomplete="off">
-      <button class="chat-send" id="coach-send-btn" onclick="sendToCoach()">↑</button>
-    </div>
-    <div style="margin:0 20px 10px;position:relative;z-index:10;">
-      <button onclick="clearCoach()" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;">🗑 Clear conversation</button>
-      <button onclick="goPage('backup')" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;margin-left:12px;">⚙️ Change API key</button>
-    </div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ REFER ══ -->
-<div id="page-refer" class="page">
-  <div class="hero h-refer">
-    <div class="h-lbl">Refer & Earn</div>
-    <div class="h-num" style="font-size:48px;" id="ref-count">0</div>
-    <div class="h-sub">friends referred</div>
-    <div class="h-row">
-      <div class="badge bg-teal" id="ref-reward-badge">1 month Pro per referral</div>
-    </div>
-  </div>
-
-  <div class="sec">Your Referral Code</div>
-  <div style="margin:0 20px 0;position:relative;z-index:10;">
-    <div class="ref-code" id="ref-code-display" onclick="copyRefCode()">LOADING</div>
-    <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:14px;">Tap to copy · Share with other gig workers</div>
-  </div>
-
-  <div style="margin:0 20px 14px;display:flex;gap:8px;position:relative;z-index:10;">
-    <button class="btn btn-teal" onclick="shareApp()" style="flex:1;">📤 &nbsp;Share GigPro</button>
-    <button onclick="copyRefCode()" style="padding:15px 18px;border-radius:14px;border:1.5px solid rgba(20,184,166,.3);background:rgba(20,184,166,.08);color:#5eead4;font-weight:700;font-size:13px;cursor:pointer;">Copy</button>
-  </div>
-
-  <div class="ref-stats">
-    <div class="ref-stat"><div class="ref-stat-val" id="ref-clicks">0</div><div class="ref-stat-lbl">Link Clicks</div></div>
-    <div class="ref-stat"><div class="ref-stat-val" id="ref-signups">0</div><div class="ref-stat-lbl">Signups</div></div>
-    <div class="ref-stat"><div class="ref-stat-val" id="ref-months">0</div><div class="ref-stat-lbl">Free Months</div></div>
-  </div>
-
-  <div class="sec">How It Works</div>
-  <div class="card">
-    <div class="ref-how">
-      <div class="ref-step"><div class="ref-step-num">1</div><div class="ref-step-txt">Share your referral code with other Uber, DoorDash, or Instacart drivers</div></div>
-      <div class="ref-step"><div class="ref-step-num">2</div><div class="ref-step-txt">They download GigPro and enter <strong>your code</strong> during setup</div></div>
-      <div class="ref-step"><div class="ref-step-num">3</div><div class="ref-step-txt">You both get <strong>1 month of Pro free</strong> — automatically applied</div></div>
-    </div>
-  </div>
-
-  <div class="sec">Best Places to Share</div>
-  <div class="card">
-    <div style="display:flex;flex-direction:column;gap:0;">
-      <div class="br" style="padding:11px 0;"><div class="br-lbl">🚗 UberDrivers subreddit</div><div style="font-size:11px;color:#86efac;font-weight:700;">High traffic</div></div>
-      <div class="br" style="padding:11px 0;"><div class="br-lbl">🍕 DoorDash Drivers Facebook</div><div style="font-size:11px;color:#86efac;font-weight:700;">200K+ members</div></div>
-      <div class="br" style="padding:11px 0;"><div class="br-lbl">📦 Amazon Flex Discord</div><div style="font-size:11px;color:#86efac;font-weight:700;">Active daily</div></div>
-      <div class="br" style="padding:11px 0;border-bottom:none;"><div class="br-lbl">🎵 GigWorker TikTok</div><div style="font-size:11px;color:#7dd3fc;font-weight:700;">Viral potential</div></div>
-    </div>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- ══ BACKUP ══ -->
-<div id="page-backup" class="page">
-  <div class="hero h-green">
-    <div class="h-lbl">Data Backup &amp; Restore</div>
-    <div class="h-num" style="font-size:42px;" id="bk-status">Protected</div>
-    <div class="h-sub" id="bk-last">Last backup: never</div>
-    <div class="h-row">
-      <div class="badge bg-green" id="bk-badge">All data local</div>
-      <div class="badge-lbl">export to keep it safe</div>
-    </div>
-  </div>
-  <div class="backup-section">
-    <div class="backup-stats">
-      <div class="bstat"><div class="bstat-val" id="bk-trips">0</div><div class="bstat-lbl">Trips</div></div>
-      <div class="bstat"><div class="bstat-val" id="bk-exps">0</div><div class="bstat-lbl">Expenses</div></div>
-      <div class="bstat"><div class="bstat-val" id="bk-days">0</div><div class="bstat-lbl">Days Active</div></div>
-    </div>
-
-    <!-- API Key Management -->
-    <div class="backup-info" style="background:rgba(99,102,241,.06);border-color:rgba(99,102,241,.18);margin-bottom:12px;">
-      <div class="backup-info-title">🤖 AI Coach API Key</div>
-      <div class="backup-info-body" id="api-key-status">No API key saved. Visit the Coach tab to add one.</div>
-      <div style="margin-top:8px;display:flex;gap:8px;">
-        <input type="password" id="api-key-manage" placeholder="sk-ant-..." style="flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;">
-        <button onclick="saveApiKeyManage()" style="padding:9px 14px;border-radius:10px;border:none;background:#6366f1;color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Save</button>
-        <button onclick="clearApiKey()" style="padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;">Clear</button>
-      </div>
-    </div>
-
-    <!-- Pro Status -->
-    <div class="backup-info" style="background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2);margin-bottom:12px;">
-      <div class="backup-info-title">⭐ GigPro Status</div>
-      <div class="backup-info-body" id="pro-status-txt">Free plan. Upgrade to Pro for full access.</div>
-      <div style="margin-top:10px;display:flex;gap:8px;">
-        <button onclick="showUpgradeModal()" class="btn btn-gold" style="padding:10px;font-size:13px;">Upgrade to Pro</button>
-        <button onclick="deactivatePro()" id="deactivate-btn" style="display:none;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;">Deactivate</button>
-      </div>
-    </div>
-
-    <div class="backup-info" style="margin-bottom:12px;">
-      <div class="backup-info-title">⬇ Export Full Backup</div>
-      <div class="backup-info-body">Downloads a .json backup file with all your trips, expenses, goals, and settings.</div>
-    </div>
-    <button class="btn btn-indigo" onclick="exportBackup()" style="margin-bottom:12px;">⬇ &nbsp;Download Backup (.json)</button>
-    <button class="btn btn-green" onclick="exportCSVGated()" style="margin-bottom:20px;">📊 &nbsp;Export Trip Log (.csv)</button>
-    <div class="backup-info" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);margin-bottom:12px;">
-      <div class="backup-info-title">⬆ Restore from Backup</div>
-      <div class="backup-info-body">Select a GigPro .json backup file to restore all your data. This will replace current data.</div>
-    </div>
-    <div style="margin-bottom:12px;">
-      <input type="file" id="restore-file" accept=".json" onchange="restoreBackup(this)" style="display:none;">
-      <button class="btn btn-gold" onclick="document.getElementById('restore-file').click()">⬆ &nbsp;Restore from File</button>
-    </div>
-    <div class="backup-info" style="background:rgba(244,63,94,.05);border-color:rgba(244,63,94,.2);">
-      <div class="backup-info-title" style="color:#fda4af;">⚠️ Clear All Data</div>
-      <div class="backup-info-body">Permanently delete all trips, expenses, and settings. Cannot be undone!</div>
-    </div>
-    <button class="btn btn-rose" style="margin-top:10px;" onclick="clearAll()">🗑 &nbsp;Clear All Data</button>
-  </div>
-  <div class="scroll-pad"></div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bnav">
-  <div class="ni active" onclick="goPage('home',null,this)"><div class="ni-ico">🏠</div><div class="ni-lbl">Home</div></div>
-  <div class="ni" onclick="goPage('tracker',null,this)"><div class="ni-ico">📍</div><div class="ni-lbl">Track</div></div>
-  <div class="ni" onclick="goPage('expenses',null,this)"><div class="ni-ico">💸</div><div class="ni-lbl">Expenses</div></div>
-  <div class="ni" onclick="goPage('goals',null,this)"><div class="ni-ico">🎯</div><div class="ni-lbl">Goals</div></div>
-  <div class="ni pro-nav" onclick="goPage('coach',null,this)"><div class="ni-ico">🤖</div><div class="ni-lbl">Coach</div></div>
-  <div class="ni" onclick="goPage('tax',null,this)"><div class="ni-ico">🧾</div><div class="ni-lbl">Tax</div></div>
-</div>
-</div><!-- end #app -->
-
-<!-- ═══ UPGRADE MODAL ═══ -->
-<div class="upg-overlay" id="upg-overlay" onclick="closeUpgradeIfOutside(event)">
-  <div class="upg-sheet">
-    <button class="upg-close" onclick="closeUpgradeModal()">✕</button>
-    <span class="upg-emoji">⭐</span>
-    <div class="upg-title">Upgrade to Pro</div>
-    <div class="upg-sub" id="upg-feature-msg">Unlock the full GigPro experience</div>
-
-    <div class="price-row">
-      <div class="price-card sel" id="pc-monthly" onclick="selectPlan('monthly')">
-        <div class="price-card-name">Monthly</div>
-        <div class="price-card-amt">$7.99</div>
-        <div class="price-card-per">per month</div>
-        <div class="price-save">&nbsp;</div>
-      </div>
-      <div class="price-card" id="pc-annual" onclick="selectPlan('annual')">
-        <div class="price-card-name">Annual</div>
-        <div class="price-card-amt">$59.99</div>
-        <div class="price-card-per">per year</div>
-        <div class="price-save">Save $36 · 37% off</div>
-      </div>
-    </div>
-
-    <div class="pro-features">
-      <div class="pf-row"><span>✓</span>AI Earnings Coach (unlimited messages)</div>
-      <div class="pf-row"><span>✓</span>GPS Auto Mileage Tracking</div>
-      <div class="pf-row"><span>✓</span>CSV & Tax Export</div>
-      <div class="pf-row"><span>✓</span>Advanced Q-Tax Breakdown</div>
-      <div class="pf-row"><span>✓</span>Referral Program Access</div>
-      <div class="pf-row"><span>✓</span>Priority Support</div>
-    </div>
-
-    <button class="btn btn-gold" id="stripe-btn" onclick="goToStripe()" style="margin-bottom:12px;">Continue to Payment →</button>
-
-    <div style="text-align:center;margin-bottom:10px;font-size:11px;color:var(--muted);">— or activate with a code —</div>
-    <div class="code-row">
-      <input class="code-inp" id="activation-code" placeholder="ENTER CODE" maxlength="20" autocomplete="off" oninput="this.value=this.value.toUpperCase()">
-      <button onclick="activateCode()" style="padding:10px 16px;border-radius:10px;border:none;background:rgba(245,158,11,.2);border:1.5px solid rgba(245,158,11,.4);color:#fcd34d;font-weight:700;font-size:13px;cursor:pointer;">Apply</button>
-    </div>
-    <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px;">Received a promo code? Enter it above.</div>
-  </div>
-</div>
-
-<script>
-// ═══ CONSTANTS ═══
-const IRS=0.67;
-const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const PLT_C={uber:'#1dbf73',lyft:'#ff00bf',doordash:'#ff3008',grubhub:'#f63440',instacart:'#43b02a',amazon:'#ff9900',spark:'#0071ce',shipt:'#e4002b'};
-const PLT_L={uber:'🚗 Uber',lyft:'🩷 Lyft',doordash:'🍕 DoorDash',grubhub:'🛍 Grubhub',instacart:'🛒 Instacart',amazon:'📦 Amazon Flex',spark:'⚡ Walmart Spark',shipt:'🏪 Shipt'};
-const PLT_CSS={uber:'su',lyft:'sly',doordash:'sdd',grubhub:'sgh',instacart:'sic',amazon:'samz',spark:'ssp',shipt:'ssh'};
-const EXP_M={gas:{icon:'⛽',label:'Gas',dp:1.0,color:'#fbbf24'},phone:{icon:'📱',label:'Phone',dp:0.6,color:'#38bdf8'},maintenance:{icon:'🔧',label:'Maintenance',dp:0.5,color:'#a78bfa'},insurance:{icon:'🛡',label:'Insurance',dp:0.5,color:'#fb923c'},carwash:{icon:'🚿',label:'Car Wash',dp:1.0,color:'#34d399'},supplies:{icon:'📦',label:'Supplies',dp:1.0,color:'#818cf8'},other:{icon:'🗂',label:'Other',dp:0.5,color:'#64748b'}};
-const QT_DL=[{q:1,label:'Q1 Payment',months:[0,1,2],due:'April 15, 2025',ts:new Date('2025-04-15').getTime()},{q:2,label:'Q2 Payment',months:[3,4],due:'June 16, 2025',ts:new Date('2025-06-16').getTime()},{q:3,label:'Q3 Payment',months:[5,6,7],due:'Sep 15, 2025',ts:new Date('2025-09-15').getTime()},{q:4,label:'Q4 Payment',months:[8,9,10,11],due:'Jan 15, 2026',ts:new Date('2026-01-15').getTime()}];
-const BR_S=[{min:0,max:11925,r:.10},{min:11925,max:48475,r:.12},{min:48475,max:103350,r:.22},{min:103350,max:197300,r:.24},{min:197300,max:250525,r:.32},{min:250525,max:626350,r:.35},{min:626350,max:Infinity,r:.37}];
-const BR_MFJ=[{min:0,max:23850,r:.10},{min:23850,max:96950,r:.12},{min:96950,max:206700,r:.22},{min:206700,max:394600,r:.24},{min:394600,max:501050,r:.32},{min:501050,max:751600,r:.35},{min:751600,max:Infinity,r:.37}];
-const STD={single:15000,mfj:30000,mfs:15000,hoh:22500};
-const MAX_TRIPS=5000,MAX_EXPENSES=2000;
-// Pro activation codes — replace with Stripe webhooks in production
-const VALID_CODES=['GIGPRO2025','SHERMAR100','BETA2025','PROLAUNCH'];
-// Stripe payment link — replace with your actual Stripe link
-const STRIPE_LINK='https://buy.stripe.com/YOUR_LINK_HERE';
-
-// ═══ SECURITY HELPERS ═══
-function escHtml(str){if(str==null)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
-function safeNum(v,min=0,max=99999){const n=parseFloat(v);if(!isFinite(n))return 0;return Math.min(Math.max(n,min),max);}
-function safeInt(v,min=0,max=9999){const n=parseInt(v);if(!isFinite(n))return 0;return Math.min(Math.max(n,min),max);}
-function safeStr(v,maxLen=200){if(v==null)return '';return String(v).replace(/[<>]/g,'').trim().slice(0,maxLen);}
-function safePlatform(v){return Object.keys(PLT_L).includes(v)?v:'uber';}
-function safeExpCat(v){return Object.keys(EXP_M).includes(v)?v:'other';}
-
-// ═══ STORAGE HELPERS ═══
-function storeSave(key,val){try{const str=JSON.stringify(val);if(str.length>2*1024*1024){showToast('⚠️ Data too large','warn');return false;}localStorage.setItem(key,str);return true;}catch(e){if(e.name==='QuotaExceededError')showToast('⚠️ Storage full!','warn');return false;}}
-function storeLoad(key,fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback;}catch(e){return fallback;}}
-
-// ═══ STATE ═══
-let trips    = storeLoad('gp_trips',[]);
-let expenses = storeLoad('gp_exp',[]);
-let goals    = storeLoad('gp_goals',{daily:0,weekly:0,monthly:0,annual:0});
-let qtS      = storeLoad('gp_qt_s',{filing:'single',otherInc:0,otherExp:0,state:0});
-let qtSaved  = storeLoad('gp_qt_saved',{});
-let userPref = storeLoad('gp_pref',{name:'',filing:'single',state:0,weekly:0,platform:'uber',onboarded:false});
-let isPro    = storeLoad('gp_pro',false);
-let selPlan  = 'monthly';
-let selPlatform = safePlatform(userPref.platform);
-
-// GPS state
-let isTracking=false,gpsWatchId=null,gpsPositions=[],gpsMiles=0;
-
-// Coach state
-let coachHistory=[],isThinking=false;
-
-// ═══ HELPERS ═══
-const $=id=>document.getElementById(id);
-const setText=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
-const todayStr=()=>new Date().toDateString();
-const thisYear=()=>new Date().getFullYear();
-const thisMonth=()=>new Date().getMonth();
-const todayTrips=()=>trips.filter(t=>new Date(t.ts).toDateString()===todayStr());
-const yearTrips=()=>trips.filter(t=>new Date(t.ts).getFullYear()===thisYear());
-const monthTrips=()=>trips.filter(t=>{const d=new Date(t.ts);return d.getFullYear()===thisYear()&&d.getMonth()===thisMonth();});
-function weekTrips(){const n=new Date(),dy=n.getDay();const m=new Date(n);m.setDate(n.getDate()-(dy===0?6:dy-1));m.setHours(0,0,0,0);return trips.filter(t=>t.ts>=m.getTime());}
-const fmtK=n=>n>=1000?'$'+(n/1000).toFixed(1)+'k':'$'+Math.round(n);
-const grade=(e,m)=>{if(!m)return 'B';const r=e/(m/60);return r>=30?'A':r>=22?'B':r>=15?'C':r>=10?'D':'F';};
-function getWeeklyData(){const d={Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0};weekTrips().forEach(t=>{const dy=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(t.ts).getDay()];d[dy]=(d[dy]||0)+t.earned;});return d;}
-
-let toastTimer=null;
-function showToast(msg,type=''){const t=$('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'');t.classList.add('show');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2500);}
-
-// ═══ PRO SYSTEM ═══
-function updateProUI(){
-  const hel=$('pro-header-el');
-  if(hel){hel.innerHTML=isPro?'<div class="pro-header-badge">⭐ PRO</div>':'<div class="upgrade-header-btn" onclick="showUpgradeModal()">Upgrade Pro</div>';}
-  const stxt=$('pro-status-txt');if(stxt)stxt.textContent=isPro?'✅ GigPro Pro — Full access active.':'Free plan. Upgrade to Pro for full access.';
-  const dBtn=$('deactivate-btn');if(dBtn)dBtn.style.display=isPro?'block':'none';
-  updateApiKeyStatus();
-}
-
-function showUpgradeModal(msg){
-  const el=$('upg-feature-msg');if(el)el.textContent=msg||'Unlock the full GigPro experience';
-  $('upg-overlay').classList.add('open');
-}
-function closeUpgradeModal(){$('upg-overlay').classList.remove('open');}
-function closeUpgradeIfOutside(e){if(e.target===$('upg-overlay'))closeUpgradeModal();}
-
-function selectPlan(p){
-  selPlan=p;
-  document.querySelectorAll('.price-card').forEach(c=>c.classList.remove('sel'));
-  $('pc-'+p)?.classList.add('sel');
-}
-
-function activateCode(){
-  const code=($('activation-code')?.value||'').trim().toUpperCase();
-  if(VALID_CODES.includes(code)){
-    isPro=true;storeSave('gp_pro',true);
-    closeUpgradeModal();
-    showToast('🎉 Pro activated! Welcome to GigPro Pro!');
-    updateProUI();
-  }else{
-    showToast('⚠️ Invalid code. Try again.','warn');
-  }
-}
-
-function goToStripe(){
-  if(STRIPE_LINK.includes('YOUR_LINK')){showToast('⚠️ Stripe link not configured yet','warn');return;}
-  window.open(STRIPE_LINK,'_blank');
-}
-
-function deactivatePro(){
-  if(!confirm('Deactivate Pro?'))return;
-  isPro=false;storeSave('gp_pro',false);updateProUI();showToast('Pro deactivated');
-}
-
-// ═══ GPS TRACKING ═══
-function haversine(lat1,lon1,lat2,lon2){
-  const R=3958.8,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R*2*Math.asin(Math.sqrt(a));
-}
-function calcTotalDist(positions){
-  let total=0;
-  for(let i=1;i<positions.length;i++){
-    const p1=positions[i-1].coords,p2=positions[i].coords;
-    if(p1.accuracy<100&&p2.accuracy<100)total+=haversine(p1.latitude,p1.longitude,p2.latitude,p2.longitude);
-  }
-  return total;
-}
-function startGPS(){
-  if(!navigator.geolocation){showToast('⚠️ GPS not supported on this device','warn');return;}
-  showToast('📍 Requesting GPS permission…');
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      gpsPositions=[pos];gpsMiles=0;isTracking=true;updateGPSCard();
-      gpsWatchId=navigator.geolocation.watchPosition(
-        p=>{gpsPositions.push(p);gpsMiles=calcTotalDist(gpsPositions);setText('gps-mi-live',gpsMiles.toFixed(2));},
-        ()=>showToast('⚠️ GPS signal lost','warn'),
-        {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
-      );
-      showToast('🚀 Trip tracking started!');
-    },
-    err=>{
-      if(err.code===1)showToast('⚠️ Location permission denied','warn');
-      else showToast('⚠️ Could not start GPS','warn');
-    },
-    {enableHighAccuracy:true,timeout:10000}
-  );
-}
-function stopGPS(){
-  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
-  const finalMiles=gpsMiles;
-  const mi=$('t-miles');if(mi)mi.value=finalMiles.toFixed(1);
-  isTracking=false;gpsPositions=[];gpsMiles=0;updateGPSCard();
-  showToast(`✓ ${finalMiles.toFixed(2)} miles tracked → auto-filled`);
-}
-function cancelGPS(){
-  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
-  isTracking=false;gpsPositions=[];gpsMiles=0;updateGPSCard();
-  showToast('Trip tracking cancelled');
-}
-function updateGPSCard(){
-  const card=$('gps-card');if(!card)return;
-  const idle=$('gps-idle-view'),tracking=$('gps-tracking-view');
-  const dot=$('gps-status-dot'),title=$('gps-title');
-  if(isTracking){
-    card.classList.add('tracking');
-    if(idle)idle.style.display='none';
-    if(tracking)tracking.style.display='block';
-    if(dot){dot.style.background='#22c55e';dot.style.animation='gpsPulse 1.4s ease-in-out infinite';}
-    if(title)title.textContent='📍 Tracking Active';
-  }else{
-    card.classList.remove('tracking');
-    if(idle)idle.style.display='block';
-    if(tracking)tracking.style.display='none';
-    if(dot){dot.style.background='var(--muted)';dot.style.animation='none';}
-    if(title)title.textContent='📍 Auto Mileage Tracking';
-  }
-}
-
-// ═══ AI COACH ═══
-function getApiKey(){return localStorage.getItem('gp_api_key')||'';}
-function saveApiKey(){
-  const k=($('api-key-inp')?.value||'').trim();
-  if(!k.startsWith('sk-')){showToast('⚠️ Key should start with sk-','warn');return;}
-  localStorage.setItem('gp_api_key',k);
-  $('api-key-inp').value='';
-  showToast('✅ API key saved!');
-  updateApiSetupVisibility();updateApiKeyStatus();
-}
-function saveApiKeyManage(){
-  const k=($('api-key-manage')?.value||'').trim();
-  if(!k.startsWith('sk-')){showToast('⚠️ Key should start with sk-','warn');return;}
-  localStorage.setItem('gp_api_key',k);
-  $('api-key-manage').value='';
-  showToast('✅ API key saved!');updateApiKeyStatus();
-}
-function clearApiKey(){
-  localStorage.removeItem('gp_api_key');
-  showToast('API key cleared');updateApiKeyStatus();updateApiSetupVisibility();
-}
-function updateApiKeyStatus(){
-  const k=getApiKey();
-  const el=$('api-key-status');
-  if(el)el.textContent=k?`API key saved: sk-...${k.slice(-6)}`:'No API key saved. Visit the Coach tab to add one.';
-}
-function updateApiSetupVisibility(){
-  const hasKey=!!getApiKey();
-  const setup=$('api-setup-card');
-  const chat=$('coach-chat-wrap');
-  if(setup)setup.style.display=hasKey?'none':'block';
-  if(chat)chat.style.display=hasKey?'block':'block';
-}
-
-function buildCoachSystem(){
-  const yt=yearTrips();
-  const yG=yt.reduce((s,t)=>s+t.earned,0);
-  const yM=yt.reduce((s,t)=>s+t.miles,0);
-  const yMins=yt.reduce((s,t)=>s+t.minutes,0);
-  const avgHr=yMins>0?yG/(yMins/60):0;
-  const wt=weekTrips();
-  const wG=wt.reduce((s,t)=>s+t.earned,0);
-  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
-  const yExp=ae.reduce((s,e)=>s+e.amt,0);
-  const pe={};Object.keys(PLT_L).forEach(p=>pe[p]={earn:0,trips:0});
-  yt.forEach(t=>{if(pe[t.platform]){pe[t.platform].earn+=t.earned;pe[t.platform].trips++;}});
-  const platSummary=Object.entries(pe).filter(([,v])=>v.trips>0).map(([p,v])=>`${p}: $${v.earn.toFixed(0)} (${v.trips} trips, $${v.trips>0?(v.earn/v.trips).toFixed(2):0}/trip)`).join(' | ')||'No trips yet';
-  const grades={A:0,B:0,C:0,D:0,F:0};yt.forEach(t=>grades[grade(t.earned,t.minutes)]++);
-  return `You are GigPro Coach — an expert AI earnings advisor built into the GigPro gig worker earnings app.
-You have access to this user's REAL earnings data. Use their actual numbers in your advice. Be specific, direct, and actionable.
-Keep responses under 160 words. Use bullet points for lists. Be encouraging but honest. No generic advice — reference their data.
-
-USER: ${userPref.name||'Driver'} | Primary platform: ${userPref.platform}
-YEAR EARNINGS: $${yG.toFixed(2)} across ${yt.length} trips, ${yM.toFixed(0)} miles driven
-AVERAGE HOURLY RATE: $${avgHr.toFixed(2)}/hr
-THIS WEEK: $${wG.toFixed(2)} (${wt.length} trips)
-YEAR EXPENSES: $${yExp.toFixed(2)} | MILEAGE DEDUCTION: $${(yM*0.67).toFixed(2)}
-TRIP GRADES: A=${grades.A} B=${grades.B} C=${grades.C} D=${grades.D} F=${grades.F}
-PLATFORMS: ${platSummary}
-GOALS: Daily=$${goals.daily} | Weekly=$${goals.weekly} | Monthly=$${goals.monthly} | Annual=$${goals.annual}`;
-}
-
-function addChatMsg(role,text){
-  const wrap=$('chat-msgs');if(!wrap)return;
-  const div=document.createElement('div');
-  div.className='chat-bubble '+role;
-  div.textContent=text;
-  wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
-}
-function showTyping(show){
-  const existing=document.getElementById('typing-bubble');
-  if(show&&!existing){
-    const wrap=$('chat-msgs');if(!wrap)return;
-    const div=document.createElement('div');
-    div.id='typing-bubble';div.className='chat-bubble ai typing';div.textContent='Coach is thinking…';
-    wrap.appendChild(div);wrap.scrollTop=wrap.scrollHeight;
-  }else if(!show&&existing){existing.remove();}
-}
-async function sendToCoach(){
-  if(isThinking)return;
-  const apiKey=getApiKey();
-  if(!apiKey){showToast('⚠️ Set your API key in the Coach tab','warn');updateApiSetupVisibility();return;}
-  const inp=$('coach-input');
-  const msg=(inp?.value||'').trim();
-  if(!msg)return;
-  inp.value='';
-  addChatMsg('user',msg);
-  coachHistory.push({role:'user',content:msg});
-  isThinking=true;
-  const btn=$('coach-send-btn');if(btn)btn.disabled=true;
-  showTyping(true);
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:buildCoachSystem(),messages:coachHistory.slice(-8)})
-    });
-    if(!resp.ok){const d=await resp.json().catch(()=>({}));throw new Error(d.error?.message||'API error '+resp.status);}
-    const data=await resp.json();
-    const reply=data.content[0].text;
-    coachHistory.push({role:'assistant',content:reply});
-    showTyping(false);addChatMsg('ai',reply);
-  }catch(e){
-    showTyping(false);
-    addChatMsg('ai','⚠️ Could not connect. Check your API key is correct and you have credits available.');
-    console.error('Coach error:',e);
-  }
-  isThinking=false;if(btn)btn.disabled=false;
-}
-function sendQuick(prompt){
-  const inp=$('coach-input');if(inp)inp.value=prompt;sendToCoach();
-}
-function clearCoach(){coachHistory=[];const wrap=$('chat-msgs');if(wrap)wrap.innerHTML='<div class="chat-bubble ai">Chat cleared! What can I help you with?</div>';}
-
-// ═══ REFERRAL ═══
-function genRefCode(){
-  const name=userPref.name||'DRIVER';
-  const seed=name.replace(/[^a-zA-Z0-9]/g,'').toUpperCase().slice(0,4)||'GIG';
-  const num=Math.abs(trips.length*7+17).toString().slice(0,3).padStart(3,'0');
-  return seed+num;
-}
-function updateRefer(){
-  const code=genRefCode();
-  setText('ref-code-display',code);
-  const refs=storeLoad('gp_refs',{clicks:0,signups:0});
-  setText('ref-count',refs.signups||0);
-  setText('ref-clicks',refs.clicks||0);
-  setText('ref-signups',refs.signups||0);
-  setText('ref-months',refs.signups||0);
-}
-function copyRefCode(){
-  const code=genRefCode();
-  const shareText=`I'm using GigPro to track my gig earnings — it's free and way better than spreadsheets. Use my code ${code} when you sign up and we both get a free month Pro! gigpro.app`;
-  navigator.clipboard?.writeText(code).then(()=>showToast('✅ Code copied!')).catch(()=>showToast('Code: '+code));
-}
-async function shareApp(){
-  const code=genRefCode();
-  const shareData={title:'GigPro — Gig Worker Earnings Tracker',text:`Track your gig earnings, mileage, and taxes in one app. Use my referral code ${code} for a free month Pro!`,url:'https://gigpro.app'};
-  if(navigator.share){
-    try{await navigator.share(shareData);const refs=storeLoad('gp_refs',{clicks:0,signups:0});refs.clicks=(refs.clicks||0)+1;storeSave('gp_refs',refs);updateRefer();}
-    catch(e){}
-  }else{
-    navigator.clipboard?.writeText(`${shareData.text} ${shareData.url}`).then(()=>showToast('✅ Share text copied!')).catch(()=>{});
-  }
-}
-
-// ═══ PWA ═══
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=$('install-banner');if(b&&!localStorage.getItem('gp_install_dismissed'))b.classList.remove('hidden');});
-function installPWA(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')showToast('🎉 GigPro installed!');deferredPrompt=null;dismissInstall();});}
-function dismissInstall(){const b=$('install-banner');if(b)b.classList.add('hidden');localStorage.setItem('gp_install_dismissed','1');}
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
-
-// ═══ ONBOARDING ═══
-let obStep=0;const OB_TOTAL=4;
-function obNext(){
-  if(obStep<OB_TOTAL-1){const cur=$('ob'+obStep);cur.classList.add('exit');setTimeout(()=>cur.classList.remove('active','exit'),400);obStep++;const next=$('ob'+obStep);setTimeout(()=>next.classList.add('active'),50);for(let i=0;i<OB_TOTAL;i++){const d=$('dot'+i);if(d){d.className='ob-dot';if(i<=obStep)d.classList.add('active');}}if(obStep===OB_TOTAL-1)$('ob-btn').textContent="Let's Go! 🚀";}else{obFinish();}
-}
-function obFinish(){
-  const name=safeStr($('ob-name')?.value||'',60);const filing=$('ob-filing')?.value||'single';const state=safeNum($('ob-state')?.value,0,20);const wGoal=safeNum($('ob-goal')?.value,0,99999);const platform=safePlatform($('ob-platform')?.value);
-  userPref={name,filing,state,weekly:wGoal,platform,onboarded:true};storeSave('gp_pref',userPref);
-  if(wGoal>0){goals.weekly=wGoal;storeSave('gp_goals',goals);}
-  qtS.filing=filing;qtS.state=state;storeSave('gp_qt_s',qtS);selPlatform=platform;
-  $('onboarding').style.display='none';$('app').style.display='block';
-  updateAll();syncPlatformBtn(selPlatform);
-}
-
-// ═══ INIT ═══
-function init(){
-  if(userPref.onboarded){$('onboarding').style.display='none';$('app').style.display='block';updateAll();syncPlatformBtn(selPlatform);}
-}
-
-// ═══ DEBOUNCED UPDATE ═══
-let updateTimer=null;
-function scheduleUpdate(){if(updateTimer)clearTimeout(updateTimer);updateTimer=setTimeout(updateAll,50);}
-function updateAll(){updateDateBadge();updateHome();updateTracker();updateExpenses();updateGoals();updateWeekly();updateInsights();updateTax();updateQTax();updateBackup();updateGPSCard();updateProUI();updateApiSetupVisibility();updateRefer();}
-
-function updateDateBadge(){
-  const d=new Date();const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  setText('date-badge',days[d.getDay()]+', '+MONTHS[d.getMonth()].toUpperCase()+' '+d.getDate());
-  let streak=0,check=new Date();check.setHours(0,0,0,0);
-  for(let i=0;i<365;i++){if(trips.some(t=>new Date(t.ts).toDateString()===check.toDateString())){streak++;check.setDate(check.getDate()-1);}else{break;}}
-  setText('streak-badge','🔥 '+streak+' day streak');
-}
-
-function updateHome(){
-  const tt=todayTrips(),yt=yearTrips();
-  const gross=tt.reduce((s,t)=>s+t.earned,0);const gas=tt.reduce((s,t)=>s+(t.gas||0),0);
-  const miles=tt.reduce((s,t)=>s+t.miles,0);const mins=tt.reduce((s,t)=>s+t.minutes,0);
-  const profit=gross-gas;const hourly=mins>0?gross/(mins/60):0;
-  const yMiles=yt.reduce((s,t)=>s+t.miles,0);
-  setText('h-earn','$'+gross.toFixed(2));setText('h-sub',tt.length+' trip'+(tt.length!==1?'s':'')+' logged');
-  setText('h-profit','$'+profit.toFixed(2)+' profit');setText('h-miles',miles.toFixed(1));
-  setText('h-miles-sub','$'+(miles*IRS).toFixed(2)+' deduction');setText('h-hourly','$'+hourly.toFixed(2));
-  setText('h-trips',tt.length);setText('h-yr-mi',Math.round(yMiles));setText('h-yr-ded','$'+(yMiles*IRS).toFixed(2)+' deduction');
-  const now=new Date(),elapsed=now.getHours()+(now.getMinutes()/60)||1;
-  const dayProj=gross>0?(gross/elapsed)*Math.min(elapsed+4,12):0;
-  setText('h-proj-day','$'+dayProj.toFixed(2));
-  const dom=new Date().getDate();const moG=monthTrips().reduce((s,t)=>s+t.earned,0);
-  const dim=new Date(thisYear(),thisMonth()+1,0).getDate();
-  setText('h-proj-mo','$'+(dom>0?(moG/dom)*dim:0).toFixed(2));
-  const dg=goals.daily||0;const gBar=$('goal-bar');
-  if(dg>0){const pct=Math.min(gross/dg,1)*100;if(gBar){gBar.style.width=pct+'%';gBar.className='gbar-fill'+(pct>=100?' done':'');}setText('goal-txt','$'+gross.toFixed(0)+' / $'+dg);setText('goal-remain',gross>=dg?'🎉 Daily goal reached!':'$'+(dg-gross).toFixed(2)+' to reach today\'s goal');}
-  else{if(gBar)gBar.style.width='0%';setText('goal-txt','No goal set');setText('goal-remain','Set a goal in the Goals tab');}
-  renderTrips('trips-list',tt.slice().reverse().slice(0,10));
-}
-
-function renderTrips(elId,arr,showDelete=true){
-  const el=$(elId);if(!el)return;
-  if(!arr.length){el.innerHTML=`<div class="empty"><div class="empty-ico">🚗</div><div class="empty-title">No trips yet</div><div class="empty-body">Log your first trip in the Tracker tab</div></div>`;return;}
-  el.innerHTML=arr.map(t=>{
-    const g=grade(t.earned,t.minutes);const c=PLT_C[t.platform]||'#64748b';const net=(t.earned-(t.gas||0)).toFixed(2);
-    const delBtn=showDelete?`<div class="ti-del" onclick="deleteTrip('${t.id}',this.parentElement)">🗑</div>`:'';
-    return `<div class="ti-card" id="ti-${t.id}" data-id="${t.id}">
-      <div class="td" style="background:${c};box-shadow:0 0 7px ${c}55;"></div>
-      <div class="ti-body">
-        <div class="ti-top"><div class="ti-plat">${escHtml(PLT_L[t.platform]||t.platform)}</div><div class="ti-grade g${g}">${g}</div></div>
-        <div class="ti-meta">${t.miles} mi · ${t.minutes} min${t.tip>0?' · 💰 $'+t.tip.toFixed(2)+' tip':''}${t.gas>0?' · ⛽ $'+t.gas.toFixed(2):''}</div>
-        ${t.note?`<div class="ti-note">${escHtml(t.note)}</div>`:''}
-      </div>
-      <div class="ti-r"><div class="ti-earn">+$${t.earned.toFixed(2)}</div><div class="ti-net">$${net} net</div></div>
-      ${delBtn}
-    </div>`;
-  }).join('');
-  if(showDelete)initSwipe(el);
-}
-
-function initSwipe(container){
-  container.querySelectorAll('.ti-card').forEach(card=>{
-    let startX=0,isDragging=false;
-    card.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;isDragging=true;},{passive:true});
-    card.addEventListener('touchmove',e=>{if(!isDragging)return;const dx=startX-e.touches[0].clientX;if(dx>40){card.classList.add('swipe-active');card.querySelector('.ti-del')?.classList.add('visible');}else if(dx<-10){card.classList.remove('swipe-active');card.querySelector('.ti-del')?.classList.remove('visible');}},{passive:true});
-    card.addEventListener('touchend',()=>{isDragging=false;});
-  });
-}
-
-function deleteTrip(id,cardEl){
-  if(!confirm('Delete this trip?'))return;
-  trips=trips.filter(t=>t.id!==id);storeSave('gp_trips',trips);
-  if(cardEl){cardEl.style.transition='all .3s';cardEl.style.opacity='0';cardEl.style.maxHeight='0';cardEl.style.padding='0';setTimeout(()=>scheduleUpdate(),300);}
-  else scheduleUpdate();
-  showToast('🗑 Trip deleted');
-}
-
-function deleteExp(id){if(!confirm('Delete this expense?'))return;expenses=expenses.filter(e=>e.id!==id);storeSave('gp_exp',expenses);scheduleUpdate();showToast('🗑 Expense deleted');}
-function updateTracker(){renderTrips('trk-list',todayTrips().slice().reverse());}
-
-function updateExpenses(){
-  const yt=yearTrips();const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
-  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());
-  const total=ae.reduce((s,e)=>s+e.amt,0)+yGas;const totalDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0)+yGas;
-  setText('exp-total','$'+total.toFixed(2));setText('exp-ded-badge','$'+totalDed.toFixed(2)+' deductible');
-  const bc={gas:yGas,phone:0,maintenance:0,insurance:0,carwash:0,supplies:0,other:0};
-  ae.forEach(e=>{if(bc[e.cat]!==undefined)bc[e.cat]+=e.amt;else bc.other+=e.amt;});
-  setText('exp-gas',fmtK(bc.gas));setText('exp-phone',fmtK(bc.phone));
-  setText('exp-maint',fmtK(bc.maintenance+bc.insurance+bc.carwash+bc.supplies));setText('exp-other',fmtK(bc.other));
-  const el=$('exp-list');if(!el)return;
-  if(!ae.length&&yGas===0){el.innerHTML=`<div class="empty"><div class="empty-ico">💸</div><div class="empty-title">No expenses yet</div><div class="empty-body">Track gas, phone, maintenance and more</div></div>`;return;}
-  el.innerHTML=[...ae].sort((a,b)=>b.ts-a.ts).map(e=>{
-    const m=EXP_M[e.cat]||EXP_M.other;const d=new Date(e.ts);
-    return `<div class="exp-item"><div class="exp-ico" style="background:${m.color}20;">${m.icon}</div><div class="exp-info"><div class="exp-cat">${escHtml(m.label)}${e.note?' — '+escHtml(e.note):''}</div><div class="exp-date">${MONTHS[d.getMonth()]} ${d.getDate()}</div></div><div class="exp-r"><div class="exp-amt">-$${e.amt.toFixed(2)}</div><div class="exp-ded">$${(e.amt*(m.dp||0.5)).toFixed(2)} deductible</div></div><button class="exp-del" onclick="deleteExp('${e.id}')">🗑</button></div>`;
-  }).join('')+(yGas>0?`<div class="exp-item"><div class="exp-ico" style="background:#fbbf2420;">⛽</div><div class="exp-info"><div class="exp-cat">Gas (from trip logs)</div><div class="exp-date">Year total</div></div><div class="exp-r"><div class="exp-amt">-$${yGas.toFixed(2)}</div><div class="exp-ded">$${yGas.toFixed(2)} deductible</div></div></div>`:'');
-}
-
-function updateGoals(){
-  const wt=weekTrips(),mt=monthTrips(),yt=yearTrips();
-  const wE=wt.reduce((s,t)=>s+t.earned,0),mE=mt.reduce((s,t)=>s+t.earned,0),yE=yt.reduce((s,t)=>s+t.earned,0);
-  const g=goals;const wPct=g.weekly>0?Math.min(wE/g.weekly,1):0;
-  setText('g-wk-earn','$'+wE.toFixed(2));setText('g-wk-sub','of $'+(g.weekly||0)+' weekly goal');
-  const wRem=Math.max((g.weekly||0)-wE,0);setText('g-wk-badge',wRem>0?'$'+wRem.toFixed(0)+' to go':'🎉 Goal Crushed!');
-  const wBar=$('g-wk-bar');if(wBar){wBar.style.width=(wPct*100)+'%';wBar.className='gbar-fill'+(wPct>=1?' done':'');}
-  setText('g-wk-pct',Math.round(wPct*100)+'%');
-  const dow=new Date().getDay();const dl=dow===0?0:7-dow;
-  setText('g-days-left',dl+' day'+(dl!==1?'s':'')+' left in week');
-  const pace=g.weekly>0&&wE>0?(wE/Math.max(dow===0?7:dow,1))*7:0;
-  setText('g-pace',pace>0?'On pace for $'+Math.round(pace):'');
-  const mPct=g.monthly>0?Math.min(mE/g.monthly,1):0;setText('g-mo-pct',Math.round(mPct*100)+'%');setText('g-mo-sub','$'+Math.round(mE)+' of $'+(g.monthly||0));
-  const yPct=g.annual>0?Math.min(yE/g.annual,1):0;setText('g-yr-pct',Math.round(yPct*100)+'%');setText('g-yr-sub','$'+Math.round(yE)+' of $'+(g.annual||0));
-  if(g.daily){const e=$('g-daily');if(e)e.value=g.daily;}if(g.weekly){const e=$('g-weekly');if(e)e.value=g.weekly;}if(g.monthly){const e=$('g-monthly');if(e)e.value=g.monthly;}if(g.annual){const e=$('g-annual');if(e)e.value=g.annual;}
-}
-
-function updateWeekly(){
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const td=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
-  const wd=getWeeklyData();const maxV=Math.max(...Object.values(wd),1);
-  const wt=weekTrips();const wMi=wt.reduce((s,t)=>s+t.miles,0);const wMins=wt.reduce((s,t)=>s+t.minutes,0);
-  const wTotal=Object.values(wd).reduce((s,v)=>s+v,0);const wProfit=wt.reduce((s,t)=>s+t.earned-(t.gas||0),0);const wHr=wMins>0?wTotal/(wMins/60):0;
-  setText('w-total','$'+wTotal.toFixed(2));setText('w-sub',wt.length+' trips this week');setText('w-profit','$'+wProfit.toFixed(2)+' profit');
-  setText('w-miles',Math.round(wMi));setText('w-mi-ded','$'+(wMi*IRS).toFixed(0)+' deduction');setText('w-hr','$'+wHr.toFixed(0));setText('w-trips',wt.length);
-  let bDay='—',bAmt=0;days.forEach(d=>{if((wd[d]||0)>bAmt){bAmt=wd[d];bDay=d;}});setText('w-best',fmtK(bAmt));setText('w-best-day',bDay);
-  const barsEl=$('chart-bars'),lblsEl=$('chart-lbls');
-  if(barsEl)barsEl.innerHTML=days.map(d=>{const pct=((wd[d]||0)/maxV)*100;return `<div class="bw"><div class="b-amt">${wd[d]>0?'$'+wd[d].toFixed(0):''}</div><div class="b${d===td?' today':''}" style="height:${Math.max(pct,2)}%"></div></div>`;}).join('');
-  if(lblsEl)lblsEl.innerHTML=days.map(d=>`<div style="flex:1;text-align:center;" class="b-lbl${d===td?' tday':''}">${d}</div>`).join('');
-}
-
-function updateInsights(){
-  const yt=yearTrips();
-  if(!yt.length){setText('ins-score','—');setText('ins-score-sub','Log trips to see your score');$('grade-bd').innerHTML='';$('ins-list').innerHTML='<div class="insight-card"><div class="ic-ico">📊</div><div class="ic-title">No data yet</div><div class="ic-body">Log some trips and come back for personalized insights.</div></div>';return;}
-  const tE=yt.reduce((s,t)=>s+t.earned,0);const tM=yt.reduce((s,t)=>s+t.minutes,0);const avgRate=tM>0?tE/(tM/60):0;
-  const sl=avgRate>=30?'A':avgRate>=22?'B':avgRate>=15?'C':avgRate>=10?'D':'F';
-  const sc={A:'#86efac',B:'#7dd3fc',C:'#fcd34d',D:'#fdba74',F:'#fda4af'};
-  const scoreEl=$('ins-score');if(scoreEl){scoreEl.textContent=sl;scoreEl.style.color=sc[sl];}
-  setText('ins-score-sub','$'+avgRate.toFixed(2)+'/hr avg · '+yt.length+' trips analyzed');
-  const hb={};yt.forEach(t=>{const h=new Date(t.ts).getHours();if(!hb[h])hb[h]={e:0,c:0};hb[h].e+=t.earned;hb[h].c++;});
-  let bH='—',bHE=0;Object.keys(hb).forEach(h=>{if(hb[h].e>bHE){bHE=hb[h].e;const hr=parseInt(h);bH=(hr===0?12:hr>12?hr-12:hr)+(hr>=12?'pm':'am');}});
-  setText('ins-hr',bH);
-  const pe={};Object.keys(PLT_L).forEach(p=>pe[p]=0);yt.forEach(t=>{if(pe[t.platform]!==undefined)pe[t.platform]+=t.earned;});
-  const top=Object.entries(pe).sort((a,b)=>b[1]-a[1])[0];
-  setText('ins-top',top&&top[1]>0?top[0].charAt(0).toUpperCase()+top[0].slice(1):'—');setText('ins-avg','$'+(tE/yt.length).toFixed(2));
-  const grades={A:0,B:0,C:0,D:0,F:0};yt.forEach(t=>grades[grade(t.earned,t.minutes)]++);
-  const gbEl=$('grade-bd');
-  if(gbEl)gbEl.innerHTML=Object.entries(grades).map(([g,c])=>{const pct=yt.length>0?Math.round((c/yt.length)*100):0;return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);"><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:${sc[g]};min-width:22px;">${g}</div><div style="flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${sc[g]};border-radius:3px;"></div></div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:80px;text-align:right;">${c} trips (${pct}%)</div></div>`;}).join('');
-  const il=$('ins-list');if(!il)return;
-  const cards=[];
-  if(avgRate>25)cards.push({i:'💪',t:'Strong Hourly Rate',b:`Averaging $${avgRate.toFixed(2)}/hr — above the gig worker average of $18-22/hr. Keep it up!`});
-  else cards.push({i:'⏱',t:'Boost Your Hourly Rate',b:`Your avg is $${avgRate.toFixed(2)}/hr. Try peak hours (7-9am, 5-8pm) to push this higher.`});
-  if(top&&pe[top[0]]>0)cards.push({i:'🏆',t:`${top[0].charAt(0).toUpperCase()+top[0].slice(1)} is Your Best Platform`,b:`You've earned $${pe[top[0]].toFixed(2)} there this year. Focus more shifts on your top performer.`});
-  const fG=yt.filter(t=>grade(t.earned,t.minutes)==='F').length;
-  if(fG>0)cards.push({i:'🚫',t:`${fG} Low-Grade Trip${fG>1?'s':''}`,b:`${fG} F-grade trip${fG>1?'s':''} earning under $10/hr. Consider declining low-pay offers.`});
-  const yMi=yt.reduce((s,t)=>s+t.miles,0),yD=yMi*IRS;
-  if(yD>500)cards.push({i:'💰',t:'Healthy Mileage Deduction',b:`$${yD.toFixed(2)} in deductions so far. On pace for $${Math.round((yD/Math.max(thisMonth()+1,1))*12)} by year end.`});
-  const avgGas=yt.filter(t=>t.gas>0).reduce((s,t)=>s+t.gas,0);
-  if(avgGas>0){const gPct=((avgGas/tE)*100).toFixed(1);cards.push({i:'⛽',t:'Gas Cost Analysis',b:`You've spent $${avgGas.toFixed(2)} on gas — ${gPct}% of your gross earnings.`});}
-  if(!isPro)cards.push({i:'🤖',t:'Unlock AI Coach',b:'Get personalized coaching based on your real data. Ask anything — best hours, platforms, tax strategy. Pro feature.'});
-  il.innerHTML=cards.map(c=>`<div class="insight-card"><div class="ic-ico">${c.i}</div><div class="ic-title">${escHtml(c.t)}</div><div class="ic-body">${escHtml(c.b)}</div></div>`).join('');
-}
-
-function updateTax(){
-  const yt=yearTrips();const yMi=yt.reduce((s,t)=>s+t.miles,0);const yG=yt.reduce((s,t)=>s+t.earned,0);const yD=yMi*IRS;
-  setText('tax-ded-big','$'+yD.toFixed(2));setText('tax-mi-badge',Math.round(yMi)+' miles driven');
-  setText('tax-miles',Math.round(yMi));setText('tax-ded','$'+Math.round(yD));setText('tax-gross','$'+Math.round(yG));setText('tax-trips',yt.length);
-  const pm={};Object.keys(PLT_L).forEach(p=>pm[p]=0);yt.forEach(t=>{if(pm[t.platform]!==undefined)pm[t.platform]+=t.miles;});
-  const tpm=Math.max(Object.values(pm).reduce((s,v)=>s+v,0),.001);
-  const ps=$('plat-split');
-  if(ps)ps.innerHTML=Object.keys(PLT_L).map(p=>{const mi=pm[p],pct=(mi/tpm)*100,d=mi*IRS;if(mi===0)return '';return `<div class="split-item"><div class="split-hdr"><div class="split-nm" style="color:${PLT_C[p]}">${PLT_L[p]}</div><div class="split-vl">${mi.toFixed(1)} mi · $${d.toFixed(2)}</div></div><div class="split-bg"><div class="split-fill" style="width:${pct}%;background:${PLT_C[p]};opacity:.85;"></div></div></div>`;}).join('')||'<div class="empty"><div class="empty-ico">🗺️</div><div class="empty-title">No trips yet</div></div>';
-  const mo={};MONTHS.forEach((_,i)=>mo[i]={miles:0,earned:0,trips:0});yt.forEach(t=>{const m=new Date(t.ts).getMonth();mo[m].miles+=t.miles;mo[m].earned+=t.earned;mo[m].trips++;});
-  const cm=thisMonth();
-  const mt=$('month-table');
-  if(mt)mt.innerHTML=MONTHS.map((n,i)=>{if(mo[i].trips===0&&i>cm)return '';const dd=mo[i].miles*IRS,isN=i===cm;return `<div class="mo-row" style="${isN?'border-color:rgba(56,189,248,.4);':''}"><div class="mo-name" style="${isN?'color:#7dd3fc;':''}">${n}</div><div class="mo-mi">${mo[i].miles.toFixed(1)} mi</div><div class="mo-earn">$${mo[i].earned.toFixed(0)}</div><div class="mo-ded">$${dd.toFixed(2)}</div></div>`;}).join('')||'<div class="empty"><div class="empty-body">No trips yet</div></div>';
-}
-
-function updateQTax(){
-  const yt=yearTrips();const yG=yt.reduce((s,t)=>s+t.earned,0);const yMi=yt.reduce((s,t)=>s+t.miles,0);const yGas=yt.reduce((s,t)=>s+(t.gas||0),0);
-  const ae=expenses.filter(e=>new Date(e.ts).getFullYear()===thisYear());const yExpDed=ae.reduce((s,e)=>s+e.amt*(EXP_M[e.cat]?.dp||0.5),0);
-  const s=qtS;const tG=yG+(+s.otherInc);const netSE=Math.max(yG-yMi*IRS-yGas-yExpDed-(+s.otherExp),0);
-  const seTax=netSE*0.9235*0.153;const seDed=seTax/2;const std=STD[s.filing]||15000;
-  const taxable=Math.max(tG-(yMi*IRS+yGas+yExpDed+(+s.otherExp))-seDed-std,0);
-  const brs=s.filing==='mfj'?BR_MFJ:BR_S;let fed=0;brs.forEach(b=>{if(taxable>b.min)fed+=(Math.min(taxable,b.max)-b.min)*b.r;});
-  const stTax=taxable*((+s.state)/100);const total=Math.max(seTax+fed+stTax,0);const eff=tG>0?(total/tG)*100:0;
-  const now=Date.now();const uq=QT_DL.find(q=>q.ts>=now)||QT_DL[3];const qT=qd=>total*(qd.months.length/12);
-  const cqT=qT(uq);const wl=Math.max(Math.ceil((uq.ts-now)/(7*24*3600*1000)),1);const sv=qtSaved['q'+uq.q]||0;const sn=Math.max(cqT-sv,0);const pct=cqT>0?Math.min(sv/cqT,1):0;
-  setText('qt-q',uq.q);setText('qt-due','$'+cqT.toFixed(2));setText('qt-due-date','Due '+uq.due);setText('qt-wk-badge','Set aside $'+(sn/wl).toFixed(0)+'/week');
-  setText('qt-yr','$'+Math.round(total));setText('qt-taxable','$'+Math.round(taxable));setText('qt-se','$'+Math.round(seTax));setText('qt-rate',eff.toFixed(1)+'%');
-  const rc=$('ring-c');if(rc)rc.style.strokeDashoffset=251-(pct*251);setText('ring-pct',Math.round(pct*100)+'%');
-  document.querySelectorAll('.qt-q-r').forEach(e=>e.textContent=uq.q);
-  setText('qt-owed','$'+cqT.toFixed(2));setText('qt-saved','$'+sv.toFixed(2));setText('qt-still','$'+sn.toFixed(2));
-  const dl=$('dl-list');
-  if(dl)dl.innerHTML=QT_DL.map(qd=>{const amt=qT(qd),isPast=qd.ts<now,isSoon=!isPast&&(qd.ts-now)<30*24*3600*1000;const qsv=qtSaved['q'+qd.q]||0,isPaid=qsv>=amt&&amt>0;let cls='dl',st='UPCOMING',sc2='dst-ok';if(isPaid){cls+=' paid';st='PAID';sc2='dst-paid';}else if(isPast){cls+=' over';st='OVERDUE';sc2='dst-over';}else if(isSoon||qd.q===uq.q){cls+=' soon';st='DUE SOON';sc2='dst-soon';}return `<div class="${cls}"><div class="dl-q q${qd.q}">Q${qd.q}</div><div class="dl-info"><div class="dl-lbl">${qd.label}</div><div class="dl-date">${qd.due}</div></div><div class="dl-r"><div class="dl-amt">$${amt.toFixed(0)}</div><div class="dl-st ${sc2}">${st}</div></div></div>`;}).join('');
-  const fe=$('qt-filing');if(fe)fe.value=s.filing;const oi=$('qt-oi');if(oi&&+s.otherInc)oi.value=s.otherInc;const oe=$('qt-oe');if(oe&&+s.otherExp)oe.value=s.otherExp;const sr=$('qt-state');if(sr&&+s.state)sr.value=s.state;
-}
-
-function updateBackup(){
-  const firstTrip=trips.length>0?trips.reduce((a,b)=>a.ts<b.ts?a:b):null;
-  const days=firstTrip?Math.ceil((Date.now()-firstTrip.ts)/(24*3600*1000)):0;
-  setText('bk-trips',trips.length);setText('bk-exps',expenses.length);setText('bk-days',days);
-  const last=localStorage.getItem('gp_last_backup');
-  setText('bk-last',last?'Last backup: '+new Date(parseInt(last)).toLocaleDateString():'Last backup: never');
-}
-
-// ═══ ACTIONS ═══
-function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-
-function logTrip(){
-  if(trips.length>=MAX_TRIPS){showToast('⚠️ Max trips reached. Export & clear data.','warn');return;}
-  const earn=safeNum($('t-earn')?.value,0,9999);const tip=safeNum($('t-tip')?.value,0,9999);const miles=safeNum($('t-miles')?.value,0,9999);const mins=safeInt($('t-mins')?.value,0,1440);const gas=safeNum($('t-gas')?.value,0,999);const note=safeStr($('t-note')?.value,200);
-  if(earn<=0){showToast('⚠️ Enter an amount earned','warn');return;}
-  const total=earn+tip;
-  trips.push({id:genId(),platform:selPlatform,earned:total,tip,miles,minutes:mins,gas,note,ts:Date.now()});
-  if(!storeSave('gp_trips',trips)){trips.pop();return;}
-  ['t-earn','t-tip','t-miles','t-mins','t-gas','t-note'].forEach(id=>{const e=$(id);if(e)e.value='';});
-  showToast('✓ Trip logged! +$'+total.toFixed(2));scheduleUpdate();goPage('home');
-}
-
-function logExp(){
-  if(expenses.length>=MAX_EXPENSES){showToast('⚠️ Max expenses reached.','warn');return;}
-  const cat=safeExpCat($('e-cat')?.value);const amt=safeNum($('e-amt')?.value,0,99999);const note=safeStr($('e-note')?.value,200);
-  if(amt<=0){showToast('⚠️ Enter an amount','warn');return;}
-  expenses.push({id:genId(),cat,amt,note,ts:Date.now()});
-  if(!storeSave('gp_exp',expenses)){expenses.pop();return;}
-  const eA=$('e-amt');if(eA)eA.value='';const eN=$('e-note');if(eN)eN.value='';
-  showToast('✓ Expense logged! -$'+amt.toFixed(2));scheduleUpdate();
-}
-
-function saveGoals(){goals={daily:safeNum($('g-daily')?.value,0,99999),weekly:safeNum($('g-weekly')?.value,0,99999),monthly:safeNum($('g-monthly')?.value,0,999999),annual:safeNum($('g-annual')?.value,0,9999999)};storeSave('gp_goals',goals);showToast('🎯 Goals saved!');scheduleUpdate();}
-
-function saveQTS(){qtS={filing:(['single','mfj','mfs','hoh'].includes($('qt-filing')?.value)?$('qt-filing').value:'single'),otherInc:safeNum($('qt-oi')?.value,0,9999999),otherExp:safeNum($('qt-oe')?.value,0,9999999),state:safeNum($('qt-state')?.value,0,20)};storeSave('gp_qt_s',qtS);showToast('✓ Tax settings updated!');updateQTax();}
-
-function updateSavings(){const val=safeNum($('qt-inp')?.value,0,9999999);const uq=QT_DL.find(q=>q.ts>=Date.now())||QT_DL[3];qtSaved['q'+uq.q]=val;storeSave('gp_qt_saved',qtSaved);const i=$('qt-inp');if(i)i.value='';showToast('💜 Savings updated!');updateQTax();}
-
-// ═══ EXPORT ═══
-function exportCSVGated(){
-  if(!isPro){showUpgradeModal('CSV export is a Pro feature — upgrade to download your full mileage log.');return;}
-  exportCSV();
-}
-
-function exportCSV(){
-  const yt=yearTrips();if(!yt.length){showToast('⚠️ No trips to export','warn');return;}
-  function csvEsc(v){const s=String(v||'');return s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s;}
-  const hdr='Date,Time,Platform,Miles,Minutes,Earned ($),Tip ($),Gas ($),IRS Deduction ($),Net Profit ($),Grade,Notes';
-  const rows=yt.map(t=>{const d=new Date(t.ts);return [(d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(),d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),csvEsc(t.platform),t.miles.toFixed(1),t.minutes,t.earned.toFixed(2),(t.tip||0).toFixed(2),(t.gas||0).toFixed(2),(t.miles*IRS).toFixed(2),(t.earned-(t.gas||0)).toFixed(2),grade(t.earned,t.minutes),csvEsc(t.note||'')].join(',');});
-  const tM=yt.reduce((s,t)=>s+t.miles,0),tE=yt.reduce((s,t)=>s+t.earned,0);
-  rows.push('','TOTALS,,,'+tM.toFixed(1)+',,'+tE.toFixed(2)+',,,'+(tM*IRS).toFixed(2));
-  rows.push('IRS Rate: $'+IRS+'/mi','Tax Year: '+thisYear());
-  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([[hdr,...rows].join('\n')],{type:'text/csv;charset=utf-8;'}));a.download='GigPro_'+thisYear()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),10000);showToast('📥 CSV downloaded!');}catch(e){showToast('⚠️ Export failed','err');}
-}
-
-function exportBackup(){
-  try{
-    const data={version:'4.0',exported:new Date().toISOString(),trips,expenses,goals,qtS,qtSaved,userPref,isPro};
-    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='GigPro_Backup_'+new Date().toISOString().split('T')[0]+'.json';a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href),10000);localStorage.setItem('gp_last_backup',Date.now().toString());showToast('✅ Backup downloaded!');updateBackup();
-  }catch(e){showToast('⚠️ Export failed','err');}
-}
-
-function restoreBackup(input){
-  const file=input.files[0];if(!file)return;
-  if(file.size>10*1024*1024){showToast('⚠️ File too large (max 10MB)','warn');input.value='';return;}
-  if(!file.name.endsWith('.json')){showToast('⚠️ Must be a .json file','warn');input.value='';return;}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);if(!data.trips||!data.version){showToast('⚠️ Invalid backup file','warn');return;}
-      if(!confirm('This will replace all your current data. Continue?')){return;}
-      function sanitizeTrip(t){return{id:safeStr(t.id||genId(),32),note:safeStr(t.note||'',200),platform:safePlatform(t.platform),earned:safeNum(t.earned,0,9999),tip:safeNum(t.tip,0,9999),miles:safeNum(t.miles,0,9999),minutes:safeInt(t.minutes,0,1440),gas:safeNum(t.gas,0,999),ts:safeInt(t.ts,0,9999999999999)};}
-      function sanitizeExp(e){return{id:safeStr(e.id||genId(),32),note:safeStr(e.note||'',200),cat:safeExpCat(e.cat),amt:safeNum(e.amt,0,99999),ts:safeInt(e.ts,0,9999999999999)};}
-      trips=(data.trips||[]).slice(0,MAX_TRIPS).map(sanitizeTrip);expenses=(data.expenses||[]).slice(0,MAX_EXPENSES).map(sanitizeExp);goals=data.goals||{daily:0,weekly:0,monthly:0,annual:0};qtS=data.qtS||{filing:'single',otherInc:0,otherExp:0,state:0};qtSaved=data.qtSaved||{};
-      const rp=data.userPref||{};userPref={...userPref,name:safeStr(rp.name||'',60),filing:(['single','mfj','mfs','hoh'].includes(rp.filing)?rp.filing:'single'),state:safeNum(rp.state,0,20)};
-      if(data.isPro)isPro=true;
-      storeSave('gp_trips',trips);storeSave('gp_exp',expenses);storeSave('gp_goals',goals);storeSave('gp_qt_s',qtS);storeSave('gp_qt_saved',qtSaved);storeSave('gp_pref',userPref);storeSave('gp_pro',isPro);
-      showToast('✅ Restored! '+trips.length+' trips loaded');scheduleUpdate();
-    }catch(err){showToast('⚠️ Could not read file','err');}
-  };
-  reader.readAsText(file);input.value='';
-}
-
-function clearAll(){
-  if(!confirm('Delete ALL data permanently? Export a backup first!'))return;
-  if(!confirm('Are you 100% sure? This cannot be undone.'))return;
-  ['gp_trips','gp_exp','gp_goals','gp_qt_s','gp_qt_saved','gp_pro'].forEach(k=>localStorage.removeItem(k));
-  trips=[];expenses=[];goals={daily:0,weekly:0,monthly:0,annual:0};qtS={filing:'single',otherInc:0,otherExp:0,state:0};qtSaved={};isPro=false;
-  showToast('🗑 All data cleared');scheduleUpdate();
-}
-
-// ═══ PLATFORM & PAGE ═══
-function syncPlatformBtn(p){document.querySelectorAll('.pb').forEach(b=>b.className='pb');const target=document.querySelector(`.pb.${PLT_CSS[p]}`)||document.querySelectorAll('.pb')[0];if(target)target.className='pb '+(PLT_CSS[p]||'su');}
-function selP(p,el){selPlatform=safePlatform(p);document.querySelectorAll('.pb').forEach(b=>b.className='pb');el.className='pb '+(PLT_CSS[p]||'su');}
-function fPlat(p,el){document.querySelectorAll('.pill').forEach(b=>{b.className=b.className.replace(' on','');if(b.classList.contains('active-all'))b.className=b.className.replace('active-all','').trim();});if(p==='all')el.classList.add('active-all');else el.classList.add('on');}
-
-let currentPage='home';
-function goPage(name,tabEl,navEl){
-  currentPage=name;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const pg=$('page-'+name);if(pg)pg.classList.add('active');
-  if(tabEl){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
-  else{document.querySelectorAll('.tab').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+name+"'"))t.classList.add('active');else t.classList.remove('active');});}
-  if(navEl){document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
-  else{document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+name+"'"))n.classList.add('active');else n.classList.remove('active');});}
-  window.scrollTo(0,0);
-}
-
-// Allow Enter key in coach input
-document.addEventListener('DOMContentLoaded',()=>{
-  const ci=$('coach-input');
-  if(ci)ci.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendToCoach();}});
-});
-
-// ═══ START ═══
-init();
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const{useState,useCallback,useEffect,useRef}=React;
+const RV=[{id:1,plat:"google",author:"Sarah Mitchell",rating:5,text:"Best dental cleaning I've ever had! Dr. Johnson was amazing!",date:"Mar 30",status:"auto_replied",sentiment:"positive",reply:"Thank you Sarah! Dr. Johnson and our team love hearing this!",at:"10:02 AM"},{id:2,plat:"google",author:"Marcus Davis",rating:1,text:"Terrible experience. Waited over an hour. Receptionist was rude.",date:"Mar 30",status:"recovery",sentiment:"negative",stage:"alert_sent",priv:"Hi Marcus, this is the owner. Your experience was unacceptable. I\u2019d like to offer a complimentary visit. Would you be open to a call?"},{id:3,plat:"yelp",author:"Jessica Torres",rating:4,text:"Great food! Tacos were incredible. Only 4 stars because of the wait.",date:"Mar 29",status:"auto_replied",sentiment:"positive",reply:"Thanks Jessica! Our tacos are our pride!",at:"2:15 PM"},{id:4,plat:"google",author:"David Chen",rating:2,text:"AC was fixed but technician tracked mud through my house.",date:"Mar 29",status:"recovery",sentiment:"negative",stage:"response_ready",priv:"Hi David, I\u2019m issuing a refund and sending our team back to clean up."},{id:5,plat:"facebook",author:"Amanda Wright",rating:5,text:"My go-to salon for 2 years! Lisa always knows what I want.",date:"Mar 28",status:"auto_replied",sentiment:"positive",reply:"Amanda, you\u2019re the best!",at:"9:30 AM"},{id:6,plat:"google",author:"Robert Kim",rating:3,text:"Decent gym, clean equipment. Gets really crowded 5-7pm.",date:"Mar 28",status:"pending",sentiment:"neutral"},{id:7,plat:"yelp",author:"Nina Patel",rating:5,text:"Wedding cake was absolutely STUNNING. Worth every penny!",date:"Mar 27",status:"auto_replied",sentiment:"positive",reply:"Nina, congratulations! So thrilled!",at:"11:45 AM"},{id:8,plat:"google",author:"Tommy Reeves",rating:1,text:"Found a hair in my food. Waiter shrugged. Disgusting.",date:"Mar 27",status:"recovery",sentiment:"negative",stage:"owner_reviewing",priv:"Tommy, I want to offer a full refund plus dinner for two on me."},{id:9,plat:"facebook",author:"Lisa Huang",rating:4,text:"Great plants, knowledgeable staff. Quality is worth it.",date:"Mar 26",status:"auto_replied",sentiment:"positive",reply:"Thanks Lisa! We hand-select every plant!",at:"4:20 PM"},{id:10,plat:"google",author:"Carlos Mendez",rating:5,text:"Fixed my transmission in 2 days. Saved $800. Honest and fast.",date:"Mar 25",status:"review_requested",sentiment:"positive",reply:"Carlos, speed and fair pricing is what we do!",at:"8:50 AM"}];
+const CMP=[{name:"Your Business",rating:4.3,reviews:127,trend:"+0.5"},{name:"Mario's Kitchen",rating:4.1,reviews:89,trend:"+0.1"},{name:"The Corner Spot",rating:3.9,reviews:203,trend:"-0.2"},{name:"Downtown Grill",rating:3.6,reviews:54,trend:"0.0"}];
+const ACT={alert_sent:[{i:"\u{1F4E7}",t:"Send apology",p:"high"},{i:"\u{1F4DE}",t:"Call in 24hrs",p:"high"},{i:"\u{1F381}",t:"50% off",p:"med"},{i:"\u{1F4AC}",t:"Public reply",p:"high"}],response_ready:[{i:"\u2705",t:"Approve response",p:"high"},{i:"\u{1F4E7}",t:"Send resolution",p:"high"},{i:"\u{1F4B0}",t:"Issue refund",p:"med"},{i:"\u{1F4CB}",t:"Team training",p:"low"}],owner_reviewing:[{i:"\u{1F6A8}",t:"Respond 2hrs",p:"high"},{i:"\u{1F4E7}",t:"Personal apology",p:"high"},{i:"\u{1F381}",t:"Full refund",p:"high"},{i:"\u{1F4CB}",t:"Root cause",p:"high"}]};
+const PLN=[{n:"Starter",pr:29,d:"AI Replies",feat:["AI responses","Google only","Email alerts","50 replies/mo","Tone training"],pop:false},{n:"Growth",pr:49,d:"Auto + Protection",feat:["Everything in Starter","Auto-reply 4-5 stars","Google+Yelp+Facebook","SMS+Email alerts","Unlimited replies","Negative alerts"],pop:true},{n:"Empire",pr:99,d:"Full Revenue System",feat:["Everything in Growth","Recovery + Messages","Revenue Calculator","Competitor Intel","Growth Engine","Multi-location","White-label"],pop:false}];
+const TST=[{name:"Maria G.",biz:"Maria\u2019s Kitchen",loc:"Austin, TX",text:"R.A.S. took us from 3.4 to 4.6 stars in 4 months. Revenue jumped 22%.",av:"\u{1F469}\u200D\u{1F373}",g:"+1.2 stars",r:"+$4,200/mo"},{name:"James T.",biz:"Elite Auto Care",loc:"Miami, FL",text:"A 1-star review almost killed us. R.A.S. caught it in 3 minutes.",av:"\u{1F468}\u200D\u{1F527}",g:"+0.8 stars",r:"+$2,800/mo"},{name:"Dr. Sarah K.",biz:"Bright Smile Dental",loc:"Denver, CO",text:"67 to 340+ reviews in 8 months. New patients find us by our rating.",av:"\u{1F469}\u200D\u2695\uFE0F",g:"+0.9 stars",r:"+$8,100/mo"},{name:"Tony R.",biz:"Tony\u2019s Barbershop",loc:"Brooklyn, NY",text:"I don\u2019t even think about reviews anymore. I just cut hair.",av:"\u{1F488}",g:"+0.6 stars",r:"+$1,900/mo"},{name:"Linda W.",biz:"Serenity Spa",loc:"Scottsdale, AZ",text:"Recovery system saved a $3,000 wedding booking.",av:"\u{1F9D6}\u200D\u2640\uFE0F",g:"+1.1 stars",r:"+$5,400/mo"}];
+const TK=["\u{1F389} Tony\u2019s Barbershop got a 5-star auto-reply","\u{1F6E1}\uFE0F Maria\u2019s Kitchen recovered a 1-star","\u{1F680} Elite Auto hit 200 reviews","\u2B50 Bright Smile reached 4.8 stars","\u{1F4AC} Serenity Spa replied in 12 seconds","\u{1F4B0} $4,200/mo generated for a restaurant","\u{1F389} New signup: Fresh Cuts, Atlanta","\u{1F6E1}\uFE0F Customer changed 1-star to 5-star","\u2B50 2,847 businesses using R.A.S.","\u{1F680} 94% recovery rate this month"];
+
+function rip(e){const b=e.currentTarget,r=b.getBoundingClientRect(),s=document.createElement('span');s.className='ripple';s.style.left=(e.clientX-r.left)+'px';s.style.top=(e.clientY-r.top)+'px';s.style.width=s.style.height=Math.max(r.width,r.height)+'px';b.appendChild(s);setTimeout(()=>s.remove(),600)}
+function CU({target:t,prefix:p="",suffix:su="",duration:d=1200,decimals:dc=0}){const[v,sV]=useState(0);const ref=useRef(null);useEffect(()=>{const n=parseFloat(t);if(isNaN(n)){sV(t);return}const st=performance.now();const step=now=>{const pr=Math.min((now-st)/d,1);sV(dc>0?(pr*(1-Math.pow(1-pr,3)>pr?1-Math.pow(1-pr,3):pr)*n/pr||0).toFixed(dc):Math.round((1-Math.pow(1-pr,4))*n));if(pr<1)ref.current=requestAnimationFrame(step)};ref.current=requestAnimationFrame(step);return()=>cancelAnimationFrame(ref.current)},[t,d,dc]);return<span>{p}{typeof v==='number'?v.toLocaleString():v}{su}</span>}
+function LC({mr,g}){const[s,sS]=useState(0);useEffect(()=>{const iv=setInterval(()=>sS(x=>x+1),1000);return()=>clearInterval(iv)},[]);return<span className="loss-counter">${Math.round(mr*parseFloat(g)*.07/30/86400*s).toLocaleString()}</span>}
+function CF({active:a}){if(!a)return null;const C=["#1A5C3A","#D97706","#4338CA","#EF4444","#22C55E","#F59E0B","#7C3AED","#EC4899"];return<>{Array.from({length:30}).map((_,i)=><div key={i} className="confetti-piece" style={{left:`${5+Math.random()*90}%`,top:`${Math.random()*15}%`,background:C[i%C.length],animationDelay:`${Math.random()*.6}s`,borderRadius:Math.random()>.5?"50%":"2px",width:Math.random()>.5?6:12,height:Math.random()>.5?12:6}}/>)}</>}
+function SG({children:ch,base:b=0,gap:g=80}){return React.Children.map(ch,(c,i)=>{if(!c)return null;return<div className="afu" style={{animationDelay:`${b+i*g}ms`}}>{c}</div>})}
+function PT(){return<>{Array.from({length:16}).map((_,i)=><div key={i} className="particle" style={{left:`${Math.random()*100}%`,bottom:'-10px',animationDuration:`${6+Math.random()*8}s`,animationDelay:`${Math.random()*5}s`,width:2+Math.random()*3,height:2+Math.random()*3,background:i%3===0?'rgba(217,119,6,.12)':i%3===1?'rgba(67,56,202,.08)':'rgba(26,92,58,.15)'}}/>)}</>}
+const ST=({c,s=13})=><span style={{display:"inline-flex",gap:1}}>{[1,2,3,4,5].map(i=><svg key={i} width={s} height={s} viewBox="0 0 24 24" fill={i<=c?"#D97706":"#E5E7EB"} stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}</span>;
+const PI=({p})=>{const m={google:{b:"#4285F4",l:"G"},yelp:{b:"#D32323",l:"Y"},facebook:{b:"#1877F2",l:"f"}};const x=m[p]||m.google;return<span style={{background:x.b,color:"#fff",fontSize:9,fontWeight:800,width:22,height:22,borderRadius:6,display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{x.l}</span>};
+const PL=({t,children:ch})=>{const c={auto_replied:{bg:"#ECFDF5",c:"#047857",b:"#A7F3D0"},pending:{bg:"#FFFBEB",c:"#A16207",b:"#FDE68A"},recovery:{bg:"#FEF2F2",c:"#B91C1C",b:"#FECACA"},review_requested:{bg:"#EEF2FF",c:"#4338CA",b:"#C7D2FE"}};const s=c[t]||c.pending;return<span style={{background:s.bg,color:s.c,border:`1px solid ${s.b}`,fontSize:9,fontWeight:700,padding:"2px 9px",borderRadius:20}}>{ch}</span>};
+const TN={positive:{e:"\u{1F60A}",l:"Warm",c:"#047857"},neutral:{e:"\u{1F91D}",l:"Attentive",c:"#A16207"},negative:{e:"\u{1F6E1}\uFE0F",l:"Empathetic",c:"#B91C1C"}};
+
+function RAS(){
+const[launched,sL]=useState(false);const[reviews,sR]=useState(RV);const[tab,sT2]=useState("landing");const[sel,sS]=useState(null);const[ai,sA]=useState("");const[typ,sTp]=useState(false);const[ed,sE]=useState("");const[filt,sF]=useState("all");const[toast,sTt]=useState("");const[toastO,sTO]=useState(false);const[msgT,sMT]=useState("public");const[niche,sN]=useState("restaurant");const[mr,sMR]=useState(30000);const[tk,sTK]=useState(0);const[cf,sCF]=useState(false);
+useEffect(()=>{setTimeout(()=>sL(true),2600)},[]);
+const sw=t=>{sT2(t);sTK(k=>k+1)};
+const s={total:reviews.length,rec:reviews.filter(r=>r.status==="recovery").length,avg:(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length).toFixed(1),rate:Math.round((reviews.filter(r=>r.reply).length/reviews.length)*100),req:reviews.filter(r=>r.status==="review_requested").length};
+const jR=3.8,gain=(parseFloat(s.avg)-jR).toFixed(1),rL=Math.round(mr*parseFloat(gain)*.05),rH=Math.round(mr*parseFloat(gain)*.09);
+const list=filt==="all"?reviews:filt==="needs"?reviews.filter(r=>r.status==="pending"||r.status==="recovery"):reviews.filter(r=>r.status===filt);
+const flash=m=>{sTO(false);sTt(m);setTimeout(()=>{sTO(true);setTimeout(()=>sTt(""),400)},3000)};
+const gen=useCallback(r=>{sS(r);sTp(true);sA("");sMT("public");const t={positive:`Thank you, ${r.author.split(" ")[0]}! Your kind words mean the world. Can\u2019t wait to welcome you back!`,neutral:`Thanks for the feedback, ${r.author.split(" ")[0]}! We\u2019re working on improvements.`,negative:`${r.author.split(" ")[0]}, we sincerely apologize. Please reach out so we can make this right.`};const full=t[r.sentiment]||t.neutral;let i=0;const iv=setInterval(()=>{sA(full.slice(0,i));i+=3;if(i>full.length){clearInterval(iv);sTp(false);sE(full)}},12)},[]);
+const approve=()=>{sR(p=>p.map(r=>r.id===sel.id?{...r,status:"auto_replied",reply:ed,at:"Just now"}:r));sCF(true);setTimeout(()=>sCF(false),2000);flash("Reply published!");sS(null);sA("")};
+const F="'DM Sans',system-ui,sans-serif",D="'Instrument Serif','Georgia',serif",cd="#FFFFFF",bd="#E5E2DC",tx="#18170F",sb="#8A8578",ac="#1A5C3A",gd="#D97706";
+const niches={restaurant:"Restaurants",barber:"Barbershops",dental:"Dental Practices",contractor:"Contractors",gym:"Gyms"};
+const navI=[{id:"landing",l:"Home",ic:"\u{1F3E0}"},{id:"dashboard",l:"Dashboard",ic:"\u{1F4CA}"},{id:"reviews",l:"Reviews",ic:"\u{1F4AC}"},{id:"recovery",l:"Recovery",ic:"\u{1F6E1}\uFE0F"},{id:"roi",l:"ROI & Intel",ic:"\u{1F4B0}"},{id:"growth",l:"Growth",ic:"\u{1F680}"},{id:"pricing",l:"Pricing",ic:"\u{1F4B3}"}];
+
+return(<><CF active={cf}/>
+{!launched&&<div className="launch-screen"><div className="launch-logo" style={{textAlign:"center"}}><div style={{fontSize:48,fontFamily:D,color:"#fff",letterSpacing:-1}}>R.A.S.</div><div style={{fontSize:9,color:"#4ADE80",fontWeight:700,letterSpacing:3,marginTop:4}}>REPUTATION AUTOMATED SYSTEM</div></div><div className="launch-bar-wrap"><div className="launch-bar"/></div><div className="launch-txt" style={{color:"rgba(255,255,255,.5)",fontSize:10,marginTop:12}}>Initializing AI reputation engine...</div></div>}
+
+<nav style={{width:218,background:cd,borderRight:`1px solid ${bd}`,padding:"22px 12px",display:"flex",flexDirection:"column",flexShrink:0}}>
+<div className="afu" style={{padding:"0 8px",marginBottom:32}}><div style={{fontSize:22,fontWeight:400,color:tx,fontFamily:D,letterSpacing:-.5,lineHeight:1.1}}>R.A.S.</div><div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginTop:2}}>REPUTATION AUTOMATED SYSTEM</div><div style={{fontSize:8,color:sb,letterSpacing:1,marginTop:1}}>FOR {niches[niche]?.toUpperCase()}</div></div>
+{navI.map((n,i)=>(<button key={n.id} className={`nb asr ${tab===n.id?"nba":""}`} onClick={e=>{rip(e);sw(n.id)}} style={{animationDelay:`${i*50}ms`,border:"none",color:tab===n.id?ac:sb,padding:"9px 14px",borderRadius:8,fontSize:12,fontWeight:tab===n.id?600:400,display:"flex",alignItems:"center",gap:8,marginBottom:1,fontFamily:F,textAlign:"left",width:"100%"}}><span style={{fontSize:14,width:20,textAlign:"center"}}>{n.ic}</span>{n.l}{n.id==="recovery"&&s.rec>0&&<span className="bp" style={{marginLeft:"auto",background:"#B91C1C",color:"#fff",fontSize:8,fontWeight:800,width:16,height:16,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}}>{s.rec}</span>}</button>))}
+<div style={{flex:1}}/>
+<div className="afu ch" style={{animationDelay:"350ms",background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:8,padding:"8px 10px",marginBottom:10}}><div style={{display:"flex",alignItems:"center",gap:5,marginBottom:3}}><div style={{width:6,height:6,borderRadius:"50%",background:"#22C55E",animation:"pulse2 1.5s ease infinite"}}/><span style={{fontSize:8,color:ac,fontWeight:700}}>LIVE</span></div><div style={{fontSize:9,color:"#5C5950"}}>2,847 businesses active</div><div style={{fontSize:9,color:ac,fontWeight:600}}>14 replies this minute</div></div>
+<div className="afu" style={{animationDelay:"400ms",background:"#EFECEA",borderRadius:10,padding:14}}><div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:1.5,marginBottom:6}}>RATING PROGRESS</div><div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}><span style={{fontSize:11,color:sb}}>{jR}</span><span style={{fontSize:10,color:ac}}>{"\u2192"}</span><span style={{fontSize:18,fontWeight:700,color:ac,fontFamily:D}}>{s.avg}</span></div><div style={{background:"#DBD8D2",borderRadius:3,height:5,marginTop:6,overflow:"hidden"}}><div className="sb pf" style={{"--tw":`${(parseFloat(s.avg)/5)*100}%`,height:"100%",borderRadius:3}}/></div><div style={{fontSize:9,color:ac,fontWeight:600,marginTop:6,textAlign:"center"}}>+{gain} stars</div></div>
+</nav>
+
+<main key={tk} style={{flex:1,overflow:"auto",maxHeight:"100vh"}}>
+{tab==="landing"&&<div className="ticker-wrap"><div className="ticker">{[...TK,...TK].map((t,i)=><div key={i} className="ticker-item"><div className="ticker-dot"/>{t}</div>)}</div></div>}
+<div style={{padding:tab==="landing"?"0":"28px 36px"}}><div className="tab-enter">
+
+{tab==="landing"&&<>
+<div className="hero-mesh" style={{padding:"52px 0 44px",textAlign:"center"}}><PT/><div style={{maxWidth:720,margin:"0 auto",padding:"0 24px",position:"relative",zIndex:1}}>
+<div className="afu" style={{display:"flex",justifyContent:"center",gap:8,marginBottom:24,flexWrap:"wrap"}}>{["\u2705 2,847+ Businesses","\u2B50 4.9/5 Rating","\u{1F6E1}\uFE0F 94% Recovery","\u{1F3C6} #1 Tool 2026"].map((b,i)=><span key={i} className="trust-badge" style={i===3?{background:"#FFFBEB",borderColor:"#FDE68A",color:"#A16207"}:{}}>{b}</span>)}</div>
+<div className="afu" style={{animationDelay:"100ms",display:"flex",justifyContent:"center",gap:6,marginBottom:24}}>{Object.entries(niches).map(([k,v])=><button key={k} onClick={e=>{rip(e);sN(k)}} style={{background:niche===k?ac:"rgba(255,255,255,.85)",color:niche===k?"#fff":sb,border:niche===k?"none":`1px solid ${bd}`,padding:"5px 14px",borderRadius:20,fontSize:10,fontWeight:600,fontFamily:F,transition:"all .35s cubic-bezier(.16,1,.3,1)",transform:niche===k?"scale(1.08)":"scale(1)"}}>{v}</button>)}</div>
+<div className="afu" style={{animationDelay:"150ms",fontSize:9,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:10}}>BUILT FOR {niches[niche]?.toUpperCase()}</div>
+<h1 className="afu" style={{animationDelay:"200ms",fontSize:46,fontWeight:400,color:tx,margin:"0 0 14px",fontFamily:D,lineHeight:1.1,letterSpacing:-.5}}>Your reviews. <span style={{color:ac}}>Handled.</span><br/>Your reputation. <span style={{color:gd}}>Protected.</span></h1>
+<p className="afu" style={{animationDelay:"300ms",fontSize:16,color:sb,margin:"0 auto 6px",lineHeight:1.7,maxWidth:520}}>AI responds to every review. Recovers negatives. Gets you more 5-stars.</p>
+<p className="afu" style={{animationDelay:"350ms",fontSize:16,color:tx,fontWeight:700}}>Without lifting a finger.</p>
+<div className="afu" style={{animationDelay:"400ms",margin:"18px auto 28px",maxWidth:440}}><div className="glass" style={{borderRadius:14,padding:"14px 20px",display:"inline-flex",alignItems:"center",gap:10}}><span style={{fontSize:20}}>{"\u{1F4B8}"}</span><div style={{textAlign:"left"}}><div style={{fontSize:10,color:"#B91C1C",fontWeight:700}}>MONEY YOU'RE LOSING RIGHT NOW</div><div style={{fontSize:22,fontFamily:D,color:"#B91C1C"}}><LC mr={mr} g={gain}/></div><div style={{fontSize:9,color:sb}}>Every second without reputation management</div></div></div></div>
+<div className="afu" style={{animationDelay:"450ms",display:"flex",justifyContent:"center",gap:10,marginBottom:14}}><button onClick={e=>{rip(e);sw("dashboard")}} className="bp1 gg" style={{background:ac,color:"#fff",border:"none",padding:"16px 40px",borderRadius:10,fontSize:15,fontWeight:700,fontFamily:F}}>See It In Action {"\u2192"}</button><button onClick={e=>{rip(e);sw("pricing")}} className="bs1" style={{background:"rgba(255,255,255,.9)",color:tx,border:`1px solid ${bd}`,padding:"16px 36px",borderRadius:10,fontSize:15,fontWeight:500,fontFamily:F}}>View Pricing</button></div>
+<div className="afu" style={{animationDelay:"500ms",fontSize:10,color:sb}}>14-day free trial {"\u2022"} No credit card {"\u2022"} Cancel anytime</div>
+</div></div>
+
+<div style={{background:`linear-gradient(135deg,#0D2818,${ac})`,padding:"20px 0"}}><div style={{maxWidth:720,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,textAlign:"center"}}>{[{v:"2,847+",l:"Businesses"},{v:"1.2M+",l:"Reviews"},{v:"94%",l:"Recovery"},{v:"$12M+",l:"Revenue"}].map((x,i)=>(<div key={i} className="afu" style={{animationDelay:`${600+i*100}ms`}}><div style={{fontSize:24,fontFamily:D,color:"#fff"}}>{x.v}</div><div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>{x.l}</div></div>))}</div></div>
+
+<div style={{maxWidth:720,margin:"0 auto",padding:"0 24px"}}>
+<div style={{padding:"44px 0 36px"}}><div style={{textAlign:"center",marginBottom:24}}><div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2}}>HOW IT WORKS</div><div style={{fontSize:26,fontFamily:D,color:tx,marginTop:4}}>Three systems. One platform. Zero effort.</div></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>{[{i:"\u{1F916}",t:"Auto-Respond",d:"AI replies in your voice. Positives auto-publish. Negatives flagged.",tag:"SAVES 10+ HRS/WEEK",tc:ac},{i:"\u{1F6E1}\uFE0F",t:"Reputation Shield",d:"Instant alert + public reply + private resolution to win them back.",tag:"94% RECOVERY RATE",tc:"#B91C1C"},{i:"\u{1F4C8}",t:"Revenue Engine",d:"ROI calculator + competitor intel + review requests to grow your rating.",tag:"5-9% MORE REVENUE",tc:gd}].map((f,i)=>(<div key={i} className="chl afu" style={{animationDelay:`${800+i*120}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:0,left:0,right:0,height:3,background:f.tc}}/><div className="fi" style={{fontSize:32,marginBottom:10,animationDelay:`${i*400}ms`}}>{f.i}</div><div style={{fontSize:15,fontWeight:700,color:tx,marginBottom:6}}>{f.t}</div><div style={{fontSize:12,color:sb,lineHeight:1.6,marginBottom:12}}>{f.d}</div><span style={{background:`${f.tc}12`,color:f.tc,fontSize:8,fontWeight:800,padding:"3px 10px",borderRadius:20}}>{f.tag}</span></div>))}</div></div>
+
+<div className="chl afu" style={{animationDelay:"900ms",background:cd,border:`1px solid ${bd}`,borderRadius:16,padding:26,marginBottom:32,position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,#B91C1C,${ac})`}}/><div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2,marginBottom:8}}>REAL CASE STUDY</div><div style={{fontSize:22,fontFamily:D,color:tx,marginBottom:16}}>Maria\u2019s Kitchen \u2014 Austin, TX</div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 40px 1fr",gap:14,alignItems:"center",marginBottom:16}}><div style={{background:"#FEF2F2",borderRadius:12,padding:20,textAlign:"center"}}><div style={{fontSize:8,color:"#B91C1C",fontWeight:700,marginBottom:4}}>BEFORE</div><div style={{fontSize:40,fontFamily:D,color:"#B91C1C"}}>3.4</div><div style={{fontSize:10,color:sb}}>67 reviews</div></div><div style={{textAlign:"center",fontSize:28,color:ac}}>{"\u2192"}</div><div style={{background:"#ECFDF5",borderRadius:12,padding:20,textAlign:"center"}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>AFTER 4 MONTHS</div><div style={{fontSize:40,fontFamily:D,color:ac}}>4.6</div><div style={{fontSize:10,color:sb}}>340+ reviews</div><div style={{fontSize:10,color:ac,fontWeight:600}}>+$4,200/mo</div></div></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>{[{v:"+1.2",l:"Stars"},{v:"273",l:"New Reviews"},{v:"$50K+",l:"Annual Impact"}].map((x,i)=>(<div key={i} className="ch" style={{background:"#FAFAF7",borderRadius:8,padding:12,textAlign:"center"}}><div style={{fontSize:20,fontFamily:D,color:ac}}>{x.v}</div><div style={{fontSize:9,color:sb}}>{x.l}</div></div>))}</div></div>
+
+<div style={{marginBottom:36}}><div style={{textAlign:"center",marginBottom:16}}><div style={{fontSize:9,color:gd,fontWeight:700,letterSpacing:2}}>TRUSTED BY THOUSANDS</div><div style={{fontSize:22,fontFamily:D,color:tx,marginTop:4}}>Business owners love R.A.S.</div></div>
+<div className="testimonial-track">{TST.map((t,i)=>(<div key={i} className="testimonial-card chl afu" style={{animationDelay:`${1000+i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:18,flexShrink:0}}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}><div style={{width:40,height:40,borderRadius:"50%",background:"linear-gradient(135deg,#ECFDF5,#FFFBEB)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{t.av}</div><div><div style={{fontSize:12,fontWeight:700,color:tx}}>{t.name}</div><div style={{fontSize:10,color:sb}}>{t.biz}</div></div></div><ST c={5} s={12}/><p style={{fontSize:11,color:"#5C5950",margin:"8px 0 10px",lineHeight:1.6,fontStyle:"italic"}}>\u201C{t.text}\u201D</p><div style={{display:"flex",gap:6}}><span style={{background:"#ECFDF5",color:ac,fontSize:9,fontWeight:700,padding:"3px 8px",borderRadius:6}}>{t.g}</span><span style={{background:"#FFFBEB",color:gd,fontSize:9,fontWeight:700,padding:"3px 8px",borderRadius:6}}>{t.r}</span></div></div>))}</div></div>
+
+<div className="afu" style={{marginBottom:36,background:cd,border:`1px solid ${bd}`,borderRadius:16,padding:26}}><div style={{textAlign:"center",marginBottom:18}}><div style={{fontSize:9,color:"#B91C1C",fontWeight:700,letterSpacing:2}}>COST COMPARISON</div><div style={{fontSize:22,fontFamily:D,color:tx,marginTop:4}}>What reviews actually cost to manage</div></div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12}}>{[{m:"Hire Someone",pr:"$3,000+",sub:"/mo",it:["Part-time employee","Manual responses","No AI","No analytics"],bad:true},{m:"Do It Yourself",pr:"$0",sub:"(but...)",it:["10+ hours/week","Emotional replies","Missed reviews","Lost revenue"],bad:true},{m:"R.A.S.",pr:"$49",sub:"/mo",it:["100% automated","AI-powered","Instant recovery","24/7 protection"],bad:false}].map((x,i)=>(<div key={i} className={x.bad?"ch":"chl"} style={{background:x.bad?"#FAFAF7":"#F0FDF4",border:`1px solid ${x.bad?bd:"#86EFAC"}`,borderRadius:12,padding:18,position:"relative",transform:!x.bad?"scale(1.03)":"none"}}>{!x.bad&&<div style={{position:"absolute",top:-10,left:"50%",transform:"translateX(-50%)",background:ac,color:"#fff",fontSize:8,fontWeight:800,padding:"3px 12px",borderRadius:20}}>BEST VALUE</div>}<div style={{fontSize:11,fontWeight:700,color:x.bad?sb:ac,marginBottom:4}}>{x.m}</div><div style={{display:"flex",alignItems:"baseline",gap:2,marginBottom:10}}><span style={{fontSize:28,fontFamily:D,color:x.bad?"#B91C1C":ac,textDecoration:x.bad&&i===0?"line-through":"none"}}>{x.pr}</span><span style={{fontSize:10,color:sb}}>{x.sub}</span></div>{x.it.map((item,j)=><div key={j} style={{display:"flex",gap:6,alignItems:"center",marginBottom:4}}><span style={{fontSize:10,color:x.bad?"#B91C1C":ac}}>{x.bad?"\u2717":"\u2713"}</span><span style={{fontSize:11,color:x.bad?sb:"#5C5950"}}>{item}</span></div>)}</div>))}</div></div>
+
+<div className="afu ch" style={{marginBottom:36,background:"linear-gradient(135deg,#FEF2F2,#FFFBEB)",border:"1px solid #FECACA",borderRadius:14,padding:22,textAlign:"center"}}><div style={{fontSize:22}}>{"\u{1F525}"}</div><div style={{fontSize:18,fontFamily:D,color:"#B91C1C",margin:"6px 0 4px"}}>Only 4 spots left in your area</div><div style={{fontSize:11,color:sb,marginBottom:10}}>We limit signups per zip code for territory exclusivity</div><div className="scarcity-bar" style={{maxWidth:320,margin:"0 auto 10px"}}><div className="scarcity-fill" style={{width:"87%"}}/></div><div style={{fontSize:10,color:"#B91C1C",fontWeight:700}}>87% claimed</div><button onClick={e=>{rip(e);sw("pricing")}} className="bd1" style={{marginTop:14,background:"#B91C1C",color:"#fff",border:"none",padding:"14px 36px",borderRadius:10,fontSize:14,fontWeight:700,fontFamily:F}}>Claim Your Spot {"\u2192"}</button></div>
+
+<div className="ch ggo" style={{marginBottom:40,background:"#FFFBEB",border:"1px solid #FDE68A",borderRadius:14,padding:24,textAlign:"center"}}><div style={{fontSize:34,marginBottom:6}}>{"\u{1F3C6}"}</div><div style={{fontSize:20,fontFamily:D,color:gd}}>30-Day Money-Back Guarantee</div><div style={{fontSize:12,color:sb,marginTop:4}}>If your rating doesn\u2019t improve in 30 days, full refund. Zero risk.</div></div>
+
+<div style={{textAlign:"center",paddingBottom:52}}><div style={{fontSize:30,fontFamily:D,color:tx,marginBottom:6}}>Ready to automate your reputation?</div><div style={{fontSize:13,color:sb,marginBottom:20}}>Join 2,847+ businesses already growing with R.A.S.</div><button onClick={e=>{rip(e);sw("pricing")}} className="bp1 gg" style={{background:ac,color:"#fff",border:"none",padding:"18px 48px",borderRadius:12,fontSize:17,fontWeight:700,fontFamily:F}}>Start Free Trial {"\u2192"}</button><div style={{fontSize:10,color:sb,marginTop:10}}>14-day free trial \u2022 No credit card</div></div>
+</div></>}
+
+{tab==="dashboard"&&<SG base={0} gap={60}><div><h1 style={{fontSize:26,fontWeight:400,color:tx,margin:"0 0 4px",fontFamily:D}}>Command Center</h1><p style={{fontSize:12,color:sb,margin:"0 0 22px"}}>Real-time reputation intelligence</p></div>
+{s.rec>0&&<div onClick={()=>sw("recovery")} className="ra ch" style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:12,padding:"12px 18px",marginBottom:16,cursor:"pointer",display:"flex",alignItems:"center",gap:12}}><span style={{fontSize:20}}>{"\u{1F6A8}"}</span><div style={{flex:1}}><div style={{fontSize:12,fontWeight:700,color:"#B91C1C"}}>{s.rec} Negative Reviews \u2014 Recovery Ready</div></div><span style={{color:"#B91C1C",fontSize:11,fontWeight:600}}>View {"\u2192"}</span></div>}
+<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:20}}>{[{i:"\u{1F4AC}",v:s.total,l:"Reviews",c:ac},{i:"\u{1F916}",v:s.rate,l:"Response Rate",c:"#2563EB",su:"%"},{i:"\u2B50",v:s.avg,l:"Rating",c:gd,dc:1},{i:"\u{1F4B0}",v:rL,l:"Revenue Impact",c:ac,pr:"$"}].map((x,i)=>(<div key={i} className="chl afu" style={{animationDelay:`${200+i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:"16px 18px"}}><div style={{fontSize:18,marginBottom:4}}>{x.i}</div><div style={{fontSize:24,fontFamily:D,color:tx,lineHeight:1}}><CU target={x.v} prefix={x.pr||""} suffix={x.su||""} decimals={x.dc||0}/></div><div style={{fontSize:10,color:sb,marginTop:3}}>{x.l}</div></div>))}</div>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:18,marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:12}}><span style={{fontSize:14,fontFamily:D}}>Rating Improvement</span><PL t="auto_replied">{"\u2191"} {gain}</PL></div><div style={{display:"flex",gap:10,alignItems:"center"}}><div className="asi" style={{animationDelay:"700ms",textAlign:"center",padding:"10px 18px",background:"#FEF2F2",borderRadius:8}}><div style={{fontSize:8,color:"#B91C1C",fontWeight:700}}>BEFORE</div><div style={{fontSize:24,fontFamily:D,color:"#B91C1C"}}>{jR}</div></div><div style={{flex:1,height:3,background:"linear-gradient(90deg,#FECACA,#A7F3D0)",borderRadius:2,overflow:"hidden"}}><div className="sb" style={{width:"100%",height:"100%"}}/></div><div className="asi" style={{animationDelay:"900ms",textAlign:"center",padding:"10px 18px",background:"#ECFDF5",borderRadius:8}}><div style={{fontSize:8,color:ac,fontWeight:700}}>NOW</div><div style={{fontSize:24,fontFamily:D,color:ac}}>{s.avg}</div></div></div></div>
+<div style={{background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16}}><span style={{fontSize:14,fontFamily:D}}>Recent Activity</span>{reviews.filter(r=>r.reply).slice(0,4).map((r,i)=>(<div key={r.id} className="ch" style={{display:"flex",gap:10,padding:"10px 0",borderBottom:i<3?`1px solid ${bd}`:"none"}}><PI p={r.plat}/><div style={{flex:1,minWidth:0}}><div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><ST c={r.rating} s={10}/><PL t={r.status}>Replied</PL></div><p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.reply}</p></div></div>))}</div></SG>}
+
+{tab==="reviews"&&<><div className="afu"><h1 style={{fontSize:26,fontFamily:D,margin:"0 0 16px"}}>Review Manager</h1><div style={{display:"flex",gap:6,marginBottom:14}}>{[{id:"all",l:"All"},{id:"needs",l:"Needs Action"},{id:"auto_replied",l:"Replied"},{id:"recovery",l:"Recovery"}].map(f=><button key={f.id} onClick={e=>{rip(e);sF(f.id)}} style={{background:filt===f.id?"#EFECEA":cd,border:`1px solid ${filt===f.id?"#C5C0B8":bd}`,color:filt===f.id?tx:sb,padding:"5px 13px",borderRadius:7,fontSize:10,fontWeight:600,fontFamily:F,transition:"all .25s"}}>{f.l}</button>)}</div></div>
+<div style={{display:"flex",gap:16}}><div style={{flex:1}}>{list.map((r,idx)=>{const tn=TN[r.sentiment];return(<div key={r.id} className="ch afu" onClick={()=>{sS(r);sA("");sE("");sMT("public")}} style={{animationDelay:`${idx*60}ms`,background:sel?.id===r.id?"#F3F1EC":cd,border:`1px solid ${sel?.id===r.id?"#C5C0B8":bd}`,borderRadius:12,padding:14,marginBottom:6,cursor:"pointer"}}><div style={{display:"flex",alignItems:"center",gap:6,marginBottom:5,flexWrap:"wrap"}}><PI p={r.plat}/><span style={{fontSize:11,fontWeight:700}}>{r.author}</span><ST c={r.rating} s={11}/><span style={{background:`${tn.c}10`,color:tn.c,fontSize:8,padding:"2px 7px",borderRadius:4,fontWeight:600}}>{tn.e} {tn.l}</span><PL t={r.status}>{r.status==="auto_replied"?"\u2713 Replied":r.status==="recovery"?"\u{1F6E1}\uFE0F Recovery":r.status==="review_requested"?"\u{1F4E9} Sent":"\u231B Pending"}</PL><span style={{marginLeft:"auto",fontSize:9,color:"#B5B0A6"}}>{r.date}</span></div><p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6}}>{r.text}</p>
+{r.reply&&<div style={{marginTop:8,padding:"8px 10px",background:"#F5FAF7",borderLeft:`2px solid ${ac}`,borderRadius:"0 6px 6px 0"}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:2}}>REPLY \u2022 {r.at}</div><p style={{fontSize:10,color:"#5C5950",margin:0}}>{r.reply}</p></div>}
+{r.priv&&<div style={{marginTop:4,padding:"8px 10px",background:"#EEF2FF",borderLeft:"2px solid #4338CA",borderRadius:"0 6px 6px 0"}}><div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:2}}>PRIVATE</div><p style={{fontSize:10,color:"#5C5950",margin:0}}>{r.priv.slice(0,90)}...</p></div>}</div>)})}</div>
+{sel&&(sel.status==="pending"||sel.status==="recovery")&&(<div className="asi" style={{width:340,flexShrink:0,background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:16,position:"sticky",top:0,maxHeight:"80vh",overflow:"auto"}}><div style={{fontSize:15,fontFamily:D,marginBottom:12}}>AI Response Engine</div><div style={{background:"#F3F1EC",borderRadius:8,padding:10,marginBottom:10}}><div style={{display:"flex",gap:6,alignItems:"center",marginBottom:3}}><span style={{fontSize:10,fontWeight:600}}>{sel.author}</span><ST c={sel.rating} s={10}/></div><p style={{fontSize:10,color:sb,margin:0}}>{sel.text}</p></div>
+{sel.sentiment==="negative"&&<div style={{display:"flex",gap:4,marginBottom:10}}><button onClick={e=>{rip(e);sMT("public")}} style={{flex:1,background:msgT==="public"?ac:"#EFECEA",color:msgT==="public"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,transition:"all .25s"}}>{"\u{1F4AC}"} Public</button><button onClick={e=>{rip(e);sMT("private")}} style={{flex:1,background:msgT==="private"?"#4338CA":"#EFECEA",color:msgT==="private"?"#fff":sb,border:"none",padding:"7px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,transition:"all .25s"}}>{"\u{1F4E7}"} Private</button></div>}
+{msgT==="private"&&sel.priv?<><div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:4}}>PRIVATE MESSAGE</div><textarea value={sel.priv} readOnly style={{width:"100%",minHeight:120,background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical"}}/><button onClick={e=>{rip(e);flash("Private message sent!")}} className="bsn" style={{width:"100%",background:"#4338CA",border:"none",color:"#fff",padding:"9px",borderRadius:8,fontSize:11,fontWeight:700,fontFamily:F,marginTop:8}}>{"\u{1F4E7}"} Send</button></>:<>
+{!ai&&!typ&&<button onClick={e=>{rip(e);gen(sel)}} className="bp1 gg" style={{width:"100%",background:ac,border:"none",color:"#fff",padding:"10px",borderRadius:8,fontSize:12,fontWeight:700,fontFamily:F}}>{"\u26A1"} Generate Reply</button>}
+{(ai||typ)&&<><div style={{fontSize:8,color:typ?ac:sb,fontWeight:700,marginBottom:4,display:"flex",alignItems:"center",gap:4}}>{typ?<><span>GENERATING</span><span className="dl"><span>.</span><span>.</span><span>.</span></span></>:"\u2713 READY"}</div><textarea value={typ?ai:ed} onChange={e=>sE(e.target.value)} disabled={typ} className={typ?"tg":""} style={{width:"100%",minHeight:110,background:"#F9F8F6",border:`1px solid ${bd}`,borderRadius:8,padding:10,color:tx,fontSize:11,lineHeight:1.6,fontFamily:F,boxSizing:"border-box",resize:"vertical",transition:"all .3s"}}/>
+{!typ&&<div className="afu" style={{display:"flex",gap:6,marginTop:8}}><button onClick={e=>{rip(e);approve()}} className="bp1" style={{flex:1,background:ac,border:"none",color:"#fff",padding:"9px",borderRadius:7,fontSize:11,fontWeight:700,fontFamily:F}}>{"\u2713"} Publish</button><button onClick={e=>{rip(e);gen(sel)}} className="bs1" style={{background:"#EFECEA",border:`1px solid ${bd}`,color:sb,padding:"9px 12px",borderRadius:7,fontSize:11,fontWeight:600,fontFamily:F}}>{"\u21BB"}</button></div>}</>}</>}</div>)}</div></>}
+
+{tab==="recovery"&&<><div className="afu"><h1 style={{fontSize:26,fontFamily:D,margin:"0 0 20px"}}>Negative Review Recovery</h1></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:20}}>{[{s:"alert_sent",l:"Alert Sent",i:"\u{1F6A8}",c:"#B91C1C"},{s:"response_ready",l:"Ready",i:"\u{1F4DD}",c:gd},{s:"owner_reviewing",l:"Reviewing",i:"\u{1F441}\uFE0F",c:"#2563EB"}].map((x,i)=>(<div key={x.s} className="chl afu" style={{animationDelay:`${i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}><div className="fi" style={{fontSize:24,animationDelay:`${i*300}ms`}}>{x.i}</div><div style={{fontSize:20,fontFamily:D}}><CU target={reviews.filter(r=>r.stage===x.s).length}/></div><div style={{fontSize:11,fontWeight:700,color:x.c}}>{x.l}</div></div>))}</div>
+{reviews.filter(r=>r.status==="recovery").map((r,idx)=>(<div key={r.id} className="ra ch afu" style={{animationDelay:`${300+idx*120}ms`,background:cd,border:"1px solid #FECACA",borderRadius:14,padding:18,marginBottom:10}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}><div><div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}><PI p={r.plat}/><span style={{fontSize:12,fontWeight:700}}>{r.author}</span><ST c={r.rating} s={11}/></div><p style={{fontSize:11,color:"#5C5950",margin:0,lineHeight:1.6,maxWidth:440}}>{r.text}</p></div><button onClick={e=>{rip(e);sS(r);sw("reviews");sA("");sE("")}} className="bd1" style={{background:"#FEF2F2",border:"1px solid #FECACA",color:"#B91C1C",padding:"6px 12px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F,height:"fit-content"}}>Respond {"\u2192"}</button></div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}><div className="ch" style={{background:"#F5FAF7",border:"1px solid #A7F3D0",borderRadius:8,padding:10}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:3}}>{"\u{1F4AC}"} PUBLIC</div><div style={{fontSize:10,color:"#5C5950"}}>Response drafted</div></div><div className="ch" style={{background:"#F6F5FF",border:"1px solid #C7D2FE",borderRadius:8,padding:10}}><div style={{fontSize:8,color:"#4338CA",fontWeight:700,marginBottom:3}}>{"\u{1F4E7}"} PRIVATE</div><div style={{fontSize:10,color:"#5C5950"}}>{r.priv?r.priv.slice(0,60)+"...":"Ready"}</div></div></div>
+<div style={{background:"#FAFAF7",border:`1px solid ${bd}`,borderRadius:8,padding:12}}><div style={{fontSize:8,color:gd,fontWeight:700,marginBottom:8}}>ACTIONS</div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>{(ACT[r.stage]||[]).map((a,j)=>(<div key={j} className="ch" style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",borderRadius:6,background:a.p==="high"?"#FEF2F2":cd,border:`1px solid ${a.p==="high"?"#FECACA":bd}`,cursor:"pointer"}}><span style={{fontSize:13}}>{a.i}</span><div><div style={{fontSize:10}}>{a.t}</div><div style={{fontSize:7,fontWeight:700,color:a.p==="high"?"#B91C1C":a.p==="med"?gd:sb,textTransform:"uppercase"}}>{a.p}</div></div></div>))}</div></div></div>))}</>}
+
+{tab==="roi"&&<SG base={0} gap={80}><h1 style={{fontSize:26,fontFamily:D,margin:"0 0 20px"}}>ROI & Competitor Intel</h1>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22,marginBottom:16}}><div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>REVENUE CALCULATOR</div><div style={{marginBottom:14}}><div style={{fontSize:10,color:sb,fontWeight:600,marginBottom:4}}>Monthly revenue</div><div style={{display:"flex",gap:6}}>{[15000,30000,50000,75000,100000].map(v=>(<button key={v} onClick={e=>{rip(e);sMR(v)}} style={{background:mr===v?ac:"#EFECEA",color:mr===v?"#fff":sb,border:"none",padding:"6px 12px",borderRadius:6,fontSize:10,fontWeight:600,fontFamily:F,transition:"all .3s cubic-bezier(.16,1,.3,1)",transform:mr===v?"scale(1.1)":"scale(1)"}}>${(v/1000)}K</button>))}</div></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>{[{lb:"RATING GAIN",v:gain,p:"+"},{lb:"MONTHLY",v:rL,p:"$"},{lb:"ANNUAL",v:rL*12,p:"$"}].map((x,i)=>(<div key={i} className="asi" style={{animationDelay:`${300+i*150}ms`,background:"#ECFDF5",borderRadius:10,padding:16,textAlign:"center"}}><div style={{fontSize:8,color:ac,fontWeight:700,marginBottom:4}}>{x.lb}</div><div style={{fontSize:28,fontFamily:D,color:ac}}><CU target={x.v} prefix={x.p} decimals={String(x.v).includes(".")?1:0} duration={1500}/></div></div>))}</div>
+<div className="afu" style={{animationDelay:"700ms",marginTop:14,padding:12,background:"#F5FAF7",borderRadius:8,textAlign:"center"}}><span style={{fontSize:12,color:ac,fontWeight:700}}>$99/mo {"\u2192"} ${rL.toLocaleString()}-${rH.toLocaleString()}/mo. {Math.round(rL/99)}x-{Math.round(rH/99)}x return.</span></div></div>
+<div className="ch" style={{background:cd,border:`1px solid ${bd}`,borderRadius:14,padding:22}}><div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2,marginBottom:10}}>COMPETITORS</div>{CMP.map((c,i)=>(<div key={i} className="ch afu" style={{animationDelay:`${400+i*100}ms`,display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:i<CMP.length-1?`1px solid ${bd}`:"none"}}><div style={{width:28,height:28,borderRadius:6,background:i===0?ac:"#EFECEA",color:i===0?"#fff":sb,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700}}>{i+1}</div><div style={{flex:1}}><span style={{fontSize:13,fontWeight:i===0?700:500,color:i===0?ac:tx}}>{c.name}</span>{i===0&&<span style={{marginLeft:6,background:"#ECFDF5",color:ac,fontSize:8,fontWeight:700,padding:"2px 8px",borderRadius:10}}>YOU</span>}<div style={{fontSize:10,color:sb}}>{c.reviews} reviews</div></div><div style={{textAlign:"right"}}><div style={{display:"flex",alignItems:"center",gap:4}}><ST c={Math.round(c.rating)} s={12}/><span style={{fontSize:16,fontFamily:D,color:i===0?ac:tx}}>{c.rating}</span></div><div style={{fontSize:10,color:parseFloat(c.trend)>0?ac:parseFloat(c.trend)<0?"#B91C1C":sb,fontWeight:600}}>{parseFloat(c.trend)>0?"+":""}{c.trend}</div></div></div>))}</div></SG>}
+
+{tab==="growth"&&<><div className="afu"><h1 style={{fontSize:26,fontFamily:D,margin:"0 0 20px"}}>Review Growth Engine</h1></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:20}}>{[{v:s.req,l:"Requests Sent",c:"#4338CA"},{v:reviews.filter(r=>r.rating>=4).length,l:"Happy Customers",c:ac},{v:s.avg,l:"Current Rating",c:gd,dc:1}].map((x,i)=>(<div key={i} className="chl afu" style={{animationDelay:`${i*100}ms`,background:cd,border:`1px solid ${bd}`,borderRadius:12,padding:16,textAlign:"center"}}><div style={{fontSize:28,fontFamily:D,color:x.c}}><CU target={x.v} decimals={x.dc||0}/></div><div style={{fontSize:10,color:sb}}>{x.l}</div></div>))}</div>
+{reviews.filter(r=>r.rating>=4&&r.status!=="review_requested").map((r,idx)=>(<div key={r.id} className="ch afu" style={{animationDelay:`${300+idx*70}ms`,display:"flex",alignItems:"center",gap:10,background:cd,border:`1px solid ${bd}`,borderRadius:10,padding:"10px 14px",marginBottom:5}}><PI p={r.plat}/><div style={{flex:1}}><span style={{fontSize:11,fontWeight:600}}>{r.author}</span><ST c={r.rating} s={10}/><p style={{fontSize:10,color:sb,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:340}}>{r.text}</p></div><button onClick={e=>{rip(e);sR(p=>p.map(x=>x.id===r.id?{...x,status:"review_requested"}:x));flash(`Sent to ${r.author}!`)}} className="bsn" style={{background:"#4338CA",border:"none",color:"#fff",padding:"6px 14px",borderRadius:7,fontSize:10,fontWeight:700,fontFamily:F}}>{"\u{1F680}"} Send</button></div>))}</>}
+
+{tab==="pricing"&&<SG base={0} gap={80}><div style={{textAlign:"center",marginBottom:28}}><div style={{fontSize:8,color:ac,fontWeight:700,letterSpacing:2.5,marginBottom:6}}>R.A.S. FOR {niches[niche]?.toUpperCase()}</div><h1 style={{fontSize:30,fontFamily:D,margin:0}}>Simple pricing. Serious results.</h1><p style={{fontSize:12,color:sb,margin:"6px 0 0"}}>14-day free trial \u2022 No credit card \u2022 30-day guarantee</p></div>
+<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,maxWidth:820,margin:"0 auto"}}>{PLN.map((p,pi)=>(<div key={p.n} className="chl afu" style={{animationDelay:`${200+pi*150}ms`,background:cd,border:`1px solid ${p.pop?ac:bd}`,borderRadius:16,padding:22,position:"relative",transform:p.pop?"scale(1.03)":"none",boxShadow:p.pop?"0 8px 30px rgba(26,92,58,.08)":"none"}}>{p.pop&&<div className="asi" style={{animationDelay:"500ms",position:"absolute",top:-11,left:"50%",transform:"translateX(-50%)",background:ac,color:"#fff",fontSize:9,fontWeight:800,padding:"3px 14px",borderRadius:20}}>MOST POPULAR</div>}<div style={{fontSize:12,fontWeight:700,color:p.pop?ac:sb,marginBottom:4}}>{p.n}</div><div style={{display:"flex",alignItems:"baseline",gap:2,marginBottom:2}}><span style={{fontSize:38,fontFamily:D,lineHeight:1}}>${p.pr}</span><span style={{fontSize:12,color:sb}}>/mo</span></div><div style={{fontSize:10,color:sb,marginBottom:16}}>{p.d}</div><button onClick={e=>rip(e)} className={p.pop?"bp1 gg":"bs1"} style={{width:"100%",padding:"10px",background:p.pop?ac:"#EFECEA",border:p.pop?"none":`1px solid ${bd}`,color:p.pop?"#fff":tx,borderRadius:8,fontSize:12,fontWeight:700,fontFamily:F,marginBottom:14}}>Start Free Trial</button><div style={{borderTop:`1px solid ${bd}`,paddingTop:12}}>{p.feat.map((f,j)=><div key={j} className="afu" style={{animationDelay:`${400+pi*100+j*60}ms`,display:"flex",gap:6,alignItems:"flex-start",marginBottom:6}}><span style={{color:ac,fontSize:11,flexShrink:0}}>{"\u2713"}</span><span style={{fontSize:11,color:"#5C5950",lineHeight:1.4}}>{f}</span></div>)}</div></div>))}</div>
+<div style={{textAlign:"center",marginTop:24}}><div className="ggo" style={{display:"inline-flex",alignItems:"center",gap:6,background:"#FFFBEB",border:"1px solid #FDE68A",borderRadius:10,padding:"10px 20px"}}><span style={{fontSize:16}}>{"\u{1F3C6}"}</span><span style={{fontSize:12,color:gd,fontWeight:700}}>30-Day Money-Back Guarantee</span></div></div></SG>}
+
+</div></div></main>
+{toast&&<div className={toastO?"tx":"te"} style={{position:"fixed",bottom:24,right:24,background:ac,color:"#fff",padding:"12px 24px",borderRadius:12,fontSize:12,fontWeight:700,boxShadow:"0 8px 30px rgba(26,92,58,.2)",zIndex:200}}>{"\u2713"} {toast}</div>}
+</>)}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(RAS));
 </script>
 </body>
 </html>
